@@ -1,6 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Index from '@/components/Index'
+import Linproducts from '@/components/Linproducts'
+import Benproducts from '@/components/Benproducts'
+import Hotsale from '@/components/Hotsale'
+
+
+// import HelloWorld from '@/components/HelloWorld'
+
 
 Vue.use(Router)
 
@@ -8,8 +15,23 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
-    }
+      name: 'index',
+      component: Index
+    },
+    {
+      path: '/benproducts',
+      name: 'Benproducts',
+      component: Benproducts
+    },
+    {
+      path: '/hotsale',
+      name: 'Hotsale',
+      component: Hotsale
+    },
+    {
+        path: '/linproducts',
+        name: 'Linproducts',
+        component: Linproducts
+      }
   ]
 })
