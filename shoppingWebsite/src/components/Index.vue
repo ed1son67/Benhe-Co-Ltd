@@ -1,5 +1,6 @@
 <template>
     <div class="root">
+        <Header></Header>
         <main>
             <div class="banner">
                 <div class="slogen-container">
@@ -8,57 +9,64 @@
                 </div>
             </div>
             <div class="title-container">
-                <span>公司介绍</span>
-                
+                <span>公司介绍</span>  
             </div>
-            
-            
-                <div class="content-container">
-                    <div class="profile-container"></div>
-                    <div class="profile-container">
-                        <img src="../assets/images/factory1.png" alt="">
-                    </div>
-                    <div class="profile-container"></div>
+            <div class="content-container profile" :class="{animate: isShow}">
+                <div class="profile-container">
+                    <p><span>潮州市潮安区本合食品有限公司</span> ，公司创建于1988年。其前身为潮州市庵埠本合糖果食品厂，该公司是粤东地区一家在食品具有一定规模。又有其影响力的企业。该公司生产的产品以其外观悦人、口感独特、品质可靠等特质赢得了广大消费者的肯定和青睐。销售量基于广大消费者的支持也日益攀升。</p>
+                   
                 </div>
-                <div class="content-container">
-                    <div class="profile-container">
-                        <img src="../assets/images/factory2.png" alt="">
-
-                    </div>
-                    <div class="profile-container">
-                    </div>
-                    <div class="profile-container">
-                        <img src="../assets/images/factory3.png" alt="">
-
-                    </div>
+                <div class="profile-container ">
+                    <img src="../assets/images/factory1.png" alt="">
                 </div>
+                <div class="profile-container">
+                    <p>
+                        公司在销售策略上，则以市场为导向，围绕满足市场需求、迎合消费者的意愿开展企业一切经营活动，并与全国各地一批信誉好、实力强、渠道畅的经销商建立长期的合作关系，以大、中城市为主线，向周边城市、乡镇辐射。
+                        <span>诚邀各界人士合作，共创美好的明天。</span>
+                    </p>
+                </div>
+            </div>
+            <div class="content-container profile" :class="{animate: isShow}">
+                <div class="profile-container">
+                    <img src="../assets/images/factory2.png" alt="">
+
+                </div>
+                <div class="profile-container">
+                    
+                    <p>公司本着 <span>“消费者为上帝的宗旨”</span> ，凭借先进的食品生产设备、高素质的技术人才队伍、严密的管理机制，力求在产品的风味更人性化，产品的生产过程更卫生，更加严格遵照卫生规范制度，为消费者营造一个 <span>“买得顺心、吃得放心、寻得开心”</span> 的消费氛围。</p>
+                </div>
+                <div class="profile-container">
+                    <img src="../assets/images/factory3.png" alt="">
+
+                </div>
+            </div>
             
 
              <div class="title-container" style="margin: 120px auto 74px auto;">
                 <span>热销产品</span>
             </div>
             <div class="content-container" >
-                <div class="hot-sale-product-container">
+                <div class="hot-sale-product-container" :class="{animate: queueShow.show0}">
                     <div>
                          <img src="" alt="">
                     </div>
                     <span>林振合爽口片清爽薄荷糖水果糖维C压片水果糖随身糖40G4装</span></div>
-                <div class="hot-sale-product-container">
+                <div class="hot-sale-product-container" :class="{animate: queueShow.show1}">
                     <div>
                          <img src="" alt="">
                     </div>
                     <span></span></div>
-                <div class="hot-sale-product-container">
+                <div class="hot-sale-product-container" :class="{animate: queueShow.show2}">
                     <div>
                          <img src="" alt="">
                     </div>
                     <span></span></div>
-                <div class="hot-sale-product-container">
+                <div class="hot-sale-product-container" :class="{animate: queueShow.show3}">
                     <div>
                          <img src="" alt="">
                     </div>
                     <span></span></div>
-                <div class="hot-sale-product-container">
+                <div class="hot-sale-product-container" :class="{animate: queueShow.show4}">
                     <div>
                          <img src="" alt="">
                     </div>
@@ -98,11 +106,45 @@
 </template>
 
 <script>
+    import Header from './Header.vue'
     export default {
         name: 'Index',
+        components: {
+            Header
+        },
+        mounted() {
+            window.addEventListener('scroll', this.handleScroll)
+        },
+        methods: {
+            handleScroll() {
+                console.log(document.documentElement.scrollTop);
+                let scrollTop = document.documentElement.scrollTop;
+
+                scrollTop >= 100? this.isShow = true: this.isShow = false;
+                scrollTop >= 1000? this.queueShow.show0 = true: this.queueShow.show0 = false;
+                scrollTop >= 1100? this.queueShow.show1 = true: this.queueShow.show1 = false;
+                scrollTop >= 1200? this.queueShow.show2 = true: this.queueShow.show2 = false;
+                scrollTop >= 1300? this.queueShow.show3 = true: this.queueShow.show3 = false;
+                scrollTop >= 1400? this.queueShow.show4 = true: this.queueShow.show4 = false;
+
+
+               
+
+                
+
+
+            }
+        },
         data() {
             return {
-                
+                isShow: false,
+                queueShow: {
+                    show0: false,
+                    show1: false,
+                    show2: false,
+                    show3: false,
+                    show4: false
+                },
             }
         }
     }
@@ -160,16 +202,38 @@ main {
     justify-content: center;
     margin: 0 auto;
 }
+.profile {
+    opacity: 0;
+    transform: translateY(20px);
+}
 .profile-container {
     width: 450px;
     height: 368px;
     /* background-color: #000; */
+}
+.profile-container p {
+    margin: 20px 25px;
+    font-size: 18px;
+    letter-spacing: 8px;
+    line-height: 1.7em;
+    text-align: justify;
+}
+.profile-container p  span {
+    color: #438aca;
 }
 .hot-sale-product-container {
     width: 270px;
     margin-right:  26px;
     /* background-color: black; */
     border-top: 6px solid #5b9dd9;
+    opacity: 0;
+    transform: translateY(20px);
+}
+.animate {
+    transition: all .5s ease-in-out;
+    opacity: 1;
+    transform: translateY(0);
+
 }
 .hot-sale-product-container div {
     height: 370px;
@@ -231,9 +295,12 @@ main {
     background-color: #5b9dd9;
     outline: none;
     border: none;
-    
+    cursor: pointer;
+
 }
 .shop-container a {
     color: #fff;
+    text-decoration: none;
+
 }
 </style>

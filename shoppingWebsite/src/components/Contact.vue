@@ -1,13 +1,11 @@
 <template>
-    <div class="root">
-        <Header></Header>
-    </div>
+    <Header></Header>
 </template>
 
 <script>
     import Header from './Header.vue'
     export default {
-        name: 'Hotsale',
+        name: 'Contact',
         components: {
             Header
         },

@@ -4,6 +4,9 @@ import Index from '@/components/Index'
 import Linproducts from '@/components/Linproducts'
 import Benproducts from '@/components/Benproducts'
 import Hotsale from '@/components/Hotsale'
+import Company from '@/components/Company'
+import Contact from '@/components/Contact'
+
 
 
 // import HelloWorld from '@/components/HelloWorld'
@@ -14,24 +17,38 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'index',
-      component: Index
+        path: '/',
+        redirect: 'index'
     },
     {
-      path: '/benproducts',
-      name: 'Benproducts',
-      component: Benproducts
+        path: '/index',
+        name: 'Index',
+        component: Index
     },
     {
-      path: '/hotsale',
-      name: 'Hotsale',
-      component: Hotsale
+        path: '/benproducts',
+        name: 'Benproducts',
+        component: Benproducts
+    },
+    {
+        path: '/hotsale',
+        name: 'Hotsale',
+        component: Hotsale
     },
     {
         path: '/linproducts',
         name: 'Linproducts',
         component: Linproducts
-      }
+    },
+    {
+        path: '/company',
+        name: 'Company',
+        component: Company
+    },
+    {
+        path: '/contact',
+        name: 'Contact',
+        component: Contact
+    }
   ]
 })

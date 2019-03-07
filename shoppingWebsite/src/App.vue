@@ -1,28 +1,5 @@
 <template>
     <div id="app">
-        <header>
-            <div class="header-container">
-                <div class="logo-container"><img src="./assets/images/logo.png"></div>
-                <div class="menu-container">
-                    <ul>
-                        <li><router-link tag="a" to="/" >首页</router-link></li>
-                        <li><router-link tag="a" to="/benproducts" >本合产品</router-link></li>
-                        <li><router-link tag="a" to="/linproducts" >林振合产品</router-link></li>
-                        <li><router-link tag="a" to="/benproducts" >公司介绍</router-link></li>
-                        <li><router-link tag="a" to="/hotsale" >热销产品</router-link></li>
-                        <li><router-link tag="a" to="/" >天猫旗舰店</router-link></li>
-                        <li><router-link tag="a" to="/contactus" >联系我们</router-link></li>
-                    </ul>
-                </div>
-                <div class="language-container">
-                    <div>
-                        <a href="">中</a>
-                        <span>|</span>
-                        <a href="">英</a>
-                    </div>
-                </div>
-            </div>
-        </header>
         <router-view/>
         <footer>
             <div class="footer-container">
@@ -66,7 +43,37 @@
 
 <script>
     export default {
-        name: 'App'
+        
+        name: 'App',
+        components: {
+        },
+        data() {
+            return {
+                
+            }
+        },
+        watch: {
+            headerColor(val) {
+                this.headerColor = val;
+            }
+        },
+        mounted() {
+            // fixed the bug which vue router can't be used in ie 
+            function checkIE(){
+                return '-ms-scroll-limit' in document.documentElement.style && '-ms-ime-align' in document.documentElement.style
+            }
+            if (checkIE()) {
+                window.addEventListener('hashchange', () => {
+                    var currentPath = window.location.hash.slice(1);
+                    if (this.$route.path !== currentPath) {
+                        this.$router.push(currentPath)
+                    }
+                }, false)
+            }
+
+            
+            
+        }
     }
 </script>
 
@@ -79,85 +86,31 @@
         width: 100%;
         font-family: 'MicrosoftYaHei';
         font-weight: bold;
-        font-size: 18px;
+        font-size: 16px;
         color: #333;
     }
-    
+    /* change the default css of tags*/
+    p {
+        margin: 0;
+    }
+
+    /* change the default css of the scrollbar in webkit browser */
+    ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    overflow: auto;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #e6e6e6;
+        min-height: 25px;
+        min-width: 25px;
+        border: 1px solid #e0e0e0
+    }
     #app {
         height: auto;
         width: 100%;
     }
-    
-    .header-container {
-        height: 110px;
-        /* width: 100%; */
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 0 142px;
-    }
-    
-    .header-container ul {
-        height: 100%;
-        margin: 0;
-    }
-    
-    .header-container li {
-        height: auto;
-        line-height: 110px;
-        list-style: none;
-        float: left;
-        margin-right: 60px;
-        position: relative;
-    }
-    
-    li::after {
-        content: "";
-        height: 3px;
-        width: 120%;
-        position: absolute;
-        display: block;
-        background-color: #000;
-        bottom: 33px;
-        left: -10%;
-        border-radius: 2000px;
-    }
-    p {
-        margin: 0;
-    }
-    
-    a {
-        text-decoration: none;
-        color: #333;
-    }
-    
-    .language-container {
-        height: 36px;
-        width: 105px;
-        background-color: #ee83b1;
-        color: #fff;
-        border-radius: 20px;
-        font-weight: normal;
-    }
-    
-    .language-container div {
-        line-height: 36px;
-        width: 80px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .language-container a {
-        color: #fff;
-        text-align: center;
-        width: 50px;
-    }
-    
-   
-    
-    
     /* 页脚部分*/
     
     #app footer {
@@ -218,5 +171,7 @@
         height: 100%;
         vertical-align: top;
         margin-top: 25px;
+        
     }
+
 </style>
