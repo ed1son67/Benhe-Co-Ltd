@@ -117,6 +117,7 @@
         },
         methods: {
             handleScroll() {
+                      
                 console.log(document.documentElement.scrollTop);
                 let scrollTop = document.documentElement.scrollTop;
 
