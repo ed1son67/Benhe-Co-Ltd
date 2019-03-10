@@ -3,6 +3,12 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import 'iview/dist/styles/iview.css';
+import { Carousel , CarouselItem } from 'iview';
+Vue.component('Carousel', Carousel);
+Vue.component('CarouselItem', CarouselItem);
+
+
 
 Vue.config.productionTip = false
 

@@ -2,11 +2,36 @@
     <div class="root">
         <Header></Header>
         <main>
-            <div class="banner">
-                <div class="slogen-container">
-                    <h1>本合</h1>
-                    <p>买得顺心·吃得放心·寻得开心</p>
-                </div>
+            <div class="banner-container">
+                <Carousel v-model="value" loop autoplay arrow="hover" :autoplay-speed=4000>
+                    <CarouselItem>
+                        <div class="banner" >
+                            <img :src="img" alt="">
+                            <div class="slogen-container">
+                                <h1>本合</h1>
+                                <p>买得顺心·吃得放心·寻得开心</p>
+                            </div>
+                        </div>
+                    </CarouselItem>
+                    <CarouselItem>
+                        <div class="banner">
+                            <img :src="img" alt="">
+                            <div class="slogen-container">
+                                <h1>本合</h1>
+                                <p>买得顺心·吃得放心·寻得开心</p>
+                            </div>
+                        </div>
+                    </CarouselItem>
+                    <CarouselItem>
+                        <div class="banner">
+                            <img :src="img" alt="">
+                            <div class="slogen-container">
+                                <h1>本合</h1>
+                                <p>买得顺心·吃得放心·寻得开心</p>
+                            </div>
+                        </div>
+                    </CarouselItem>
+                </Carousel>
             </div>
             <div class="title-container">
                 <span>公司介绍</span>  
@@ -99,9 +124,6 @@
                 </div>
             </div>
         </main>
-        <footer>
-
-        </footer>
     </div>
 </template>
 
@@ -118,7 +140,7 @@
         methods: {
             handleScroll() {
                       
-                console.log(document.documentElement.scrollTop);
+                // console.log(document.documentElement.scrollTop);
                 let scrollTop = document.documentElement.scrollTop;
 
                 scrollTop >= 100? this.isShow = true: this.isShow = false;
@@ -127,17 +149,12 @@
                 scrollTop >= 1200? this.queueShow.show2 = true: this.queueShow.show2 = false;
                 scrollTop >= 1300? this.queueShow.show3 = true: this.queueShow.show3 = false;
                 scrollTop >= 1400? this.queueShow.show4 = true: this.queueShow.show4 = false;
-
-
-               
-
-                
-
-
             }
         },
         data() {
             return {
+                img: require('../assets/images/banner_cn.png'),
+                value: 0,
                 isShow: false,
                 queueShow: {
                     show0: false,
@@ -155,12 +172,24 @@
 main {
     margin-bottom: 137px;
 }
-.banner {
+.banner-container {
     height: 755px;
     width: 100%;
-    background: url(../assets/images/banner_cn.png) center no-repeat;
-    background-size: cover;
+}
+.banner {
+    height: 755px;
+    /* width: 100%; */
+    /* background: url(../assets/images/banner_cn.png) center no-repeat; */
+    /* background-size: cover;
+     */
     position: relative;
+    background-color: #2b2f93;
+    text-align: center;
+    overflow: hidden;
+}
+.banner img {
+    height: 755px;
+    /* width: 100%; */
 }
 .slogen-container {
     color: #fff;

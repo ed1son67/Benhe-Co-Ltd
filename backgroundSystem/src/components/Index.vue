@@ -152,4 +152,39 @@
     .logout-container {
         float: right;
     }
+
+    .first-page-container {
+        margin-left: 920px;
+        margin-top: 336px;
+        width: 450px;
+    }
+   
+    .first-page-container h1 {
+        font-size: 80px;
+        color: #3c71c4;
+        position: relative;
+        margin-bottom: 54px;
+    }
+     .first-page-container h1::before, .first-page-container h1::after {
+        content: "";
+        position: absolute;
+        height: 26px;
+        width: 26px;
+        background-color: #3c71c4;
+        border-radius: 50%;
+        top: 50%;
+        margin-top: -10px;
+        
+    }
+    .first-page-container h1::before {
+        left: -85px;
+    }
+    .first-page-container h1::after {
+        right: 50px;
+    }
+    .first-page-container p {
+        color: #999;
+        letter-spacing: 2px;   
+        line-height: 2em;     
+    }
 </style>

@@ -89,11 +89,23 @@
         font-size: 16px;
         color: #333;
     }
-    /* change the default css of tags*/
+    /* change the default css of tags */
+    ul {
+        margin: 0;
+        padding: 0;
+    }
+    li {
+        list-style: none;
+    }
     p {
         margin: 0;
     }
-
+    button {
+        outline: none;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+    }
     /* change the default css of the scrollbar in webkit browser */
     ::-webkit-scrollbar {
     width: 10px;
