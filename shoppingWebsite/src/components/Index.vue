@@ -3,35 +3,13 @@
         <Header></Header>
         <main>
             <div class="banner-container">
-                <Carousel v-model="value" loop autoplay arrow="hover" :autoplay-speed=4000>
-                    <CarouselItem>
-                        <div class="banner" >
-                            <img :src="img" alt="">
-                            <div class="slogen-container">
-                                <h1>本合</h1>
-                                <p>买得顺心·吃得放心·寻得开心</p>
-                            </div>
-                        </div>
-                    </CarouselItem>
-                    <CarouselItem>
-                        <div class="banner">
-                            <img :src="img" alt="">
-                            <div class="slogen-container">
-                                <h1>本合</h1>
-                                <p>买得顺心·吃得放心·寻得开心</p>
-                            </div>
-                        </div>
-                    </CarouselItem>
-                    <CarouselItem>
-                        <div class="banner">
-                            <img :src="img" alt="">
-                            <div class="slogen-container">
-                                <h1>本合</h1>
-                                <p>买得顺心·吃得放心·寻得开心</p>
-                            </div>
-                        </div>
-                    </CarouselItem>
-                </Carousel>
+                <div class="banner" >
+                    <img :src="img" alt="">
+                    <div class="slogen-container">
+                        <h1>本合</h1>
+                        <p>买得顺心·吃得放心·寻得开心</p>
+                    </div>
+                </div>        
             </div>
             <div class="title-container">
                 <span>公司介绍</span>  
@@ -128,6 +106,7 @@
 </template>
 
 <script>
+    import { IP, myAxios } from "../ajax.js";
     import Header from './Header.vue'
     export default {
         name: 'Index',
@@ -136,8 +115,22 @@
         },
         mounted() {
             window.addEventListener('scroll', this.handleScroll)
+            this.initIndex();
         },
+        
         methods: {
+            initIndex(){
+                myAxios({
+                    method: 'POST',
+                    url: 'product/hotpush',
+                    data: JSON.stringify({limited: 5})
+                    
+                }).then((res) => {
+                    
+                }).catch((err) => {
+                    
+                })
+            },
             handleScroll() {
                       
                 // console.log(document.documentElement.scrollTop);

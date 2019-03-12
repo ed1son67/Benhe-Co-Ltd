@@ -11,20 +11,65 @@
                 </div>
                 <button><a href="http://" target="_blank" rel="noopener noreferrer">进入店铺</a></button>
             </div>
-            <div class="sort-container">
-                <button class="sort-button" @click="isActive = true" :class="{active: isActive}">默认排序<span class="arrow-container"></span></button>
-                <button class="sort-button" @click="isActive = false" :class="{active: !isActive}">新品排序<span class="arrow-container"></span></button>
-            </div>
-            <ul class="kind-container">
-                <li>产品分类</li>
-                <li>全部产品</li>
-                <li>膨化</li>
-                <li>压片糖</li>
-                <li>奶糖</li>
-                <li>凝胶糖果</li>
-                <li>硬糖</li>
-            </ul>
         </header>
+        <div class="sort-container">
+            <button class="sort-button" @click="isActive = true" :class="{active: isActive}">默认排序<span class="arrow-container"></span></button>
+            <button class="sort-button" @click="isActive = false" :class="{active: !isActive}">新品排序<span class="arrow-container"></span></button>
+        </div>
+        <ul class="kind-container">
+            <li>产品分类</li>
+            <li>全部产品</li>
+            <li>膨化</li>
+            <li>压片糖</li>
+            <li>奶糖</li>
+            <li>凝胶糖果</li>
+            <li>硬糖</li>
+        </ul>
+        <main class="productLists-container">
+            <div class="product-container" >
+                <div>
+                     <img src="" alt="">
+                </div>
+                <span>林振合爽口片清爽薄荷糖水果糖维C压片水果糖随身糖40G4装</span>
+            </div>
+            <div class="product-container" >
+                <div>
+                     <img src="" alt="">
+                </div>
+                <span>林振合爽口片清爽薄荷糖水果糖维C压片水果糖随身糖40G4装</span>
+            </div>
+            <div class="product-container" >
+                <div>
+                     <img src="" alt="">
+                </div>
+                
+                <span>林振合爽口片清爽薄荷糖水果糖维C压片水果糖随身糖40G4装</span>
+            </div>
+            <div class="product-container" >
+                <div>
+                     <img src="" alt="">
+                </div>
+                <span>林振合爽口片清爽薄荷糖水果糖维C压片水果糖随身糖40G4装</span>
+            </div>
+            <div class="product-container" >
+                <div>
+                     <img src="" alt="">
+                </div>
+                <span>林振合爽口片清爽薄荷糖水果糖维C压片水果糖随身糖40G4装</span>
+            </div>
+            <div class="product-container" >
+                <div>
+                     <img src="" alt="">
+                </div>
+                <span>林振合爽口片清爽薄荷糖水果糖维C压片水果糖随身糖40G4装</span>
+            </div>
+            
+        </main>
+        
+        <div class="page-container">
+             <Page :total="20" show-elevator />
+        </div>
+        
     </div>
 </template>
 
@@ -39,13 +84,22 @@
             return {
                 isActive: true
             }
+        },
+        mounted() {
+
+        },
+        methods: {
+            initquery() {
+
+            },
+            
         }
     }
 </script>
 
 <style lang="" scoped>
 .root {
-    height: 2000px;
+    
 }
 .second-menu-container {
     height: 96px;
@@ -177,13 +231,38 @@
     transform: rotateZ(0);
 }
 .kind-container {
-
-    margin: 0 auto 32px auto;
-    
+    display: flex;
+    justify-content: center;
+    margin-bottom: 32px;
 }
 .kind-container li {
-    display: inline-block;
     color: #333;
-    margin-left:  0 64px ;
+    margin: 0 32px ;
+}
+
+.productLists-container {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 1530px;
+    margin: 0 auto;
+}
+.product-container {
+    width: 270px;
+    margin: 14px 18px;
+    /* background-color: black; */
+    border-top: 6px solid #5b9dd9;
+}
+
+.product-container div {
+    height: 370px;
+    width: 100%;
+    padding-bottom: 28px;
+    line-height: 1.5em;
+}
+.page-container {
+    margin: 56px auto 64px auto;
+   
+    text-align: center;
 }
 </style>
