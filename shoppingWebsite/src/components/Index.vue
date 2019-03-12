@@ -123,10 +123,10 @@
                 myAxios({
                     method: 'POST',
                     url: 'product/hotpush',
-                    data: JSON.stringify({limited: 5})
+                    data: {limite: 5}
                     
                 }).then((res) => {
-                    
+                    console.log(res.data.products)
                 }).catch((err) => {
                     
                 })

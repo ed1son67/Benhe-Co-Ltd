@@ -13,28 +13,94 @@
             </Header>
             
             <Layout>
-                <Sider ref="side1" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed" width='310'  >
+                <Sider ref="side1" hide-trigger collapsible  width='310'  >
                     <Menu active-name="1-2" theme="dark" width="auto" @on-select="selectMenu" class="menu-container">                 
-                        <MenuItem name="1"> <Icon type="ios-analytics" />BANNER管理</MenuItem>
+                        <MenuItem name="1"><img src="../assets/images/bannericon.png" /><span>BANNER管理</span></MenuItem>
                         <Submenu name="2" >
                             <template slot="title">
-                                <Icon type="ios-analytics" />
-                                产品管理
+                               <img src="../assets/images/producticon.png" />
+                                <span>产品管理</span>
                             </template>    
-                            <MenuItem name="2-1">上传</MenuItem>
-                            <MenuItem name="2-2">查看</MenuItem>
+                            <MenuItem name="2-1" style="padding-left: 74px;">上传</MenuItem>
+                            <MenuItem name="2-2" style="padding-left: 74px;">查看</MenuItem>
                         </Submenu>
                     </Menu>
                 </Sider>
-                <Content class="content-container">
-                    <div class="first-page-container">
-                        <h1>欢迎使用</h1>
-                        <p>BANNER管理：对首页的banner图片进行修改查看</p>
-                        <p>产品管理：对官网展示产品进行查看，上传以及修改</p>
+                <Layout>
+                    <Content class="content-container" >
+                        <div class="index-container" v-show="showLists.l0">
+                            <div class="first-page-container">
+                                <h1>欢迎使用</h1>
+                                <p>BANNER管理：对首页的banner图片进行修改查看</p>
+                                <p>产品管理：对官网展示产品进行查看，上传以及修改</p>
+                            </div>
+                        </div>
+                        <div class="banner-container " v-show="showLists.l1">
+                            <div class="main-container">
+                                <header class="title">
+                                    当前BANNER
+                                </header>
+                                <div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="upload-container" v-show="showLists.l2">
+                            <div class="main-container">
+                                <header class="title">
+                                    产品列表
+                                </header>
+                            </div>
+                        </div>
+                        <div class="check-container" v-show="showLists.l3">
+                            <div class="main-container">
+                                <header class="title">
+                                    产品参数
+                                </header>
+                            </div>
+                        </div>
+                        
+                    </Content>
+                    <!-- <Footer class="layout-footer">benhe ©2019 Created by CZF</Footer> -->
+                </Layout>
+                <!-- <Content class="content-container" >
+                    <div class="index-container" v-show="showLists.l0">
+                        <div class="first-page-container">
+                            <h1>欢迎使用</h1>
+                            <p>BANNER管理：对首页的banner图片进行修改查看</p>
+                            <p>产品管理：对官网展示产品进行查看，上传以及修改</p>
+                        </div>
                     </div>
-                    
-                </Content>
+                    <div class="banner-container " v-show="showLists.l1">
+                        <div class="main-container">
+                            <header class="title">
+                                当前BANNER
+                            </header>
+                            <div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="upload-container" v-show="showLists.l2">
+                        <div class="main-container">
+                            <header class="title">
+                                产品列表
+                            </header>
+                        </div>
+                    </div>
+                    <div class="check-container" v-show="showLists.l3">
+                        <div class="main-container">
+                            <header class="title">
+                                产品参数
+                            </header>
+                        </div>
+                    </div>
+                    <Footer class="layout-footer">
+                        21312
+                    </Footer>
+                </Content> -->
             </Layout>
+            
         </Layout>
     </div>
 </template>
@@ -44,18 +110,43 @@
         name: 'Index',
         data() {
             return {
-                isCollapsed: false
+                showLists: {
+                    l0: true,
+                    l1: false,
+                    l2: false,
+                    l3: false
+                }
             }
         },
         computed: {
             
         },
         methods: {
-            collapsedSider () {
-                this.$refs.side1.toggleCollapse();
-            },
             selectMenu(name) {
                 console.log(name);
+                for (const key in this.showLists) {
+                    if (this.showLists.hasOwnProperty(key)) {
+                        this.showLists[key] = false
+                        
+                    }
+                }
+                console.log(this.showLists.l0)
+                switch (name) {
+                    case '1':
+                        this.showLists.l1 = true;
+                        console.log(this.showLists.l1)
+
+                        break;
+                    case '2-1':
+                        this.showLists.l2 = true;
+                        break;
+                    case '2-2':
+                        this.showLists.l3 = true;
+                        break;
+                    default:
+                        break;
+                }
+
             }
         }
     }
@@ -71,9 +162,13 @@
     .layout-header-bar{
         background: #fff;
         box-shadow: 0 1px 1px rgba(0,0,0,.1);
-        padding: 10px;
+        padding: 2px 9px;
         border-bottom: 2px solid #3d70c5;
 
+    }
+    .layout-footer {
+        background: #fff;
+        height: 20px;
     }
     .layout-header-bar img {
         padding-left: 20px;
@@ -86,13 +181,7 @@
         border-left: 3px solid #000;
         margin: 0 12px;
     }
-    .layout-logo-left{
-        width: 90%;
-        height: 30px;
-        background: #5b6270;
-        border-radius: 3px;
-        margin: 15px auto;
-    }
+   
     .menu-icon{
         transition: all .3s;
     }
@@ -105,57 +194,42 @@
     .menu-container li {
         /* padding: 20px; */
     }
-    /* .menu-item span{
-        display: inline-block;
-        overflow: hidden;
-        width: 69px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        vertical-align: bottom;
-        transition: width .2s ease .2s;
-    }
-    .menu-item i{
-        transform: translateX(0px);
-        transition: font-size .2s ease, transform .2s ease;
-        vertical-align: middle;
-        font-size: 16px;
-    }
-    .collapsed-menu span{
-        width: 0px;
-        transition: width .2s ease;
-    } */
-    .collapsed-menu i{
-        transform: translateX(5px);
-        transition: font-size .2s ease .2s, transform .2s ease .2s;
-        vertical-align: middle;
-        font-size: 22px;
-    }
-    .content-container {
-        height: 100%;
-        width: 100%;
-        background: url(../assets/images/usedraw.png) no-repeat;
-        background-position: 316px 156px;
-    }
+    
+
+   
     .ivu-layout-sider {
         background-color: #3d70c5;
     }
-    .ivu-menu-dark {
-        background-color: #3d70c5;
-    }
-    .ivu-menu-item {
-        
-    }
-    .ivu-menu-submenu-title {
-        
 
+   
+    .ivu-menu-submenu-title span, .ivu-menu-item span {
+        padding-left: 14px;
+        padding-right: 14px;
+        vertical-align: top;
+        letter-spacing: 2px;
     }
+    .ivu-menu-submenu-title img, .ivu-menu-item img {
+        padding-left: 14px;
+      
+    }
+    
     .logout-container {
         float: right;
     }
 
+
+    .index-container {
+        height: 900px;
+        width: 1400px;
+        background: url(../assets/images/usedraw.png) no-repeat;
+        background-position: 316px 156px;
+        position: relative;
+    }   
+
     .first-page-container {
-        margin-left: 920px;
-        margin-top: 336px;
+        position: absolute;
+        left: 920px;
+        top: 336px;
         width: 450px;
     }
    
@@ -186,5 +260,24 @@
         color: #999;
         letter-spacing: 2px;   
         line-height: 2em;     
+    }
+
+    .main-container {
+        margin: 48px;
+    }
+    .title {
+        font-size: 24px;
+        color: #5d5c5c;
+        letter-spacing: 2px;
+        border-left: 7px solid #3d70c5;
+        padding: 1px 11px;
+        padding-bottom: 2px;
+        margin-bottom: 32px;
+    }
+    .title::before {
+        /* content: '';
+        display: inline-block;
+        height: 24px;
+        width: ; */
     }
 </style>

@@ -6,44 +6,29 @@
             <div class="form-container">
                 <div class="form-item">
                     <label for="username">用户名：</label>
-                    <input id="username"  type="text" >
+                    <input id="username" v-model="userName" type="text" >
                 </div>
                  <div class="form-item">
                     <label for="password">密码：</label>
-                    <input id="password"  type="password">
+                    <input id="password" v-model="password"  type="password">
                 </div>
                 <div class="button-container">
-                    <button>登陆</button>
+                    <button @click="handleSubmit">登陆</button>
                 </div>
-                <!-- <Form  :model="formInline" :rules="ruleInline" :label-width="80">
-                    <FormItem prop="user" label="用户名">
-                        <Input  type="text" v-model="formInline.user" placeholder="Username">
-                            <Icon type="ios-person-outline" slot="prepend"></Icon>
-                        </Input>
-                    </FormItem>
-                    <FormItem prop="password" label="密码">
-                        <Input type="password" v-model="formInline.password" placeholder="Password">
-                            <Icon type="ios-lock-outline" slot="prepend"></Icon>
-                        </Input>
-                    </FormItem>
-                    <FormItem>
-                        <Button type="primary" @click="handleSubmit('formInline')">Signin</Button>
-                    </FormItem>
-                </Form> -->
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import { IP, myAxios } from '../ajax.js'
     export default {
         name: 'Login',
         data() {
             return {
-                formInline: {
-                    user: '',
-                    password: ''
-                },
+                userName: '',
+                password: '',
+
                 ruleInline: {
                     user: [
                         { required: true, message: 'Please fill in the user name', trigger: 'blur' }
@@ -56,13 +41,23 @@
             }
         },
         methods: {
-            handleSubmit(name) {
-                this.$refs[name].validate((valid) => {
-                    if (valid) {
-                        this.$Message.success('Success!');
+            handleSubmit() {
+                let self = this;
+                myAxios({
+                    method: 'post',
+                    data: {
+                        userName: self.userName,
+                        password: self.password
+                    },
+                    url: 'admin/login'
+                }).then((res) => {
+                    if (res.status == '1') {
+                        console.log('登陆成功');
                     } else {
-                        this.$Message.error('Fail!');
+                        console.log('登陆失败');
                     }
+                }).catch((err) => {
+
                 })
             }
         }
