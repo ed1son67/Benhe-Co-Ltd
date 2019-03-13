@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
 import 'iview/dist/styles/iview.css';
 import './theme/theme.less';
 import { Submenu, Button, Table, Input, Icon, Form, FormItem,Layout,Menu,Sider,MenuItem } from 'iview';
@@ -21,8 +22,6 @@ Vue.component('Submenu', Submenu);
 
 
 
-
-
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
@@ -31,5 +30,17 @@ new Vue({
   router,
   components: { App },
   template: '<App/>',
+  store,
   render: h => h(App)
 })
+
+router.beforeEach((to, from, next) => {
+    // Login Verification
+    console.log(to.name);
+    console.log(store.state.isLogin)
+    if (store.state.isLogin != true ) {
+        next(false)
+    } else {
+        next()
+    }
+});

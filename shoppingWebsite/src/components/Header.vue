@@ -1,7 +1,9 @@
 <template>
     <header :class="{changeHeaderColor: isIndex}">
         <div class="header-container" >
-            <div class="logo-container"><img src="../assets/images/logo.png"></div>
+            <div class="logo-container">
+                <router-link to="index"><img src="../assets/images/logo.png"></router-link>
+            </div>
             <div class="menu-container">
                 <ul >
                     <li :class="{choice: isChoice[0]}"><span class="bar-before"></span><router-link tag="a" to="/" >首页</router-link></li>
@@ -34,7 +36,6 @@
             }
         },
         mounted() {
-            
             console.log(this.$route.name)
             let paths = ['Index', 'Benproducts', 'Linproducts',  'Company', 'Hotsale', 'Contact',]
             for (let i = 0; i < this.isChoice.length; i++) {

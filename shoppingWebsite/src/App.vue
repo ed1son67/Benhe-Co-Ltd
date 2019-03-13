@@ -8,7 +8,7 @@
                     <p>
                         <span class="label">
                                     地址：
-                                </span> 潮州市潮安区郭一工业区
+                                </span> 潮州市潮安区庵埠郭一工业区
                     </p>
                     <p>
                         <span class="label">电话：</span> 400-822-2883
@@ -28,10 +28,10 @@
                     <h2>店铺链接</h2>
                     <p><span class="label">
                                     本合旗舰店：
-                                </span><a href="https://M.TB.CN/H.3WHBHWV?SM=0A8987">HTTP://M.TB.CN/H.3WHBHWV?SM=0A8987</a></p>
+                                </span><a href="https://M.TB.CN/H.3WHBHWV?SM=0A8987">HTTPS://M.TB.CN/H.3WHBHWV?SM=0A8987</a></p>
                     <P><span class="label">
                                     林振合旗舰店：
-                                </span><a href="http://M.TB.CN/H.3WHX4SO?SM=BB7835"> HTTPS://M.TB.CN/H.3WHX4SO?SM=BB7835</a></P>
+                                </span><a href="http://M.TB.CN/H.3WHX4SO?SM=BB7835">HTTPS://M.TB.CN/H.3WHX4SO?SM=BB7835</a></P>
                 </div>
                 <div class="footer-logo-container">
                     <img src="./assets/images/logo.png" alt="">
@@ -84,10 +84,12 @@
         padding: 0;
         height: auto;
         width: 100%;
+        min-width: 1700px;
         font-family: 'MicrosoftYaHei';
         font-weight: bold;
         font-size: 16px;
         color: #333;
+        overflow-x: hidden;
     }
     /* change the default css of tags */
     ul {
@@ -135,12 +137,14 @@
     .footer-container {
         padding: 48px 0;
         margin: 0 154px 0 177px;
-        /* display: flex;
-        justify-content: space-between;
-        align-items: flex-end; */
+        display: flex;
+        /* justify-content: space-between; */
+        align-items: flex-end;
     }
     .footer-container div {
-        display: inline-block;
+        /* display: inline-block; */
+        
+        
     }
     .footer-container p {
         font-size: 16px;
@@ -166,23 +170,27 @@
     }
     .contact-container {
         margin-right: 68px;
-
     }
     .icp-container {
         margin-right: 128px;
         text-align: justify;
+
     }
     .icp-container span {
         width: 80px;
     }
+    .link-container p {
+        width: 500px;
+    }
     .link-container span {
-        width: 120px;
+        width: 130px;
+
     }
     .footer-logo-container {
-        margin-left: 245px;
+        margin-left: 170px;
         height: 100%;
         vertical-align: top;
-        margin-top: 25px;
+        margin-bottom: 45px;
         
     }
 

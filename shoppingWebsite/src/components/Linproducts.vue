@@ -26,18 +26,20 @@
             <li>硬糖</li>
         </ul>
         <main class="productLists-container">
+            <div class="product-container" v-for="item in items" :key="item.id">
+                <div class="product-content-container">
+                     <img :src="oss + item.defaultUrl" >
+                </div>
+                <span>{{item.name}}</span>
+            </div>
             <div class="product-container" >
-                <div>
+                <div class="product-content-container">
+                    <i class="mask"></i>
                      <img src="" alt="">
                 </div>
                 <span>林振合爽口片清爽薄荷糖水果糖维C压片水果糖随身糖40G4装</span>
             </div>
-            <div class="product-container" >
-                <div>
-                     <img src="" alt="">
-                </div>
-                <span>林振合爽口片清爽薄荷糖水果糖维C压片水果糖随身糖40G4装</span>
-            </div>
+            <!-- 
             <div class="product-container" >
                 <div>
                      <img src="" alt="">
@@ -62,7 +64,7 @@
                      <img src="" alt="">
                 </div>
                 <span>林振合爽口片清爽薄荷糖水果糖维C压片水果糖随身糖40G4装</span>
-            </div>
+            </div> -->
             
         </main>
         
@@ -75,13 +77,24 @@
 
 <script>
     import Header from './Header.vue'
+    import { myAxios } from "../ajax.js";
     export default {
         name: 'Linproducts',
+        mounted() {
+            myAxios.getAllProductsByName('林振合').then((res) => {
+                console.log(res)
+            }).catch((err) => {
+                
+            })
+        },
         components: {
             Header
         },
         data() {
             return {
+                items: [
+
+                ],
                 isActive: true
             }
         }
@@ -251,6 +264,27 @@
     width: 100%;
     padding-bottom: 28px;
     line-height: 1.5em;
+    position: relative;
+    cursor: pointer;
+}
+.mask {
+    /* content: ""; */
+    position: absolute;   
+    height: 342px;
+    width: 270px;
+    top: 0;
+    left: 0;
+    background: transparent;
+    transition: all .3s ease-in-out;
+}
+.product-content-container:hover .mask {
+    background: rgba(0, 0, 0, .2);
+    
+
+}
+.page-container img {
+    width: 270px;
+    height: 342px;
 }
 .page-container {
     margin: 56px auto 64px auto;

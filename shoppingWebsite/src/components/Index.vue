@@ -4,7 +4,7 @@
         <main>
             <div class="banner-container">
                 <div class="banner" >
-                    <img :src="img" alt="">
+                    <img :src="bannerLink" alt="">
                     <div class="slogen-container">
                         <h1>本合</h1>
                         <p>买得顺心·吃得放心·寻得开心</p>
@@ -49,31 +49,39 @@
                 <span>热销产品</span>
             </div>
             <div class="content-container" >
-                <div class="hot-sale-product-container" :class="{animate: queueShow.show0}">
+                <div class="hot-sale-product-container" v-for="item in items" :key="item.id">
                     <div>
-                         <img src="" alt="">
+                        <i class="mask"></i>
+                        <img :src="oss + item.defaultUrl" alt="">
                     </div>
-                    <span>林振合爽口片清爽薄荷糖水果糖维C压片水果糖随身糖40G4装</span></div>
-                <div class="hot-sale-product-container" :class="{animate: queueShow.show1}">
+                    <span>{{item.name}}</span>
+                </div>
+                <!-- <div class="hot-sale-product-container" >
                     <div>
-                         <img src="" alt="">
+                        <img src="" alt="">
                     </div>
-                    <span></span></div>
-                <div class="hot-sale-product-container" :class="{animate: queueShow.show2}">
-                    <div>
-                         <img src="" alt="">
-                    </div>
-                    <span></span></div>
-                <div class="hot-sale-product-container" :class="{animate: queueShow.show3}">
-                    <div>
-                         <img src="" alt="">
-                    </div>
-                    <span></span></div>
-                <div class="hot-sale-product-container" :class="{animate: queueShow.show4}">
+                    <span>林振合爽口片清爽薄荷糖水果糖维C压片水果糖随身糖40G4装</span>
+                </div>
+                <div class="hot-sale-product-container" >
                     <div>
                          <img src="" alt="">
                     </div>
                     <span></span></div>
+                <div class="hot-sale-product-container" >
+                    <div>
+                         <img src="" alt="">
+                    </div>
+                    <span></span></div>
+                <div class="hot-sale-product-container" >
+                    <div>
+                         <img src="" alt="">
+                    </div>
+                    <span></span></div>
+                <div class="hot-sale-product-container" >
+                    <div>
+                         <img src="" alt="">
+                    </div>
+                    <span></span></div> -->
             </div>
             <div class="title-container" style="margin: 120px auto 72px auto;">
                 <span>天猫旗舰店</span>
@@ -114,28 +122,39 @@
             Header
         },
         mounted() {
-            window.addEventListener('scroll', this.handleScroll)
+            // window.addEventListener('scroll', this.handleScroll)
             this.initIndex();
         },
         
         methods: {
+            addItem(object, data) {
+                object.push(data)
+            },
             initIndex(){
-                myAxios({
-                    method: 'POST',
-                    url: 'product/hotpush',
-                    data: {limite: 5}
-                    
-                }).then((res) => {
-                    console.log(res.data.products)
+                // get banner
+                myAxios.getBanner().then((res) => {
+                    console.log(res.data)
+                    // this.bannerLink = 'http://benhe.oss-cn-shenzhen.aliyuncs.com/' + res.data.url
                 }).catch((err) => {
-                    
+                    console.log(err)
+                })
+
+                // get hotpush products
+                myAxios.getHotpush({limite: 5}).then((res) => {
+                    let i = 0;
+                    for (const key in res.data.products) {
+                        if (res.data.products.hasOwnProperty(key)) {
+                            const element = res.data.products[key];
+                            this.addItem(this.items, element);
+                        }
+                    }
+                    console.log(this.items)
+                }).catch((err) => {
+                    console.log(err)
                 })
             },
             handleScroll() {
-                      
-                // console.log(document.documentElement.scrollTop);
                 let scrollTop = document.documentElement.scrollTop;
-
                 scrollTop >= 100? this.isShow = true: this.isShow = false;
                 scrollTop >= 1000? this.queueShow.show0 = true: this.queueShow.show0 = false;
                 scrollTop >= 1100? this.queueShow.show1 = true: this.queueShow.show1 = false;
@@ -146,7 +165,14 @@
         },
         data() {
             return {
-                img: require('../assets/images/banner_cn.png'),
+                items: [
+                    // {id: '', name: '', url: ''},
+                    // {id: '', name: '', url: ''},
+                    // {id: '', name: '', url: ''},
+                    // {id: '', name: '', url: ''},
+                    // {id: '', name: '', url: ''},
+                ],
+                bannerLink: '',
                 value: 0,
                 isShow: false,
                 queueShow: {
@@ -171,12 +197,8 @@ main {
 }
 .banner {
     height: 755px;
-    /* width: 100%; */
-    /* background: url(../assets/images/banner_cn.png) center no-repeat; */
-    /* background-size: cover;
-     */
     position: relative;
-    background-color: #2b2f93;
+    /* background-color: #2b2f93; */
     text-align: center;
     overflow: hidden;
 }
@@ -226,8 +248,8 @@ main {
     margin: 0 auto;
 }
 .profile {
-    opacity: 0;
-    transform: translateY(20px);
+    /* opacity: 0;
+    transform: translateY(20px); */
 }
 .profile-container {
     width: 450px;
@@ -249,8 +271,8 @@ main {
     margin-right:  26px;
     /* background-color: black; */
     border-top: 6px solid #5b9dd9;
-    opacity: 0;
-    transform: translateY(20px);
+    /* opacity: 0; */
+    /* transform: translateY(20px); */
 }
 .animate {
     transition: all .5s ease-in-out;
@@ -263,6 +285,11 @@ main {
     width: 100%;
     padding-bottom: 28px;
     line-height: 1.5em;
+    position: relative;
+}
+.hot-sale-product-container  img {
+    height: 342px;
+    width: 270px;
 }
 .shop-container {
     height: 308px;
@@ -324,6 +351,23 @@ main {
 .shop-container a {
     color: #fff;
     text-decoration: none;
+
+}
+
+
+.mask {
+    /* content: ""; */
+    position: absolute;   
+    height: 342px;
+    width: 270px;
+    top: 0;
+    left: 0;
+    background: transparent;
+    transition: all .3s ease-in-out;
+}
+.hot-sale-product-container div:hover .mask {
+    background: rgba(0, 0, 0, .4);
+    
 
 }
 </style>

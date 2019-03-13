@@ -12,6 +12,8 @@ Vue.component('Page', Page);
 
 Vue.config.productionTip = false
 
+Vue.prototype.oss = 'http://benhe.oss-cn-shenzhen.aliyuncs.com/';
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

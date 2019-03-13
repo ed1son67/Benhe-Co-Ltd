@@ -197,7 +197,7 @@
     
 
    
-    .ivu-layout-sider {
+    .ivu-layout-sider, .ivu-menu-dark {
         background-color: #3d70c5;
     }
 

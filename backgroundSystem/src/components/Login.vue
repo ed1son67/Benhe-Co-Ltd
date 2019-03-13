@@ -13,7 +13,9 @@
                     <input id="password" v-model="password"  type="password">
                 </div>
                 <div class="button-container">
-                    <button @click="handleSubmit">登陆</button>
+                    <button @click="handleSubmit">登陆</button> 
+                   
+                    
                 </div>
             </div>
         </div>
@@ -51,8 +53,11 @@
                     },
                     url: 'admin/login'
                 }).then((res) => {
-                    if (res.status == '1') {
+                    console.log(res)
+                    if (res.data.status == '1') {
                         console.log('登陆成功');
+                        this.$store.commit('update', {isLogin: true})
+                        this.$router.push('index');
                     } else {
                         console.log('登陆失败');
                     }
@@ -141,22 +146,16 @@
     .button-container {
         width: 192px;
         height: 48px;
-        font-size: 18px;
-        border: 2px solid #fff;
         text-align: center;
-        border-radius: 8px;
-        color: #fff;
-        margin-left: 382px;
+        margin-left: 450px;
         margin-top: 72px;
     }
     .button-container button {
         height: 100%;
         width: 100%;
         font-size: 18px;
-        border: none;
-        
-
+        border: 1px solid #fff;
+        border-radius: 4px;
         color: #fff;
-        
     }
 </style>
