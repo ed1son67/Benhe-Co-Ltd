@@ -1,5 +1,5 @@
 <template>
-    <header :class="{changeHeaderColor: isIndex}">
+    <header :class="{changeHeaderColor: isIndex, product: isProduct}">
         <div class="header-container" >
             <div class="logo-container">
                 <router-link to="index"><img src="../assets/images/logo.png"></router-link>
@@ -32,23 +32,33 @@
         data() {
             return {
                 isIndex: false,
+                isProduct: false,
                 isChoice: [true, false, false, false, false, false,]
             }
         },
         mounted() {
             console.log(this.$route.name)
-            let paths = ['Index', 'Benproducts', 'Linproducts',  'Company', 'Hotsale', 'Contact',]
+            let paths = ['Index', 'Benproducts', 'Linproducts',  'Company', 'Hotsale', 'Contact', 'product']
             for (let i = 0; i < this.isChoice.length; i++) {
                 this.isChoice[i] = false
             }
             this.isChoice[paths.indexOf(this.$route.name)] = true;
 
             if (this.$route.name != 'Index') {
+                // 将header的背景颜色改为白色
                 this.isIndex = true;
             } else {
                 this.isIndex = false;
             }
 
+            // 判断是不是产品详细页
+            if (this.$route.name == 'Product') {
+                this.isIndex = false;
+                this.isProduct = true;
+            } else {
+                this.isProduct = false;
+
+            }
         }
     }
 </script>
@@ -166,5 +176,7 @@
     .changeHeaderColor .choice span {
         background-color: #fff;    
     }
-    
+    .product {
+        border-bottom: 3px solid #5b9dd9;
+    }
 </style>

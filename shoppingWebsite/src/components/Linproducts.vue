@@ -26,7 +26,7 @@
             <li>硬糖</li>
         </ul>
         <main class="productLists-container">
-            <div class="product-container" v-for="item in items" :key="item.id">
+            <div class="product-container" v-for="item in items" :key="item.id" @click="jumpToProduct(item.id)">
                 <div class="product-content-container">
                      <img :src="oss + item.defaultUrl" >
                 </div>
@@ -69,7 +69,7 @@
         </main>
         
         <div class="page-container">
-             <Page :total="20" show-elevator />
+             <Page :total="totalSize" show-elevator />
         </div>
         
     </div>
@@ -80,20 +80,43 @@
     import { myAxios } from "../ajax.js";
     export default {
         name: 'Linproducts',
+        methods: {
+            queryAll() {
+                myAxios.getAllProductsByName('林振合').then((res) => {
+                    console.log(res.data)
+                    // get numbers of products and change the number of page size
+                    this.totalSize = res.data.allSize;
+                }).catch((err) => {
+                    
+                })
+            },
+            setItem() {
+
+            },
+            jumpToProduct(index) {
+                console.log(event.target)
+                console.log(index)
+                this.$router.push('product/' + index);
+            }
+        },
         mounted() {
-            myAxios.getAllProductsByName('林振合').then((res) => {
-                console.log(res)
-            }).catch((err) => {
-                
-            })
+            this.queryAll();
         },
         components: {
             Header
         },
         data() {
             return {
+                totalSize: 0,
                 items: [
-
+                    {
+                        id: 38,
+                        name: '日你妈'
+                    },
+                     {
+                        id: 39,
+                        name: '啊啊啊弟弟死了'
+                    }
                 ],
                 isActive: true
             }

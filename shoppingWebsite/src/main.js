@@ -4,10 +4,14 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import 'iview/dist/styles/iview.css';
-import { Page, Carousel , CarouselItem } from 'iview';
+import { Page, Carousel , CarouselItem, Breadcrumb, BreadcrumbItem,Icon } from 'iview';
 Vue.component('Carousel', Carousel);
 Vue.component('CarouselItem', CarouselItem);
 Vue.component('Page', Page);
+Vue.component('Breadcrumb', Breadcrumb);
+Vue.component('BreadcrumbItem', BreadcrumbItem);
+Vue.component('Icon', Icon);
+
 
 
 Vue.config.productionTip = false

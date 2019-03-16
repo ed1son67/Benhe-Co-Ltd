@@ -21,6 +21,9 @@ export const myAxios = {
     },
     getNewProducts(name, offSet) {
         return baseAxios.post('product/querynew', {offSet: offSet, numbersPerPage: 10, trademark: name});
+    },
+    getProductDetail(ID) {
+        return baseAxios.post('product/querydetail', {id: ID});
     }
 };
 
