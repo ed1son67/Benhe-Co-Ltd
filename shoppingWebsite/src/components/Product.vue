@@ -1,6 +1,6 @@
 <template>
     <div class="root">
-        <Header></Header>
+        <!-- <Header></Header> -->
         <main>
             <nav>
                 <Breadcrumb>
@@ -8,7 +8,7 @@
                     <BreadcrumbItem to="/index">
                         <Icon type="ios-home" /> 首页
                     </BreadcrumbItem>
-                    <BreadcrumbItem to="/benproducts">
+                    <BreadcrumbItem :to="link">
                         <Icon type="logo-buffer"></Icon> {{detail.trademark + '产品'}}
                     </BreadcrumbItem>
                     <BreadcrumbItem>
@@ -116,13 +116,22 @@
             
             myAxios.getProductDetail(parseInt(this.$route.params.id)).then((res) => {
                 this.detail = res.data;
-                // console.log(res)
+
+                // set the first pic
+                this.nowPic = this.oss + res.data.urls[0];
+
+                if (res.data.trademark == '林振合') 
+                    this.link = '/linproduct'
+                else 
+                    this.link = '/benproduct'
+
             }).catch((err) => {
                 console.log(err)
             })
         },
         data() {
             return {
+                link:'/',
                 detail: {
                     name: '',
                     trademark: '',

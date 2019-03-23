@@ -1,6 +1,6 @@
 <template>
     <div class="root">
-        <Header></Header>        
+        <!-- <Header></Header>         -->
         <header class="second-menu-container">
             <div class="second-menu-content" >
                 <div class="lin-logo-container" >
@@ -16,17 +16,12 @@
             <button class="sort-button" @click="isActive = true" :class="{active: isActive}">默认排序<span class="arrow-container"></span></button>
             <button class="sort-button" @click="isActive = false" :class="{active: !isActive}">新品排序<span class="arrow-container"></span></button>
         </div>
-        <ul class="kind-container">
-            <li>产品分类</li>
-            <li>全部产品</li>
-            <li>膨化</li>
-            <li>压片糖</li>
-            <li>奶糖</li>
-            <li>凝胶糖果</li>
-            <li>硬糖</li>
+        <ul class="kind-container" >
+            <p>产品分类：</p>
+            <li v-for="kind in kinds" :key="kind.id" :class="{choice: kind.isChoice}" @click="changeKindChoice(kind.id)">{{kind.name}}</li>
         </ul>
         <main class="productLists-container">
-            <div class="product-container" v-for="item in items" :key="item.id" @click="jumpToProduct(item.id)">
+            <div class="product-container" v-for="item in items" :key="item.id" @click="jumpToProduct(item.id)"  >
                 <div class="product-content-container">
                      <img :src="oss + item.defaultUrl" >
                 </div>
@@ -81,6 +76,13 @@
     export default {
         name: 'Linproducts',
         methods: {
+            changeKindChoice(index) {
+                for (let index = 0; index < this.kinds.length; index++) {
+                    this.kinds[index].isChoice = false;
+                    
+                }
+                this.kinds[index].isChoice = true;
+            },
             queryAll() {
                 myAxios.getAllProductsByName('林振合').then((res) => {
                     console.log(res.data)
@@ -107,6 +109,7 @@
         },
         data() {
             return {
+                
                 totalSize: 0,
                 items: [
                     {
@@ -118,7 +121,39 @@
                         name: '啊啊啊弟弟死了'
                     }
                 ],
-                isActive: true
+                isActive: true,
+                kinds: [
+                    {
+                        name: '全部产品',
+                        id: 0,
+                        isChoice: true
+                    },
+                    {
+                        name: '膨化',
+                        id: 1,
+                        isChoice: false
+                    },
+                    {
+                        name: '压片糖',
+                        id: 2,
+                        isChoice: false
+                    },
+                    {
+                        name: '奶糖',
+                        id: 3,
+                        isChoice: false
+                    },
+                    {
+                        name: '凝胶糖果',
+                        id: 4,
+                        isChoice: false
+                    },
+                    {
+                        name: '硬糖',
+                        id: 5,
+                        isChoice: false
+                    }
+                ],
             }
         }
     }
@@ -258,6 +293,8 @@
     background-color: #fff;
     transform: rotateZ(0);
 }
+
+/* css of kind navbar */
 .kind-container {
     display: flex;
     justify-content: center;
@@ -265,7 +302,13 @@
 }
 .kind-container li {
     color: #333;
-    margin: 0 32px ;
+    margin: 0 28px ;
+    cursor: pointer;
+    padding: 0 4px;
+}
+.choice {
+    color: #e60112 !important;
+    border-bottom: 2px solid #e60112;
 }
 
 .productLists-container {

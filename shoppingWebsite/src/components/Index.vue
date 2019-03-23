@@ -1,10 +1,26 @@
 <template>
     <div class="root">
-        <Header></Header>
+        <!-- <Header></Header> -->
+        <header class="second-header" :class="{fixed: isFixed}">
+            <div class="logo-container">
+                <img src="../assets/images/logo.png" alt="">
+            </div>
+            <ul >
+                <li v-for="list in lists" :key="list.index" :class="{listActive: list.active}">
+                    {{list.name}}
+                </li>
+                <!-- <li>公司介绍</li>
+                <li>热推产品</li>
+                <li>天猫旗舰店</li>
+                <li>联系我们</li> -->
+            </ul>
+        </header>
         <main>
             <div class="banner-container">
                 <div class="banner" >
-                    <img :src="bannerLink" alt="">
+                    <!-- <img :src="bannerLink" alt=""> -->
+                    <img src="../assets/images/banner_cn.png" alt="">
+
                     <div class="slogen-container">
                         <h1>本合</h1>
                         <p>买得顺心·吃得放心·寻得开心</p>
@@ -122,55 +138,87 @@
             Header
         },
         mounted() {
-            // window.addEventListener('scroll', this.handleScroll)
+            window.addEventListener('scroll', this.handleScroll)
             this.initIndex();
+            
         },
-        
         methods: {
             addItem(object, data) {
                 object.push(data)
             },
             initIndex(){
                 // get banner
-                myAxios.getBanner().then((res) => {
-                    console.log(res.data)
-                    // this.bannerLink = 'http://benhe.oss-cn-shenzhen.aliyuncs.com/' + res.data.url
-                }).catch((err) => {
-                    console.log(err)
-                })
+                // myAxios.getBanner().then((res) => {
+                //     console.log(res.data)
+                //     // this.bannerLink = 'http://benhe.oss-cn-shenzhen.aliyuncs.com/' + res.data.url
+                // }).catch((err) => {
+                //     console.log(err)
+                // })
 
-                // get hotpush products
-                myAxios.getHotpush({limite: 5}).then((res) => {
-                    let i = 0;
-                    for (const key in res.data.products) {
-                        if (res.data.products.hasOwnProperty(key)) {
-                            const element = res.data.products[key];
-                            this.addItem(this.items, element);
-                        }
-                    }
-                    console.log(this.items)
-                }).catch((err) => {
-                    console.log(err)
-                })
+                // // get hotpush products
+                // myAxios.getHotpush({limite: 5}).then((res) => {
+                //     let i = 0;
+                //     for (const key in res.data.products) {
+                //         if (res.data.products.hasOwnProperty(key)) {
+                //             const element = res.data.products[key];
+                //             this.addItem(this.items, element);
+                //         }
+                //     }
+                //     console.log(this.items)
+                // }).catch((err) => {
+                //     console.log(err)
+                // })
             },
             handleScroll() {
                 let scrollTop = document.documentElement.scrollTop;
-                scrollTop >= 100? this.isShow = true: this.isShow = false;
-                scrollTop >= 1000? this.queueShow.show0 = true: this.queueShow.show0 = false;
-                scrollTop >= 1100? this.queueShow.show1 = true: this.queueShow.show1 = false;
-                scrollTop >= 1200? this.queueShow.show2 = true: this.queueShow.show2 = false;
-                scrollTop >= 1300? this.queueShow.show3 = true: this.queueShow.show3 = false;
-                scrollTop >= 1400? this.queueShow.show4 = true: this.queueShow.show4 = false;
+                scrollTop >= 600 ? this.isFixed = true : this.isFixed = false;
+                // scrollTop >= 100? this.isShow = true: this.isShow = false;
+                // scrollTop >= 1000? this.queueShow.show0 = true: this.queueShow.show0 = false;
+                // scrollTop >= 1100? this.queueShow.show1 = true: this.queueShow.show1 = false;
+                // scrollTop >= 1200? this.queueShow.show2 = true: this.queueShow.show2 = false;
+                // scrollTop >= 1300? this.queueShow.show3 = true: this.queueShow.show3 = false;
+                // scrollTop >= 1400? this.queueShow.show4 = true: this.queueShow.show4 = false;
+                let self = this;
+                function clear() {
+                    
+                    for (let index = 0; index < self.lists.length; index++) {
+                        self.lists[index].active = false;
+                    }
+                }
+
+                if (scrollTop >= 1000) {
+                    clear();
+                    this.lists[2].active = true;
+                }
             }
         },
         data() {
             return {
+                lists: [
+                    {
+                        name: '回到顶部',
+                        active: false
+                    },
+                    {
+                        name: '公司介绍',
+                        active: true
+                    },
+                    {
+                        name: '热销商品',
+                        active: false
+                    },
+                    {
+                        name: '天猫旗舰店',
+                        active: false
+                    },
+                    {
+                        name: '联系我们',
+                        active: false
+                    }
+                ],
+                isFixed: false,
                 items: [
-                    // {id: '', name: '', url: ''},
-                    // {id: '', name: '', url: ''},
-                    // {id: '', name: '', url: ''},
-                    // {id: '', name: '', url: ''},
-                    // {id: '', name: '', url: ''},
+                    
                 ],
                 bannerLink: '',
                 value: 0,
@@ -190,7 +238,62 @@
 <style lang="" scoped>
 main {
     margin-bottom: 137px;
-}
+    position: relative;
+}   
+    /* css of the hidden navigation second header */
+    .second-header {
+        height: 75px;
+        width: 100%;
+        background-color: #5a9dd9;
+        position: fixed;
+        transition: all .3s ease-in-out;
+        top: -75px;
+        /* transform: translateY(0); */
+        z-index: 999;
+        opacity: 0;
+        box-shadow: 0 1px 3px rgba(26, 26, 26, 0.1);
+    }
+    .second-header ul {
+        margin-left: 50px;
+        display: inline-block;
+
+    }
+    .second-header li {
+        height: auto;
+        line-height: 75px;
+        list-style: none;
+        float: left;        
+        margin-right: 50px;
+        color: #fff;
+        position: relative;
+    }
+    .fixed { 
+        /* transform: translateY(0px); */
+        transform: translateY(75px);
+        opacity: 1;
+        /* top: 0; */
+    }
+    .logo-container {
+        height: 100%;
+        display: inline-block;
+        vertical-align: top;
+        margin-left: 152px;
+    padding: 10px 0;
+    }
+    .logo-container img {
+        height: 50px;
+    }
+
+    .listActive::after {
+        content: "";
+        display: block;
+        height: 3px;
+        width: 100%;
+        position: absolute;
+        bottom: 17px;
+        background-color: #fff;
+    }
+
 .banner-container {
     height: 755px;
     width: 100%;
@@ -269,10 +372,8 @@ main {
 .hot-sale-product-container {
     width: 270px;
     margin-right:  26px;
-    /* background-color: black; */
     border-top: 6px solid #5b9dd9;
-    /* opacity: 0; */
-    /* transform: translateY(20px); */
+    cursor: pointer;
 }
 .animate {
     transition: all .5s ease-in-out;
@@ -366,7 +467,7 @@ main {
     transition: all .3s ease-in-out;
 }
 .hot-sale-product-container div:hover .mask {
-    background: rgba(0, 0, 0, .4);
+    background: rgba(0, 0, 0, .3);
     
 
 }

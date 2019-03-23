@@ -1,6 +1,6 @@
 <template>
     <div class="root">
-        <Header></Header>        
+        <!-- <Header></Header>         -->
         <header class="second-menu-container">
             <div class="second-menu-content">
                 <div class="ben-logo-container">
