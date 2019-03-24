@@ -7,62 +7,47 @@
                     <img src="../assets/images/linlogo_2.png"  >
                 </div>
                 <div class="shop-ben-container">
-                    林振合旗舰店
+                    <span v-if="language">林振合旗舰店</span>
+                    <span v-else >LINZHENHE</span>
                 </div>
-                <button><a href="http://" target="_blank" rel="noopener noreferrer">进入店铺</a></button>
+                <button>
+                    <a href="http://" target="_blank" rel="noopener noreferrer">
+                        <span v-if="language">进入店铺</span>
+                        <span v-else >ENTER</span>
+                    </a>
+                </button>
             </div>
         </header>
         <div class="sort-container">
-            <button class="sort-button" @click="isActive = true" :class="{active: isActive}">默认排序<span class="arrow-container"></span></button>
-            <button class="sort-button" @click="isActive = false" :class="{active: !isActive}">新品排序<span class="arrow-container"></span></button>
+            <button class="sort-button" @click="isActive = true" :class="{active: isActive}">
+                <span v-if="language">默认排序</span>
+                <span v-else>DEFAULT</span>
+                <span class="arrow-container"></span>
+            </button>
+            <button class="sort-button" @click="isActive = false" :class="{active: !isActive}">
+                <span v-if="language">新品排序</span>
+                <span v-else>NEW PRO</span>
+                <span class="arrow-container"></span>
+            </button>
         </div>
         <ul class="kind-container" >
-            <p>产品分类：</p>
-            <li v-for="kind in kinds" :key="kind.id" :class="{choice: kind.isChoice}" @click="changeKindChoice(kind.id)">{{kind.name}}</li>
+            <p v-if="language">产品分类：</p>
+            <p v-else>CATEGORY: </p>
+            <li v-for="kind in kinds" :key="kind.id" :class="{choice: kind.isChoice}" @click="changeKindChoice(kind.id)" >
+                <span v-if="language">{{kind.name}}</span>
+                <span v-else>{{kind.enName}}</span>
+            </li>
         </ul>
         <main class="productLists-container">
             <div class="product-container" v-for="item in items" :key="item.id" @click="jumpToProduct(item.id)"  >
                 <div class="product-content-container">
-                     <img :src="oss + item.defaultUrl" >
+                    <i class="mask"></i>
+                    <img :src="oss + item.defaultUrl" >
                 </div>
                 <span>{{item.name}}</span>
             </div>
-            <div class="product-container" >
-                <div class="product-content-container">
-                    <i class="mask"></i>
-                     <img src="" alt="">
-                </div>
-                <span>林振合爽口片清爽薄荷糖水果糖维C压片水果糖随身糖40G4装</span>
-            </div>
-            <!-- 
-            <div class="product-container" >
-                <div>
-                     <img src="" alt="">
-                </div>
-                
-                <span>林振合爽口片清爽薄荷糖水果糖维C压片水果糖随身糖40G4装</span>
-            </div>
-            <div class="product-container" >
-                <div>
-                     <img src="" alt="">
-                </div>
-                <span>林振合爽口片清爽薄荷糖水果糖维C压片水果糖随身糖40G4装</span>
-            </div>
-            <div class="product-container" >
-                <div>
-                     <img src="" alt="">
-                </div>
-                <span>林振合爽口片清爽薄荷糖水果糖维C压片水果糖随身糖40G4装</span>
-            </div>
-            <div class="product-container" >
-                <div>
-                     <img src="" alt="">
-                </div>
-                <span>林振合爽口片清爽薄荷糖水果糖维C压片水果糖随身糖40G4装</span>
-            </div> -->
-            
         </main>
-        
+        <!-- turn page plugin -->
         <div class="page-container">
              <Page :total="totalSize" show-elevator />
         </div>
@@ -75,6 +60,11 @@
     import { myAxios } from "../ajax.js";
     export default {
         name: 'Linproducts',
+        computed: {
+            language() {
+                return this.$store.state.language;
+            }
+        },
         methods: {
             changeKindChoice(index) {
                 for (let index = 0; index < this.kinds.length; index++) {
@@ -109,7 +99,6 @@
         },
         data() {
             return {
-                
                 totalSize: 0,
                 items: [
                     {
@@ -119,37 +108,115 @@
                      {
                         id: 39,
                         name: '啊啊啊弟弟死了'
-                    }
+                    },
+                    {
+                        id: 38,
+                        name: '日你妈'
+                    },
+                     {
+                        id: 39,
+                        name: '啊啊啊弟弟死了'
+                    },
+                    {
+                        id: 38,
+                        name: '日你妈'
+                    },
+                     {
+                        id: 39,
+                        name: '啊啊啊弟弟死了'
+                    },
+                    {
+                        id: 38,
+                        name: '日你妈'
+                    },
+                     {
+                        id: 39,
+                        name: '啊啊啊弟弟死了'
+                    },
+                    {
+                        id: 38,
+                        name: '日你妈'
+                    },
+                     {
+                        id: 39,
+                        name: '啊啊啊弟弟死了'
+                    },
+                    {
+                        id: 38,
+                        name: '日你妈'
+                    },
+                     {
+                        id: 39,
+                        name: '啊啊啊弟弟死了'
+                    },
+                    {
+                        id: 38,
+                        name: '日你妈'
+                    },
+                     {
+                        id: 39,
+                        name: '啊啊啊弟弟死了'
+                    },
+                    {
+                        id: 38,
+                        name: '日你妈'
+                    },
+                     {
+                        id: 39,
+                        name: '啊啊啊弟弟死了'
+                    },
+                    {
+                        id: 38,
+                        name: '日你妈'
+                    },
+                     {
+                        id: 39,
+                        name: '啊啊啊弟弟死了'
+                    },
+                    {
+                        id: 38,
+                        name: '日你妈'
+                    },
+                     {
+                        id: 39,
+                        name: '啊啊啊弟弟死了'
+                    },
                 ],
                 isActive: true,
                 kinds: [
                     {
                         name: '全部产品',
+                        enName: 'ALL',
                         id: 0,
                         isChoice: true
                     },
                     {
                         name: '膨化',
+                        enName: 'PUFFING',
                         id: 1,
                         isChoice: false
                     },
                     {
                         name: '压片糖',
+                        enName: 'TABLET SUGAR',
                         id: 2,
                         isChoice: false
                     },
                     {
                         name: '奶糖',
+                        enName: 'TOFFEE',
                         id: 3,
                         isChoice: false
                     },
                     {
                         name: '凝胶糖果',
+                        enName: 'GEL FRUCTOSE',
                         id: 4,
                         isChoice: false
                     },
                     {
                         name: '硬糖',
+                        enName: 'HARD CANDY',
                         id: 5,
                         isChoice: false
                     }

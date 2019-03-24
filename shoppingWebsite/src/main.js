@@ -5,7 +5,9 @@ import App from './App'
 import router from './router'
 import Vuex from 'Vuex'
 import 'iview/dist/styles/iview.css';
+import 'babel-polyfill'
 import { Page, Carousel , CarouselItem, Breadcrumb, BreadcrumbItem,Icon } from 'iview';
+
 Vue.component('Carousel', Carousel);
 Vue.component('CarouselItem', CarouselItem);
 Vue.component('Page', Page);
@@ -22,16 +24,16 @@ Vue.prototype.oss = 'http://benhe.oss-cn-shenzhen.aliyuncs.com/';
 Vue.use(Vuex);
 
 
-const store = new Vuex.Store({
+var store = new Vuex.Store({
     state: {
        language: true
     },
     mutations: {
-       changeLanguage(state, data) {
+       changeLanguage: function(state, data) {
            state.language = data;
        } 
     }
-  });
+});
 
 
 /* eslint-disable no-new */

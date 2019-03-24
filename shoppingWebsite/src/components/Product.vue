@@ -3,7 +3,7 @@
         <!-- <Header></Header> -->
         <main>
             <nav>
-                <Breadcrumb>
+                <Breadcrumb v-if="language" >
                     <span>当前位置：</span>
                     <BreadcrumbItem to="/index">
                         <Icon type="ios-home" /> 首页
@@ -14,6 +14,19 @@
                     <BreadcrumbItem>
                         <Icon type="ios-cube" />
                         产品详情
+                    </BreadcrumbItem>
+                </Breadcrumb>
+                <Breadcrumb v-else >
+                    <span>POSITION: </span>
+                    <BreadcrumbItem to="/index">
+                        <Icon type="ios-home" /> HOME
+                    </BreadcrumbItem>
+                    <BreadcrumbItem :to="link">
+                        <Icon type="logo-buffer"></Icon> {{detail.trademark}}
+                    </BreadcrumbItem>
+                    <BreadcrumbItem>
+                        <Icon type="ios-cube" />
+                        DETAILS
                     </BreadcrumbItem>
                 </Breadcrumb>
             </nav>
@@ -66,6 +79,11 @@
         components:{
             Header
         },
+        computed: {
+            language() {
+                return this.$store.state.language;
+            }
+        },
         methods: {
             maskMove(e) {
                 let box = e.currentTarget;
@@ -114,20 +132,20 @@
         mounted(){
             console.log(this.$route.params.id)
             
-            myAxios.getProductDetail(parseInt(this.$route.params.id)).then((res) => {
-                this.detail = res.data;
+            // myAxios.getProductDetail(parseInt(this.$route.params.id)).then((res) => {
+            //     this.detail = res.data;
 
-                // set the first pic
-                this.nowPic = this.oss + res.data.urls[0];
+            //     // set the first pic
+            //     this.nowPic = this.oss + res.data.urls[0];
 
-                if (res.data.trademark == '林振合') 
-                    this.link = '/linproduct'
-                else 
-                    this.link = '/benproduct'
+            //     if (res.data.trademark == '林振合') 
+            //         this.link = '/linproduct'
+            //     else 
+            //         this.link = '/benproduct'
 
-            }).catch((err) => {
-                console.log(err)
-            })
+            // }).catch((err) => {
+            //     console.log(err)
+            // })
         },
         data() {
             return {

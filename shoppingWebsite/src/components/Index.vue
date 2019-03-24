@@ -7,12 +7,10 @@
             </div>
             <ul >
                 <li v-for="list in lists" :key="list.index" :class="{listActive: list.active}">
-                    {{list.name}}
+                    <span v-if="language == true">{{list.name}}</span>
+                    <span v-else>{{list.enName}}</span>
                 </li>
-                <!-- <li>公司介绍</li>
-                <li>热推产品</li>
-                <li>天猫旗舰店</li>
-                <li>联系我们</li> -->
+                
             </ul>
         </header>
         <main>
@@ -22,47 +20,76 @@
                     <img src="../assets/images/banner_cn.png" alt="">
 
                     <div class="slogen-container">
-                        <h1>本合</h1>
-                        <p>买得顺心·吃得放心·寻得开心</p>
+                        <h1 v-if="language">本合</h1>
+                        <h1 v-else >BENHE</h1>
+                        <p v-if="language">买得开心·吃得放心·寻得开心</p>
+                        <p v-else>Buy well·Eat relievedly·Find happily</p>
                     </div>
                 </div>        
             </div>
             <div class="title-container">
-                <span>公司介绍</span>  
+                <span v-if="language">{{lists[1].name}}</span>
+                <span v-else>{{lists[1].enName}}</span>  
             </div>
-            <div class="content-container profile" :class="{animate: isShow}">
-                <div class="profile-container">
-                    <p><span>潮州市潮安区本合食品有限公司</span> ，公司创建于1988年。其前身为潮州市庵埠本合糖果食品厂，该公司是粤东地区一家在食品具有一定规模。又有其影响力的企业。该公司生产的产品以其外观悦人、口感独特、品质可靠等特质赢得了广大消费者的肯定和青睐。销售量基于广大消费者的支持也日益攀升。</p>
-                   
+            <div class="content-container profile" >
+                <div class="profile-container" v-if="language">
+                    <p>
+                        <span>潮州市潮安区本合食品有限公司</span> 
+                        ，公司创建于1988年。其前身为潮州市庵埠本合糖果食品厂，该公司是粤东地区一家在食品具有一定规模。又有其影响力的企业。该公司生产的产品以其外观悦人、口感独特、品质可靠等特质赢得了广大消费者的肯定和青睐。销售量基于广大消费者的支持也日益攀升。
+                    </p>
+                </div>
+                <div class="profile-container" v-else >
+                    <p>
+                        <span>Chaozhou City Chaoan District Benhe Food CO., Ltd.</span>
+                        founded in 1988, its predecessor was Chaozhou Suibenhe Candy Food Factory. The company is a company with a certain scale and influence in the food industry in the eastern part of Guangdong.The company's products are pleasing to the outside, unique in taste, reliable in quality, etc.The trait has won the recognition and favor of consumers. Sales volume is also rising based on the support of consumers.
+                    </p>
                 </div>
                 <div class="profile-container ">
                     <img src="../assets/images/factory1.png" alt="">
                 </div>
-                <div class="profile-container">
+                <div class="profile-container" v-if="language">
                     <p>
                         公司在销售策略上，则以市场为导向，围绕满足市场需求、迎合消费者的意愿开展企业一切经营活动，并与全国各地一批信誉好、实力强、渠道畅的经销商建立长期的合作关系，以大、中城市为主线，向周边城市、乡镇辐射。
                         <span>诚邀各界人士合作，共创美好的明天。</span>
                     </p>
                 </div>
+                <div class="profile-container" v-else >
+                    <p>
+                        In terms of sales strategy,the company is market-oriented, and meets the needs of the market, caters to the wishes of consumers, and establishes long-term cooperative relationships with a group of dealers with good reputation, strong strength and smooth channels.Take the big and medium-sized cities as the main line, and radiate to surrounding cities and towns.
+                        <span>We sincerely invite people from all walks of life to cooperate to create a better tomorrow.</span>
+                    </p>
+                </div>
             </div>
-            <div class="content-container profile" :class="{animate: isShow}">
+            <div class="content-container profile" >
                 <div class="profile-container">
                     <img src="../assets/images/factory2.png" alt="">
 
                 </div>
-                <div class="profile-container">
-                    
-                    <p>公司本着 <span>“消费者为上帝的宗旨”</span> ，凭借先进的食品生产设备、高素质的技术人才队伍、严密的管理机制，力求在产品的风味更人性化，产品的生产过程更卫生，更加严格遵照卫生规范制度，为消费者营造一个 <span>“买得顺心、吃得放心、寻得开心”</span> 的消费氛围。</p>
+                <div class="profile-container" v-if="language">
+                    <p>公司本着 
+                        <span>“消费者为上帝的宗旨”</span>
+                         ，凭借先进的食品生产设备、高素质的技术人才队伍、严密的管理机制，力求在产品的风味更人性化，产品的生产过程更卫生，更加严格遵照卫生规范制度，为消费者营造一个 
+                        <span>“买得顺心、吃得放心、寻得开心”</span> 
+                        的消费氛围。
+                    </p>
+                </div>
+                 <div class="profile-container" v-else>
+                    <p>The company adheres the tenet of 
+                        <span>"Consumer is God"</span>
+                        With advanced food production equipment, high-quality technical talent team, strict management mechanism, The mechanism strives to make the favor of the product more humanized, the production process of the product is more sanitary, and the hygiene standard system is strictly adhered to.Create a consumer
+                        <span>"Buy well, Eat relievedly, Find happily"</span> 
+                        的消费氛围。
+                    </p>
                 </div>
                 <div class="profile-container">
                     <img src="../assets/images/factory3.png" alt="">
 
                 </div>
             </div>
-            
-
-             <div class="title-container" style="margin: 120px auto 74px auto;">
-                <span>热销产品</span>
+            <!-- hotpush product container -->
+            <div class="title-container" style="margin: 120px auto 74px auto;">
+                <span v-if="language">{{lists[2].name}}</span>
+                <span v-else>{{lists[2].enName}}</span>  
             </div>
             <div class="content-container" >
                 <div class="hot-sale-product-container" v-for="item in items" :key="item.id">
@@ -72,42 +99,23 @@
                     </div>
                     <span>{{item.name}}</span>
                 </div>
-                <!-- <div class="hot-sale-product-container" >
-                    <div>
-                        <img src="" alt="">
-                    </div>
-                    <span>林振合爽口片清爽薄荷糖水果糖维C压片水果糖随身糖40G4装</span>
-                </div>
-                <div class="hot-sale-product-container" >
-                    <div>
-                         <img src="" alt="">
-                    </div>
-                    <span></span></div>
-                <div class="hot-sale-product-container" >
-                    <div>
-                         <img src="" alt="">
-                    </div>
-                    <span></span></div>
-                <div class="hot-sale-product-container" >
-                    <div>
-                         <img src="" alt="">
-                    </div>
-                    <span></span></div>
-                <div class="hot-sale-product-container" >
-                    <div>
-                         <img src="" alt="">
-                    </div>
-                    <span></span></div> -->
             </div>
             <div class="title-container" style="margin: 120px auto 72px auto;">
-                <span>天猫旗舰店</span>
+                <span v-if="language">{{lists[3].name}}</span>
+                <span v-else>{{lists[3].enName}}</span>  
             </div>
             <div class="content-container">
                 <div class="shop-container">
                     <div>
-                        本合旗舰店
+                        <span v-if="language">本合旗舰店</span>
+                        <span v-else>BENHE</span>
                     </div>
-                    <button><a href="">进入店铺</a></button>
+                    <button>
+                        <a href="">
+                            <span v-if="language">进入店铺</span>
+                            <span v-else >ENTER</span>
+                        </a>
+                    </button>
                 </div>
                 <div class="shop-container">
                     <img src="../assets/images/QRcodeben.png" alt="">
@@ -120,9 +128,15 @@
                 </div>
                 <div class="shop-container">
                     <div id="shop-lin-container">
-                        林振合旗舰店
+                        <span v-if="language">林振合旗舰店</span>
+                        <span v-else>LINZHENHE</span>
                     </div>
-                    <button><a href="">进入店铺</a></button>                    
+                    <button>
+                        <a href="">
+                            <span v-if="language">进入店铺</span>
+                            <span v-else >ENTER</span>
+                        </a>
+                    </button>                    
                 </div>
             </div>
         </main>
@@ -136,6 +150,16 @@
         name: 'Index',
         components: {
             Header
+        },
+        computed: {
+            language() {
+                return this.$store.state.language;
+            }
+        },
+        watch: {
+            language(val) {    
+                this.language = val;
+            }
         },
         mounted() {
             window.addEventListener('scroll', this.handleScroll)
@@ -194,25 +218,46 @@
         },
         data() {
             return {
+                instroductInfo: {
+                    cn: [
+                        {
+                            emphasize: '潮州市潮安区本合食品有限公司',
+                            normal: '，公司创建于1988年。其前身为潮州市庵埠本合糖果食品厂，该公司是粤东地区一家在食品具有一定规模。又有其影响力的企业。该公司生产的产品以其外观悦人、口感独特、品质可靠等特质赢得了广大消费者的肯定和青睐。销售量基于广大消费者的支持也日益攀升。'
+                        },
+                        {
+                            emphasize: '诚邀各界人士合作，共创美好的明天。',
+                            normal: '公司在销售策略上，则以市场为导向，围绕满足市场需求、迎合消费者的意愿开展企业一切经营活动，并与全国各地一批信誉好、实力强、渠道畅的经销商建立长期的合作关系，以大、中城市为主线，向周边城市、乡镇辐射。'
+                        },
+                       
+                    ],
+                    en: {
+
+                    }
+                },
                 lists: [
                     {
                         name: '回到顶部',
+                        enName: 'BACKTOTOP',
                         active: false
                     },
                     {
                         name: '公司介绍',
+                        enName: 'ABOUT',
                         active: true
                     },
                     {
                         name: '热销商品',
+                        enName: 'POPULAR',
                         active: false
                     },
                     {
                         name: '天猫旗舰店',
+                        enName: 'TMALL',
                         active: false
                     },
                     {
                         name: '联系我们',
+                        enName: 'CONTACT',
                         active: false
                     }
                 ],
@@ -337,7 +382,7 @@ main {
     width: 4px;
     margin-right: 27px;
     background-color: #2b2f93;
-    vertical-align: top;
+    vertical-align: text-top;
 }
 .title-container::after {
     

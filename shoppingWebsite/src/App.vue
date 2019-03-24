@@ -287,7 +287,5 @@
     .en .link-container span {
         width: 120px;
     }
-    .en-p {
-        margin-bottom: 40px !important;
-    }
+    
 </style>
