@@ -39,7 +39,7 @@
                     {
                         name: '首页',
                         enName: 'HOME',
-                        isChoice: true,
+                        isChoice: false,
                         type: 1,
                         to: '/'
                     }, {
@@ -134,7 +134,9 @@
             }
         },
         mounted() {
-            
+            // init the nav bar
+            let paths = ['Index', 'Benproducts', 'Linproducts',  'Company', 'Hotsale', 'Contact', 'product']
+            this.lists[paths.indexOf(this.$route.name)].isChoice = true;
         }
     }
 </script>

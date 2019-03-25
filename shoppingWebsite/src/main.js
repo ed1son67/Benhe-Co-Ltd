@@ -26,12 +26,17 @@ Vue.use(Vuex);
 
 var store = new Vuex.Store({
     state: {
-       language: true
+       language: true,
+       lan: '',
     },
     mutations: {
-       changeLanguage: function(state, data) {
-           state.language = data;
-       } 
+        changeLanguage: function(state, data) {
+            state.language = data;
+            if (data) 
+                state.lan = '';
+            else 
+                state.lan = 'english';
+        } 
     }
 });
 

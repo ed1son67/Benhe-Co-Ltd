@@ -13,14 +13,14 @@ export const myAxios = {
     getHotpush(data) {
         return baseAxios.post( 'product/hotpush',data);
     },
-    getAllProductsByName(name) {
-        return baseAxios.post('product/queryall', {offSet: 1, numbersPerPage: 10, trademark: name});
+    getAllProducts(name, lan = '') {
+        return baseAxios.post( lan + 'product/queryall', {offSet: 1, numbersPerPage: 20, trademark: name});
     },
-    getProductsByKind(name, kind, offSet) {
-        return baseAxios.post('product/querybykind', {offSet: offSet, kind: kind, numbersPerPage: 10, trademark: name});
+    getProductsByKind(name, kind, page, lan = '') {
+        return baseAxios.post(lan + 'product/querybykind', {offSet: page, kind: kind, numbersPerPage: 20, trademark: name});
     },
-    getNewProducts(name, offSet) {
-        return baseAxios.post('product/querynew', {offSet: offSet, numbersPerPage: 10, trademark: name});
+    getNewProducts(name, page) {
+        return baseAxios.post('product/querynew', {offSet: page, numbersPerPage: 20, trademark: name});
     },
     getProductDetail(ID) {
         return baseAxios.post('product/querydetail', {id: ID});

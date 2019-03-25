@@ -1,29 +1,39 @@
 <template>
     <div class="root">
-        <!-- <Header></Header>         -->
         <header class="second-menu-container">
             <div class="second-menu-content">
                 <div class="ben-logo-container">
                     <img src="../assets/images/benlogo_2.png" alt="">
                 </div>
                 <div class="shop-ben-container">
-                    本合旗舰店
+                    <span v-if="language">本合旗舰店</span>
+                    <span v-else >BENHE</span>
                 </div>
-                <button><a href="http://" target="_blank" rel="noopener noreferrer">进入店铺</a></button>
+                <button><a href="http://" target="_blank" rel="noopener noreferrer">
+                    <span v-if="language">进入店铺</span>
+                    <span v-else >ENTER</span>
+                </a></button>
             </div>
         </header>
         <div class="sort-container">
-            <button class="sort-button" @click="isActive = true" :class="{active: isActive}">默认排序<span class="arrow-container"></span></button>
-            <button class="sort-button" @click="isActive = false" :class="{active: !isActive}">新品排序<span class="arrow-container"></span></button>
+            <button class="sort-button" @click="isActive = true" :class="{active: isActive}">
+                <span v-if="language">默认排序</span>
+                <span v-else>DEFAULT</span>
+                <span class="arrow-container"></span>
+            </button>
+            <button class="sort-button" @click="isActive = false" :class="{active: !isActive}">
+                <span v-if="language">新品排序</span>
+                <span v-else>NEW PRO</span>
+                <span class="arrow-container"></span>
+            </button>
         </div>
-        <ul class="kind-container">
-            <li>产品分类</li>
-            <li>全部产品</li>
-            <li>膨化</li>
-            <li>压片糖</li>
-            <li>奶糖</li>
-            <li>凝胶糖果</li>
-            <li>硬糖</li>
+        <ul class="kind-container" >
+            <p v-if="language">产品分类：</p>
+            <p v-else>CATEGORY: </p>
+            <li v-for="kind in kinds" :key="kind.id" :class="{choice: kind.isChoice}" @click="changeKindChoice(kind.id)" >
+                <span v-if="language">{{kind.name}}</span>
+                <span v-else>{{kind.enName}}</span>
+            </li>
         </ul>
         <main class="productLists-container">
             <div class="product-container" >
@@ -75,20 +85,68 @@
 
 <script>
     import Header from './Header.vue'
+
     export default {
         name: 'Benproducts',
-        components: {
-            Header
-        },
         data() {
             return {
-                isActive: true
+                isActive: true,
+                kinds: [
+                    {
+                        name: '全部产品',
+                        enName: 'ALL',
+                        id: 0,
+                        isChoice: true
+                    },
+                    {
+                        name: '膨化',
+                        enName: 'PUFFING',
+                        id: 1,
+                        isChoice: false
+                    },
+                    {
+                        name: '压片糖',
+                        enName: 'TABLET SUGAR',
+                        id: 2,
+                        isChoice: false
+                    },
+                    {
+                        name: '奶糖',
+                        enName: 'TOFFEE',
+                        id: 3,
+                        isChoice: false
+                    },
+                    {
+                        name: '凝胶糖果',
+                        enName: 'GEL FRUCTOSE',
+                        id: 4,
+                        isChoice: false
+                    },
+                    {
+                        name: '硬糖',
+                        enName: 'HARD CANDY',
+                        id: 5,
+                        isChoice: false
+                    }
+                ],
+            }
+        },
+        computed: {
+            language() {
+                return this.$store.state.language;
             }
         },
         mounted() {
 
         },
         methods: {
+            changeKindChoice(index) {
+                for (let index = 0; index < this.kinds.length; index++) {
+                    this.kinds[index].isChoice = false;
+                    
+                }
+                this.kinds[index].isChoice = true;
+            },
             initquery() {
 
             },
@@ -238,6 +296,7 @@
 .kind-container li {
     color: #333;
     margin: 0 32px ;
+    cursor: pointer;
 }
 
 .productLists-container {
@@ -264,5 +323,9 @@
     margin: 56px auto 64px auto;
    
     text-align: center;
+}
+.choice {
+    color: #e60112 !important;
+    border-bottom: 2px solid #e60112;
 }
 </style>

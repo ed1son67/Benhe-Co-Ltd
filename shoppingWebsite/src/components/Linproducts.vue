@@ -1,6 +1,5 @@
 <template>
-    <div class="root">
-        <!-- <Header></Header>         -->
+    <div class="root" :class="{en: !language}">
         <header class="second-menu-container">
             <div class="second-menu-content" >
                 <div class="lin-logo-container" >
@@ -18,21 +17,8 @@
                 </button>
             </div>
         </header>
-        <div class="sort-container">
-            <button class="sort-button" @click="isActive = true" :class="{active: isActive}">
-                <span v-if="language">默认排序</span>
-                <span v-else>DEFAULT</span>
-                <span class="arrow-container"></span>
-            </button>
-            <button class="sort-button" @click="isActive = false" :class="{active: !isActive}">
-                <span v-if="language">新品排序</span>
-                <span v-else>NEW PRO</span>
-                <span class="arrow-container"></span>
-            </button>
-        </div>
         <ul class="kind-container" >
-            <p v-if="language">产品分类：</p>
-            <p v-else>CATEGORY: </p>
+            
             <li v-for="kind in kinds" :key="kind.id" :class="{choice: kind.isChoice}" @click="changeKindChoice(kind.id)" >
                 <span v-if="language">{{kind.name}}</span>
                 <span v-else>{{kind.enName}}</span>
@@ -46,6 +32,8 @@
                 </div>
                 <span>{{item.name}}</span>
             </div>
+            <p v-if="language">没有找到相关商品</p>
+            <p v-else>Sorry, no results</p>
         </main>
         <!-- turn page plugin -->
         <div class="page-container">
@@ -56,132 +44,129 @@
 </template>
 
 <script>
-    import Header from './Header.vue'
     import { myAxios } from "../ajax.js";
     export default {
         name: 'Linproducts',
         computed: {
             language() {
                 return this.$store.state.language;
+            },
+            lan() {
+                return this.$store.state.lan;
+            }
+        },
+        watch: {
+            // watch the language change
+            language() {
+                
             }
         },
         methods: {
-            changeKindChoice(index) {
+            changeKindChoice(index, ) {
                 for (let index = 0; index < this.kinds.length; index++) {
                     this.kinds[index].isChoice = false;
-                    
                 }
                 this.kinds[index].isChoice = true;
+                console.log(this.kinds[index].name)
+
+                if (index === 0) {
+                    this.queryAll();
+                } else if (index === 1) {
+                    this.queryNew();
+                } else {
+                    myAxios.getProductsByKind('林振合', this.kinds[index].name, 1 ,this.lan).then((res) => {
+                    // console.log(this.kinds);
+
+                    }).catch((err) => {
+                        
+                        console.log(err)
+                    })
+                }
             },
-            queryAll() {
-                myAxios.getAllProductsByName('林振合').then((res) => {
+            setPage(allSize) {
+                this.totalSize = allSize;
+            },
+            queryByKind() {
+
+            },
+            queryNew(page) {
+                myAxios.getNewProducts('林振合', page = 1).then((res) => {
                     console.log(res.data)
                     // get numbers of products and change the number of page size
-                    this.totalSize = res.data.allSize;
+                    // this.totalSize = res.data.allSize;
+                    this.setPage(res.data.allSize);
+                    
                 }).catch((err) => {
                     
                 })
             },
-            setItem() {
-
+            queryAll() {
+                myAxios.getAllProducts('林振合', this.lan).then((res) => {
+                    console.log(res.data)
+                    // get numbers of products and change the number of page size
+                    // this.totalSize = res.data.allSize;
+                    this.setPage(res.data.allSize);
+                    this.setItem(res.data.products);
+                }).catch((err) => {
+                    console.log(err)
+                })
+            },
+            setItem(data) {
+                this.items = data;
             },
             jumpToProduct(index) {
-                console.log(event.target)
-                console.log(index)
-                this.$router.push('product/' + index);
+                this.$router.push('linproducts/' + index);
             }
         },
         mounted() {
             this.queryAll();
         },
-        components: {
-            Header
-        },
         data() {
             return {
-                totalSize: 0,
                 items: [
-                    {
-                        id: 38,
-                        name: '日你妈'
-                    },
-                     {
-                        id: 39,
-                        name: '啊啊啊弟弟死了'
-                    },
-                    {
-                        id: 38,
-                        name: '日你妈'
-                    },
-                     {
-                        id: 39,
-                        name: '啊啊啊弟弟死了'
-                    },
-                    {
-                        id: 38,
-                        name: '日你妈'
-                    },
-                     {
-                        id: 39,
-                        name: '啊啊啊弟弟死了'
-                    },
-                    {
-                        id: 38,
-                        name: '日你妈'
-                    },
-                     {
-                        id: 39,
-                        name: '啊啊啊弟弟死了'
-                    },
-                    {
-                        id: 38,
-                        name: '日你妈'
-                    },
-                     {
-                        id: 39,
-                        name: '啊啊啊弟弟死了'
-                    },
-                    {
-                        id: 38,
-                        name: '日你妈'
-                    },
-                     {
-                        id: 39,
-                        name: '啊啊啊弟弟死了'
-                    },
-                    {
-                        id: 38,
-                        name: '日你妈'
-                    },
-                     {
-                        id: 39,
-                        name: '啊啊啊弟弟死了'
-                    },
-                    {
-                        id: 38,
-                        name: '日你妈'
-                    },
-                     {
-                        id: 39,
-                        name: '啊啊啊弟弟死了'
-                    },
-                    {
-                        id: 38,
-                        name: '日你妈'
-                    },
-                     {
-                        id: 39,
-                        name: '啊啊啊弟弟死了'
-                    },
-                    {
-                        id: 38,
-                        name: '日你妈'
-                    },
-                     {
-                        id: 39,
-                        name: '啊啊啊弟弟死了'
-                    },
+                    // {
+                    //     name: '',
+                    //     defaultUrl: '',
+                    //     id: 39
+                    // },
+                    // {
+                    //     name: '',
+                    //     defaultUrl: '',
+                    //     id: 39
+                    // },
+                    // {
+                    //     name: '',
+                    //     defaultUrl: '',
+                    //     id: 39
+                    // },
+                    // {
+                    //     name: '',
+                    //     defaultUrl: '',
+                    //     id: 39
+                    // },
+                    // {
+                    //     name: '',
+                    //     defaultUrl: '',
+                    //     id: 39
+                    // },
+                    // {
+                    //     name: '',
+                    //     defaultUrl: '',
+                    //     id: 39
+                    // },
+                    // {
+                    //     name: '',
+                    //     defaultUrl: '',
+                    //     id: 39
+                    // },
+                    // {
+                    //     name: '',
+                    //     defaultUrl: '',
+                    //     id: 39
+                    // }
                 ],
+                totalSize: 0,
+                
                 isActive: true,
                 kinds: [
                     {
@@ -191,33 +176,39 @@
                         isChoice: true
                     },
                     {
+                        name: '查看新品',
+                        enName: 'NEW',
+                        id: 1,
+                        isChoice: false
+                    },
+                    {
                         name: '膨化',
                         enName: 'PUFFING',
-                        id: 1,
+                        id: 2,
                         isChoice: false
                     },
                     {
                         name: '压片糖',
                         enName: 'TABLET SUGAR',
-                        id: 2,
+                        id: 3,
                         isChoice: false
                     },
                     {
                         name: '奶糖',
                         enName: 'TOFFEE',
-                        id: 3,
+                        id: 4,
                         isChoice: false
                     },
                     {
                         name: '凝胶糖果',
                         enName: 'GEL FRUCTOSE',
-                        id: 4,
+                        id: 5,
                         isChoice: false
                     },
                     {
                         name: '硬糖',
                         enName: 'HARD CANDY',
-                        id: 5,
+                        id: 6,
                         isChoice: false
                     }
                 ],
@@ -228,7 +219,6 @@
 
 <style lang="" scoped>
 .root {
-    
 }
 .second-menu-container {
     height: 96px;
@@ -273,7 +263,6 @@
     display: block;
     border: 4px solid #2b2f93;
     border-right: 0;
-
 }
 .shop-ben-container::after {
     content: '';
@@ -285,120 +274,72 @@
 
 }
 
-/* sort button css */
-
-.sort-container {
-    text-align: center;
-    margin: 32px 0 28px 0;
-    color: #fff;
-}
-.sort-button {
-    width: 180px;
-    height: 36px;
-    border-radius: 20px;
-    color: #000;
-    background: transparent;
-    border: 2px solid #000;
-    transition: all .3s ease-in-out;
-    margin: 0 20px;
-}
-.arrow-container {
-    display: inline-block;
-    height: 25px;
-    width: 25px;
-    background-color: #000;
-    border-radius: 50%;
-    vertical-align: middle;
-    margin-right: -10px;
-    margin-left: 30px;
-    transition: transform .3s ease-in-out;
-    position: relative;
-    transform: rotateZ(-90deg);
-
-}
-.arrow-container::before {
-    content: '';
-    height: 0;
-    width: 0;
-    border-width: 9px 9px 0px 9px;
-    border-style: solid;
-    border-color: #fff transparent;
-    position: absolute;
-    top: 10px;
-    right: 3px;
-
-}
-.arrow-container::after {
-    content: '';
-    height: 0;
-    width: 0;
-    border-width: 6px 6px 0 6px;
-    border-style: solid;
-    border-color: #000 transparent;
-    position: absolute;
-    top: 9px;
-    left: 7px;
-    
-    
-}
-.sort-container img {
-    height: 20px;
-    margin: 3px 4px;
-}
-.active  {
-    color: #fff;
-    border: 2px solid #5b9dd9;
-    background-color: #5b9dd9;
-}
-.active .arrow-container::before {
-    border-color: #5b9dd9 transparent;    
-}
-.active .arrow-container::after {
-    border-color: #fff transparent;
-}
-.active .arrow-container {
-    background-color: #fff;
-    transform: rotateZ(0);
-}
-
 /* css of kind navbar */
 .kind-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 32px;
+    margin: 48px auto;
+    width: 672px;
+}
+.en .kind-container {
+    width: 900px;
+
+}
+.kind-container::after {
+    content: '';
+    height: 0;
+    width: 0;
+    clear: both;
 }
 .kind-container li {
     color: #333;
-    margin: 0 28px ;
+    margin: 0 20px ;
     cursor: pointer;
     padding: 0 4px;
+    float: left;
 }
+
 .choice {
     color: #e60112 !important;
     border-bottom: 2px solid #e60112;
 }
-
 .productLists-container {
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
+    height: auto;
     width: 1530px;
     margin: 0 auto;
+    min-height: 300px;    
+    clear: both;
+}
+.productLists-container::after {
+    content: "";
+    height: 0;    
+    width: 0;
+    display: block;        
+    clear: both;          
+    visibility: hidden; 
+}
+.productLists-container p {
+    text-align: center;
+    margin: 120px auto;
 }
 .product-container {
     width: 270px;
     margin: 14px 18px;
     /* background-color: black; */
     border-top: 6px solid #5b9dd9;
+    float: left;
 }
 
-.product-container div {
+.product-content-container  {
     height: 370px;
     width: 100%;
     padding-bottom: 28px;
     line-height: 1.5em;
     position: relative;
     cursor: pointer;
+}
+.product-content-container img {
+    height: 342px;
+    width: 270px;
+
 }
 .mask {
     /* content: ""; */
@@ -410,6 +351,7 @@
     background: transparent;
     transition: all .3s ease-in-out;
 }
+
 .product-content-container:hover .mask {
     background: rgba(0, 0, 0, .2);
     

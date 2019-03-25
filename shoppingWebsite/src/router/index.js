@@ -37,6 +37,16 @@ export default new Router({
         path: '/product/:id',
         name: 'Product',
         component: Product
-    }
+    },
+    {
+        path: '/linproducts/:id',
+        name: 'Linproducts',
+        component: Product
+    },
+    {
+        path: '/benproducts/:id',
+        name: 'Benproducts',
+        component: Product
+    },
   ]
 })

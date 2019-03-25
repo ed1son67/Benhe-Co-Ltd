@@ -1,7 +1,9 @@
 <template>
     <div id="app">
         <Header></Header>
-        <router-view/>
+        <main class="app-page-container">
+            <router-view/>
+        </main>
         <footer>
             <div class="footer-container" v-if="language == true">
                 <div class="contact-container" >
@@ -171,6 +173,17 @@
         font-size: 16px;
         color: #333;
         overflow-x: hidden;
+
+    }
+    #app {
+        
+        width: 100%;
+        /* margin-bottom: 200px; */
+        position: relative;
+        /* overflow: scroll; */
+    }
+    .app-page-container {
+    
     }
     /* change the default css of tags */
     ul {
@@ -189,11 +202,12 @@
         border: none;
         cursor: pointer;
     }
+
     /* change the default css of the scrollbar in webkit browser */
     ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-    overflow: auto;
+        width: 10px;
+        height: 10px;
+        overflow: auto;
     }
 
     ::-webkit-scrollbar-thumb {
@@ -202,17 +216,14 @@
         min-width: 25px;
         border: 1px solid #e0e0e0
     }
-    #app {
-        height: auto;
-        width: 100%;
-    }
-    /* 页脚部分*/
-    
+
+    /* the css of footer */
     #app footer {
         width: 100%;
         height: auto;
         background-color: #5b9dd9;
         color: #fff;
+       
     }
     
     .footer-container {

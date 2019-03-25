@@ -1,87 +1,91 @@
 <template>
     <div class="root">
-        <!-- <Header></Header> -->
-        <main>
-            <nav>
-                <Breadcrumb v-if="language" >
-                    <span>当前位置：</span>
-                    <BreadcrumbItem to="/index">
-                        <Icon type="ios-home" /> 首页
-                    </BreadcrumbItem>
-                    <BreadcrumbItem :to="link">
-                        <Icon type="logo-buffer"></Icon> {{detail.trademark + '产品'}}
-                    </BreadcrumbItem>
-                    <BreadcrumbItem>
-                        <Icon type="ios-cube" />
-                        产品详情
-                    </BreadcrumbItem>
-                </Breadcrumb>
-                <Breadcrumb v-else >
-                    <span>POSITION: </span>
-                    <BreadcrumbItem to="/index">
-                        <Icon type="ios-home" /> HOME
-                    </BreadcrumbItem>
-                    <BreadcrumbItem :to="link">
-                        <Icon type="logo-buffer"></Icon> {{detail.trademark}}
-                    </BreadcrumbItem>
-                    <BreadcrumbItem>
-                        <Icon type="ios-cube" />
-                        DETAILS
-                    </BreadcrumbItem>
-                </Breadcrumb>
-            </nav>
-            <div class="main-container">
-                <div class="img-sidebar" >
-                    <div data-index="0" :class="{showThisPic: isHover.h0}" @mouseover="over"><img :src="oss + detail.urls[0]" alt=""></div>
-                    <div data-index="1" :class="{showThisPic: isHover.h1}" @mouseover="over"><img :src="oss + detail.urls[1]" alt=""></div>
-                    <div data-index="2" :class="{showThisPic: isHover.h2}" @mouseover="over"><img :src="oss + detail.urls[2]" alt=""></div>
-                </div>
-                <div class="img-detail-container" @mousemove="maskMove" @mouseenter="showMask = true" @mouseleave="showMask = false">
+        <nav>
+            <Breadcrumb v-if="language" >
+                <span>当前位置：</span>
+                <BreadcrumbItem to="/index">
+                    <Icon type="ios-home" /> 首页
+                </BreadcrumbItem>
+                <BreadcrumbItem :to="link">
+                    <Icon type="logo-buffer"></Icon> {{shopName}}
+                </BreadcrumbItem>
+                <BreadcrumbItem>
+                    <Icon type="ios-cube" />
+                    产品详情
+                </BreadcrumbItem>
+            </Breadcrumb>
+            <Breadcrumb v-else >
+                <span>POSITION: </span>
+                <BreadcrumbItem to="/index">
+                    <Icon type="ios-home" /> HOME
+                </BreadcrumbItem>
+                <BreadcrumbItem :to="link">
+                    <Icon type="logo-buffer"></Icon> {{shopName}}
+                </BreadcrumbItem>
+                <BreadcrumbItem>
+                    <Icon type="ios-cube" />
+                    DETAILS
+                </BreadcrumbItem>
+            </Breadcrumb>
+        </nav>
+        <div class="main-container">
+            <div class="img-sidebar container" >
+                <div data-index="0" :class="{showThisPic: isHover.h0}" @mouseover="over"><img :src="oss + detail.urls[0]" alt=""></div>
+                <div data-index="1" :class="{showThisPic: isHover.h1}" @mouseover="over"><img :src="oss + detail.urls[1]" alt=""></div>
+                <div data-index="2" :class="{showThisPic: isHover.h2}" @mouseover="over"><img :src="oss + detail.urls[2]" alt=""></div>
+            </div>
+            <!-- img detail part -->
+            <div class="img-detail-container container" @mousemove="maskMove" @mouseenter="showMask = true" @mouseleave="showMask = false">
+                <img :src="nowPic" >
+                <div class="mask" v-show="showMask"></div>
+                <div class="big" v-show="showMask">
                     <img :src="nowPic" >
-                    <div class="mask" v-show="showMask"></div>
-                    <div class="big" v-show="showMask">
-                        <img :src="nowPic" >
-                    </div>
                 </div>
-                <div class="introduce-container">
-                    <p class="name-container">{{detail.name}}</p>
-                    <div class="card-container">
-                        <div class="vertical-container">
-                            <p>商品详情</p>
+            </div>
+            <!-- introduct part -->
+            <div class="introduce-container container">
+                <p class="name-container">{{detail.name}}</p>
+                <div class="card-container">
+                    <div class="vertical-container">
+                        <p>商品详情</p>
+                    </div>
+                    <div class="detail-container">
+                        <div >
+                            <p><img src="../assets/images/icon_area.png" ><span>产地</span></p>
+                            <span class="detail">{{detail.originPlace}}</span>
                         </div>
-                        <div class="detail-container">
-                            <div >
-                                <p><img src="../assets/images/icon_area.png" ><span>产地</span></p>
-                                <span class="detail">{{detail.originPlace}}</span>
-                            </div>
-                            <div style="margin: 40px 0;">
-                                <p ><img src="../assets/images/icon_standard.png" ><span>规格</span></p>
-                                <span class="detail">{{detail.weight}}</span>
-                            </div>
-                            <div>
-                                <p><img src="../assets/images/icon_flaver.png" ><span>口味</span></p>
-                                <span class="detail">{{detail.flavor}}</span>
-                            </div>
-                            
+                        <div style="margin: 40px 0;">
+                            <p ><img src="../assets/images/icon_standard.png" ><span>规格</span></p>
+                            <span class="detail">{{detail.weight}}</span>
                         </div>
+                        <div>
+                            <p><img src="../assets/images/icon_flaver.png" ><span>口味</span></p>
+                            <span class="detail">{{detail.flavor}}</span>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
 </template>
 
 <script>
     import { myAxios } from '../ajax.js'
-    import Header from './Header.vue'
+
     export default {
         name: 'Product',
         components:{
-            Header
+            
         },
         computed: {
             language() {
                 return this.$store.state.language;
+            }
+        },
+        watch: {
+            language() {
+                this.changeNavBar();
             }
         },
         methods: {
@@ -127,28 +131,46 @@
                 }
                 this.nowPic = img;
                 this.isHover['h' + index] = true;
+            },
+            changeNavBar() {
+                if (this.language) {
+                    if (this.$route.name === 'Linproducts') 
+                        this.shopName = '林振合产品';
+                    else 
+                        this.shopName = '本合产品';
+                } else {
+                    if (this.$route.name === 'Linproducts') 
+                        this.shopName = 'LINZHENHE';
+                    else 
+                        this.shopName = 'BENHE';
+                }
             }
         },
         mounted(){
-            console.log(this.$route.params.id)
             
-            // myAxios.getProductDetail(parseInt(this.$route.params.id)).then((res) => {
-            //     this.detail = res.data;
+            console.log(this.$route.name)
+            console.log(this.$route.params.id)
+            this.changeNavBar();
+            
+            myAxios.getProductDetail(parseInt(this.$route.params.id)).then((res) => {
+                this.detail = res.data;
 
-            //     // set the first pic
-            //     this.nowPic = this.oss + res.data.urls[0];
+                // set the first pic
+                this.nowPic = this.oss + res.data.urls[0];
+                
+                // set the nav bar
+                if (res.data.trademark == '林振合') 
+                    this.link = '/linproducts'
+                else 
+                    this.link='/benproducts'
 
-            //     if (res.data.trademark == '林振合') 
-            //         this.link = '/linproduct'
-            //     else 
-            //         this.link = '/benproduct'
-
-            // }).catch((err) => {
-            //     console.log(err)
-            // })
+            }).catch((err) => {
+                console.log(err)
+            })
         },
         data() {
             return {
+                shopName: '',
                 link:'/',
                 detail: {
                     name: '',
@@ -174,18 +196,22 @@
 
 <style lang="" scoped>
     .root  {
-
-    }
-    main {
         width: 80%;
         margin: 0 auto;
         margin-bottom: 60px;
     }
-    .main-container {
-        display: flex;
-
+    .main-container::after {
+        content: "";
+        height: 0;    
+        width: 0;
+        display: block;        
+        clear: both;          
+        visibility: hidden; 
     }
-    main nav {
+    .container {
+        float: left;
+    }
+    .root nav {
         margin: 25px 0 53px 0;
     }
 
