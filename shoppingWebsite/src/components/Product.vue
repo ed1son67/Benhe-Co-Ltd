@@ -1,5 +1,5 @@
 <template>
-    <div class="root">
+    <div class="root" >
         <nav>
             <Breadcrumb v-if="language" >
                 <span>当前位置：</span>
@@ -28,7 +28,11 @@
                 </BreadcrumbItem>
             </Breadcrumb>
         </nav>
-        <div class="main-container">
+        <div class="result-container" v-show="result">
+            <p v-if="language">抱歉，您所查找的商品不存在。</p>
+            <p v-else >Sorry, We can't found this product.</p>
+        </div >
+        <div class="main-container" v-show="!result">
             <div class="img-sidebar container" >
                 <div data-index="0" :class="{showThisPic: isHover.h0}" @mouseover="over"><img :src="oss + detail.urls[0]" alt=""></div>
                 <div data-index="1" :class="{showThisPic: isHover.h1}" @mouseover="over"><img :src="oss + detail.urls[1]" alt=""></div>
@@ -44,22 +48,37 @@
             </div>
             <!-- introduct part -->
             <div class="introduce-container container">
-                <p class="name-container">{{detail.name}}</p>
+                <div class="name-container">
+                    <p>{{detail.name}}</p>
+                </div>
                 <div class="card-container">
                     <div class="vertical-container">
-                        <p>商品详情</p>
+                        <p v-if="language">商品详情</p>
+                        <p v-else class="title-container">DETAILS</p>
                     </div>
                     <div class="detail-container">
-                        <div >
-                            <p><img src="../assets/images/icon_area.png" ><span>产地</span></p>
+                        <div>
+                            <p>
+                                <span class="detail-img-container"><img src="../assets/images/icon_area.png" ></span>
+                                <span v-if="language">产地</span>
+                                <span v-else>PLACE OF ORIGIN</span>
+                            </p>
                             <span class="detail">{{detail.originPlace}}</span>
                         </div>
                         <div style="margin: 40px 0;">
-                            <p ><img src="../assets/images/icon_standard.png" ><span>规格</span></p>
+                            <p >
+                                <span class="detail-img-container"><img src="../assets/images/icon_standard.png" ></span>
+                                <span v-if="language">规格</span>
+                                <span v-else>SPECIFICATION</span>
+                            </p>
                             <span class="detail">{{detail.weight}}</span>
                         </div>
                         <div>
-                            <p><img src="../assets/images/icon_flaver.png" ><span>口味</span></p>
+                            <p>
+                                <span class="detail-img-container"><img src="../assets/images/icon_flaver.png" ></span>
+                                <span v-if="language">口味</span>
+                                <span v-else>FLAVOR</span>
+                            </p>
                             <span class="detail">{{detail.flavor}}</span>
                         </div>
                         
@@ -81,11 +100,15 @@
         computed: {
             language() {
                 return this.$store.state.language;
+            },
+            lan() {
+                return this.$store.state.lan;
             }
         },
         watch: {
             language() {
                 this.changeNavBar();
+                this.querryProduct();
             }
         },
         methods: {
@@ -144,6 +167,28 @@
                     else 
                         this.shopName = 'BENHE';
                 }
+            },
+            querryProduct() {
+                myAxios.getProductDetail(parseInt(this.$route.params.id), this.lan).then((res) => {
+                    if (res.data.id === 0) {
+                        this.result = true;
+                    } else {
+                        this.result = false;                
+                        this.detail = res.data;
+                        
+                        // set the first pic
+                        this.nowPic = this.oss + res.data.urls[0];
+                        
+                        // set the nav bar
+                        if (res.data.trademark == '林振合') 
+                            this.link = '/linproducts'
+                        else 
+                            this.link='/benproducts'
+                    }
+
+                }).catch((err) => {
+                    console.log(err)
+                })
             }
         },
         mounted(){
@@ -151,25 +196,13 @@
             console.log(this.$route.name)
             console.log(this.$route.params.id)
             this.changeNavBar();
-            
-            myAxios.getProductDetail(parseInt(this.$route.params.id)).then((res) => {
-                this.detail = res.data;
-
-                // set the first pic
-                this.nowPic = this.oss + res.data.urls[0];
-                
-                // set the nav bar
-                if (res.data.trademark == '林振合') 
-                    this.link = '/linproducts'
-                else 
-                    this.link='/benproducts'
-
-            }).catch((err) => {
-                console.log(err)
-            })
+            this.querryProduct();
+           
         },
         data() {
             return {
+                
+                result: false,
                 shopName: '',
                 link:'/',
                 detail: {
@@ -260,13 +293,15 @@
     }
     .big {
         height: 560px;
-        width: 560px;
+        width: 800px;
         position: absolute;
-        left: 520px;
+        left: 530px;
         top: 0;
         background-color: #000;
         z-index: 999;
         overflow: hidden;
+        border: 1px solid rgb(148, 148, 148);
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 6px 8px 2px;
     }
     .big img {
         height: 1000px;
@@ -275,12 +310,18 @@
         top: 0;
         left: 0;
     }
+    
     .name-container {
         font-size: 32px;
         position: relative;
         width: 600px;
     }
+    .name-container p {
+        min-height: 48px;
+        max-height: 96px;
+        overflow: hidden;
 
+    }
     .name-container::after {
         content: "";
         /* position: absolute; */
@@ -292,7 +333,7 @@
     }
     .card-container {
         height: 230px;
-        width: 520px;
+        width: 560px;
         border-radius: 5px;
         border: 1px solid #333;
         margin-top: 85px;
@@ -309,8 +350,8 @@
         left: -1px;
     }
     .vertical-container {
-        display: inline-block;
-        /* margin-right: 60px; */
+        float: left;
+        width: 79px;
     }
     .vertical-container p {
         font-size: 20px;
@@ -319,6 +360,18 @@
         line-height: 25px;
         height: 100px;
         margin: 60px 0;
+
+    }
+    .vertical-container .title-container {
+        margin: 0;
+        height: auto;
+        width: auto;
+        transform: rotateZ(90deg);
+        position:absolute;
+        top: 50%;
+        margin-top: -10px;
+        left: 23px;
+
     }
     .vertical-container::before {
         content: "";
@@ -330,29 +383,44 @@
         margin: 35px 20px 35px 35px;
     }
     .detail-container {
-        display: inline-block;
-        vertical-align: top;
-        margin: 24px 15px;
+        float: left;
+        margin: 33px 15px;
         font-size: 18px;
     }
     .detail-container div {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
         margin: 0;
     }
-    .detail-container img {
-        padding: 0px 30px;
+    .detail-img-container {
+        width: 90px;
+        display: inline-block;
+        text-align: center;
+        vertical-align: middle;
+        height: 26px;
     }
     .detail-container p {
-        width: 180px;
-        
+        min-width: 200px;
+        display: inline-block;
     }
+    .en .detail-container p {
+        width: 270px;
+    }
+    .en .detail-container p {
+        font-size: 16px;
+    }
+    
     .detail {
-       padding-bottom: 7px;
+        /* padding-bottom: 7px; */
     }
-    .detail-container p span {
-        vertical-align: top;
-        line-height: 24px;
+    .en .detail {
+        font-size: 15px;
+        line-height: 27px;
+    }
+    
+    .result-container {
+        height: 456px;
+        text-align: center;
+    }
+    .result-container p {
+        padding: 150px 0;
     }
 </style>

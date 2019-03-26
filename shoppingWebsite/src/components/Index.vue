@@ -1,5 +1,5 @@
 <template>
-    <div class="root" :class="{en: !language}">
+    <div class="root" >
         <header class="second-header" :class="{fixed: isFixed}">
             <div class="logo-container">
                 <img src="../assets/images/logo.png" alt="">
@@ -9,6 +9,22 @@
                     <span v-if="language == true">{{list.name}}</span>
                     <span v-else>{{list.enName}}</span>
                 </li>
+                <li @click="$router.push('benproducts')">
+                    <span v-if="language == true">本合产品</span>
+                    <span v-else>BENHE</span>
+                </li>
+                <li @click="$router.push('linproducts')">
+                    <span v-if="language == true">林振合产品</span>
+                    <span v-else>LINZHENHE</span>
+                </li>
+
+                <div class="language-container">
+                    <div>
+                        <button :class="{switch: language}" @click="switchLanguage(true)">中</button>
+                        <span>|</span>
+                        <button :class="{switch: !language}" @click="switchLanguage(false)">EN</button>
+                    </div>
+                </div>
             </ul>
         </header>
         <main>
@@ -90,8 +106,19 @@
                 <span v-if="language">{{lists[2].name}}</span>
                 <span v-else>{{lists[2].enName}}</span>  
             </div>
+           
             <div class="hot-sale-row-container" >
-                <div class="hot-sale-product-container" v-for="item in items" :key="item.id">
+                <div v-show="result" class="tips-container"> 
+                    <div v-show="loading">
+                        <span v-if="language">加载中...</span>
+                        <span v-else>Loading...</span>
+                    </div>
+                    <div v-show="!loading">
+                        <span v-if="language">网络似乎有点问题~</span>
+                        <span v-else>please check your network...</span>       
+                    </div>             
+                </div>
+                <div class="hot-sale-product-container" v-for="item in items" :key="item.id" @click="jumpToDetail(item.id, item.trademark)">
                     <div>
                         <i class="mask"></i>
                         <img :src="oss + item.defaultUrl" alt="">
@@ -144,7 +171,7 @@
 
 <script>
     import { myAxios } from "../ajax.js";
-    import { Tween } from "../Tween.js";
+    // import { Tween } from "../Tween.js";
 
     export default {
         name: 'Index',
@@ -156,12 +183,30 @@
         mounted() {
             window.addEventListener('scroll', this.handleScroll)
             this.initIndex();
-            // console.log( Tween.Linear(5, 0, 1000, 2));
+        },
+        beforeDestroy() {
+            window.removeEventListener('scroll', this.handleScroll)
 
-           
         },
         methods: {
-            scrollAnimation() {
+            easeInOut(t, b, c, d) {
+                if ((t /= d / 2) < 1) return c / 2 * t * t + b;
+                    return -c / 2 * ((--t) * (t-2) - 1) + b;
+            },
+            switchLanguage(val) {
+                this.$store.commit('changeLanguage', val);
+            },
+            jumpToDetail(id, brand) {
+                console.log(brand)
+                let link;
+                if (brand === '本合') 
+                    link = 'benproducts/'
+                else 
+                    link = 'linproducts/'
+                
+                this.$router.push(link + id);
+            },
+            scrollAnimation(target) {
                 /*
                 * t: current time（当前时间）；
                 * b: beginning value（初始值）；
@@ -174,28 +219,43 @@
                         setTimeout(fn, 17);
                     };	
                 }
+            
+                let scrollTop = this.getScrollTop();
+                
+                let change = target - scrollTop;
 
-                let scrollTop = document.documentElement.scrollTop;
-                var t = 0, b = scrollTop, c = -scrollTop, d = 20;
+                var t = 0, b = scrollTop, c = change, d = 20;
+                let self = this;
+
                 var step = function () {
-                    // value就是当前的位置值
-                    // 例如我们可以设置DOM.style.left = value + 'px'实现定位
-                    document.documentElement.scrollTop = Tween.Quad.easeInOut(t, b, c, d);
-                    
+                   
+                    if (document.documentElement && document.documentElement.scrollTop) {
+                        document.documentElement.scrollTop = self.easeInOut(t, b, c, d);
+                    }
+                    else if (document.body) {
+                        document.body.scrollTop = self.easeInOut(t, b, c, d);
+                    }
+                        
                     t++;
-                    
                     if (t <= d) {
                         // 继续运动
                         requestAnimationFrame(step);
                     } else {
                         // 动画结束
+                        // 函数防抖
+                        setTimeout(() => {
+                           self.state = false; 
+                        }, 200);
                     }
                 };
-                step();
+
+                if (this.state == false) {
+                    this.state = true;
+                    step();
+                }
             },
-            scrollTo(height) {
-                console.log(height);
-                this.scrollAnimation();
+            scrollTo(target) {
+                this.scrollAnimation(target);
             },
             addItem(object, data) {
                 object.push(data)
@@ -211,44 +271,66 @@
 
                 // get hotpush products
                 myAxios.getHotpush({limite: 5}).then((res) => {
-                    let i = 0;
-                    for (const key in res.data.products) {
-                        if (res.data.products.hasOwnProperty(key)) {
-                            const element = res.data.products[key];
-                            this.addItem(this.items, element);
-                        }
-                    }
-                    console.log(this.items)
+                    this.items = res.data.products;
+                    this.loading = false;
+                    this.result = false;
+                    // console.log(this.items)
                 }).catch((err) => {
                     console.log(err)
+                    this.loading = false;
+                    this.result = true;
                 })
             },
+            getScrollTop() {  
+                var scroll_top = 0;
+                if (document.documentElement && document.documentElement.scrollTop) {
+                    console.log('scroll_top = document.documentElement.scrollTop')
+                    scroll_top = document.documentElement.scrollTop;
+                }
+                else if (document.body) {
+                    console.log('document.body')
+
+                    scroll_top = document.body.scrollTop;
+                }
+                return scroll_top;
+            },
             handleScroll() {
-                let scrollTop = document.documentElement.scrollTop;
+                let scrollTop = this.getScrollTop();
+                
                 // fix the hidden nav bar 
                 scrollTop >= 600 ? this.isFixed = true : this.isFixed = false;
-                // scrollTop >= 100? this.isShow = true: this.isShow = false;
-                // scrollTop >= 1000? this.queueShow.show0 = true: this.queueShow.show0 = false;
-                // scrollTop >= 1100? this.queueShow.show1 = true: this.queueShow.show1 = false;
-                // scrollTop >= 1200? this.queueShow.show2 = true: this.queueShow.show2 = false;
-                // scrollTop >= 1300? this.queueShow.show3 = true: this.queueShow.show3 = false;
-                // scrollTop >= 1400? this.queueShow.show4 = true: this.queueShow.show4 = false;
+        
                 let self = this;
                 function clear() {
-                    
                     for (let index = 0; index < self.lists.length; index++) {
                         self.lists[index].active = false;
                     }
                 }
 
-                if (scrollTop >= 1000) {
+                if (scrollTop >= 0) {
+                    clear();
+                    this.lists[1].active = true;
+                }
+                if (scrollTop >= 1746) {
                     clear();
                     this.lists[2].active = true;
+                }
+                if (scrollTop >= 2400) {
+                    clear();
+                    this.lists[3].active = true;
+                }
+                if (scrollTop >= 2700) {
+                    clear();
+                    this.lists[4].active = true;
                 }
             }
         },
         data() {
             return {
+                
+                loading: true,
+                result: true,
+                state: false,
                 lists: [
                     {
                         name: '回到顶部',
@@ -259,27 +341,41 @@
                     {
                         name: '公司介绍',
                         enName: 'ABOUT',
-                        target: 0,
+                        target: 800,
                         active: true
                     },
                     {
                         name: '热销商品',
                         enName: 'POPULAR',
-                        target: 0,
+                        target: 1746,
                         active: false
                     },
                     {
                         name: '天猫旗舰店',
                         enName: 'TMALL',
-                        target: 0,
+                        target: 2400,
                         active: false
                     },
                     {
                         name: '联系我们',
                         enName: 'CONTACT',
-                        target: 0,
+                        target: 2778,
                         active: false
-                    }
+                    },
+                    // {
+                    //     name: '本合旗舰店',
+                    //     enName: 'BENHE',
+                    //     target: 0,
+                    //     active: false,
+                    //     type: 1,
+                    // },
+                    // {
+                    //     name: '林振合旗舰店',
+                    //     enName: 'LINZHENHE',
+                    //     target: 0,
+                    //     active: false,
+                    //     type: 1
+                    // }
                 ],
                 isFixed: false,
                 items: [
@@ -376,10 +472,10 @@
     }
     .slogen-container {
         color: #fff;
-        position:absolute;
+        position: absolute;
         top: 190px;
         left: 300px;
-        font-family: '新宋体';
+        font-family: 'SimSun'!important;
     }
 
     .slogen-container h1 {
@@ -438,8 +534,13 @@
         height: auto;
         margin: 0 auto;
         text-align: center;
-
+        min-height: 426px;
     } 
+    .tips-container{
+        font-size: 18px;
+        line-height: 200px;
+        text-align: center;
+    }
     .hot-sale-product-container {
         width: 270px;
         margin: 0 13px;
@@ -549,6 +650,42 @@
     .hot-sale-product-container div:hover .mask {
         background: rgba(0, 0, 0, .3);
     }
+
+
+    /* CSS of the language switch button */
+    .language-container {
+        height: 36px;
+        width: 105px;
+        color: #fff;
+        font-weight: normal;
+        position: absolute;
+        top: 50%;
+        margin-top: -16px;
+        right: 142px;
+        background-color: #ee83b1;
+        border-radius: 20px;
+    }
+    
+    .language-container div {
+        line-height: 36px;
+        width: 80px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .language-container button {
+        color: #fff;
+        text-align: center;
+        width: 50px;
+        font-weight: 400;
+    }
+    /* add css to the switch language button */
+    .switch {
+        font-weight: 600 !important;
+    }
+
     /* change the style in english */
     .en .slogen-container h1 {
         /* margin: 0 0 0 0; */
@@ -565,4 +702,6 @@
     .en .profile-container p  span {
         color: #438aca;
     }
+
+
 </style>

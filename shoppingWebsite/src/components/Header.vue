@@ -59,27 +59,27 @@
                         enName: 'ABOUT',
                         isChoice: false,
                         type: 0,
-                        height: 1900,
+                        height: 800,
                         to: '/'
                     }, {
                         name: '热销产品',
                         enName: 'POPULAR',
                         isChoice: false,
-                        height: 2900,
+                        height: 1746,
                         type: 0,
                         to: '/'
                     }, {
                         name: '天猫旗舰店',
                         enName: 'TIMALL',
                         isChoice: false,
-                        height: 3900,
+                        height: 2400,
                         type: 0,
                         to: '/'
                     }, {
                         name: '联系我们',
                         enName: 'CONTACT',
                         isChoice: false,
-                        height: 4900,
+                        height: 2778,
                         type: 0,
                         to: '/'
                     }
@@ -107,14 +107,7 @@
                     this.isIndex = false;
                 }
 
-                // 判断是不是产品详细页
-                if (this.$route.name == 'Product') {
-                    this.isIndex = false;
-                    this.isProduct = true;
-                } else {
-                    this.isProduct = false;
-
-                }
+                this.isDetail(); 
             }
         },
         computed: {
@@ -125,18 +118,26 @@
         methods: {
             scrollTo(height) {
                 document.documentElement.scrollTop = height;
-                console.log(document.documentElement.scrollTop);
-
+                document.body.scrollTop = height;
             },
             switchLanguage(val) {
-                console.log(this.language);  
                 this.$store.commit('changeLanguage', val);
+            },
+            isDetail() {
+                // 判断是不是产品详细页
+                if (this.$route.name == 'Benproducts' || this.$route.name == 'Linproducts') {
+                    this.isIndex = false;
+                    this.isProduct = true;
+                } else {
+                    this.isProduct = false;
+                }
             }
         },
         mounted() {
             // init the nav bar
             let paths = ['Index', 'Benproducts', 'Linproducts',  'Company', 'Hotsale', 'Contact', 'product']
             this.lists[paths.indexOf(this.$route.name)].isChoice = true;
+            this.isDetail();
         }
     }
 </script>

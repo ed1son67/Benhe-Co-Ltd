@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="app" :class="{en: !language}">
         <Header></Header>
         <main class="app-page-container">
             <router-view/>
@@ -160,7 +160,7 @@
     }
 </script>
 
-<style>
+<style >
     html,
     body {
         margin: 0;
@@ -168,19 +168,15 @@
         height: auto;
         width: 100%;
         min-width: 1700px;
-        font-family: 'MicrosoftYaHei';
+        font-family: "Helvetica Neue",Helvetica,Arial,"Microsoft Yahei","Hiragino Sans GB","Heiti SC","WenQuanYi Micro Hei",sans-serif !important;
         font-weight: bold;
-        font-size: 16px;
+        font-size: 16px !important;
         color: #333;
         overflow-x: hidden;
-
     }
     #app {
-        
         width: 100%;
-        /* margin-bottom: 200px; */
         position: relative;
-        /* overflow: scroll; */
     }
     .app-page-container {
     
