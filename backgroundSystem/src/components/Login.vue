@@ -1,5 +1,5 @@
 <template>
-    <div class="root">
+    <div class="container">
         <div class="login-container">
             <h1>本合食品有限公司</h1>
             <p>后台管理系统</p>
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-    import { IP, myAxios } from '../ajax.js'
+    import { myAxios } from '../ajax.js'
     export default {
         name: 'Login',
         data() {
@@ -44,15 +44,7 @@
         },
         methods: {
             handleSubmit() {
-                let self = this;
-                myAxios({
-                    method: 'post',
-                    data: {
-                        userName: self.userName,
-                        password: self.password
-                    },
-                    url: 'admin/login'
-                }).then((res) => {
+                myAxios.login(this.userName, this.password).then((res) => {
                     console.log(res)
                     if (res.data.status == '1') {
                         console.log('登陆成功');
@@ -62,15 +54,36 @@
                         console.log('登陆失败');
                     }
                 }).catch((err) => {
-
+                    console.log(err)
                 })
+
+                // let self = this;
+                // myAxios({
+                //     method: 'post',
+                //     data: {
+                //         userName: self.userName,
+                //         password: self.password
+                //     },
+                //     url: 'admin/login'
+                // }).then((res) => {
+                //     console.log(res)
+                //     if (res.data.status == '1') {
+                //         console.log('登陆成功');
+                //         this.$store.commit('update', {isLogin: true})
+                //         this.$router.push('index');
+                //     } else {
+                //         console.log('登陆失败');
+                //     }
+                // }).catch((err) => {
+
+                // })
             }
         }
     }
 </script>
 
-<style lang="" scoped>
-    .root {
+<style lang="css" scoped>
+    .container {
         height: 100vh;
         width: 100%;
         background: url(../assets/images/banner_cn.png) no-repeat center;

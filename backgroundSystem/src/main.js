@@ -6,10 +6,10 @@ import router from './router'
 import store from './store'
 import 'iview/dist/styles/iview.css';
 import './theme/theme.less';
-import { Submenu, Button, Table, Input, Icon, Form, FormItem,Layout,Menu,Sider,MenuItem } from 'iview';
+import {Option, Select, Row, Col, Submenu, Button, Radio, RadioGroup, Input, Icon, Form, FormItem,Layout,Menu,Sider,MenuItem } from 'iview';
 
 Vue.component('Button', Button);
-Vue.component('Table', Table);
+Vue.component('Radio', Radio);
 Vue.component('Input', Input);
 Vue.component('Icon', Icon);
 Vue.component('Form', Form);
@@ -19,8 +19,16 @@ Vue.component('Menu', Menu);
 Vue.component('Sider', Sider);
 Vue.component('MenuItem', MenuItem);
 Vue.component('Submenu', Submenu);
+Vue.component('RadioGroup', RadioGroup);
+Vue.component('Row', Row);
+Vue.component('Col', Col);
+Vue.component('Select', Select);
+Vue.component('Option', Option);
 
 
+
+
+Vue.prototype.oss = 'http://benhe.oss-cn-shenzhen.aliyuncs.com/';
 
 Vue.config.productionTip = false
 

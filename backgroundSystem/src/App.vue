@@ -31,4 +31,13 @@ export default {
         background: transparent;
         cursor: pointer;
     }
+     .title {
+        font-size: 24px;
+        color: #5d5c5c;
+        letter-spacing: 2px;
+        border-left: 7px solid #3d70c5;
+        padding: 1px 11px;
+        padding-bottom: 2px;
+        margin-bottom: 32px;
+    }
 </style>

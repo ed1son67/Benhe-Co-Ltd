@@ -15,51 +15,30 @@
             <Layout>
                 <Sider ref="side1" hide-trigger collapsible  width='310'  >
                     <Menu active-name="1-2" theme="dark" width="auto" @on-select="selectMenu" class="menu-container">                 
-                        <MenuItem name="1"><img src="../assets/images/bannericon.png" /><span>BANNER管理</span></MenuItem>
+                        <MenuItem name="1" ><img src="../assets/images/bannericon.png" /><span>BANNER管理</span></MenuItem>
                         <Submenu name="2" >
                             <template slot="title">
                                <img src="../assets/images/producticon.png" />
                                 <span>产品管理</span>
                             </template>    
-                            <MenuItem name="2-1" style="padding-left: 74px;">上传</MenuItem>
-                            <MenuItem name="2-2" style="padding-left: 74px;">查看</MenuItem>
+                            <MenuItem name="2-1" style="padding-left: 74px;">上传中文产品</MenuItem>
+                            <MenuItem name="2-2" style="padding-left: 74px;">上传英文产品</MenuItem>
+                            <MenuItem name="2-3" style="padding-left: 74px;">查看所有产品</MenuItem>
                         </Submenu>
                     </Menu>
                 </Sider>
                 <Layout>
                     <Content class="content-container" >
-                        <div class="index-container" v-show="showLists.l0">
-                            <div class="first-page-container">
+                        <div class="index-container" v-show="showIndex">
+                            <div class="first-page-container" >
                                 <h1>欢迎使用</h1>
                                 <p>BANNER管理：对首页的banner图片进行修改查看</p>
                                 <p>产品管理：对官网展示产品进行查看，上传以及修改</p>
                             </div>
                         </div>
-                        <div class="banner-container " v-show="showLists.l1">
-                            <div class="main-container">
-                                <header class="title">
-                                    当前BANNER
-                                </header>
-                                <div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="upload-container" v-show="showLists.l2">
-                            <div class="main-container">
-                                <header class="title">
-                                    产品列表
-                                </header>
-                            </div>
-                        </div>
-                        <div class="check-container" v-show="showLists.l3">
-                            <div class="main-container">
-                                <header class="title">
-                                    产品参数
-                                </header>
-                            </div>
-                        </div>
-                        
+                        <component v-bind:is="currentTabComponent">
+                           
+                        </component>
                     </Content>
                     <!-- <Footer class="layout-footer">benhe ©2019 Created by CZF</Footer> -->
                 </Layout>
@@ -106,16 +85,25 @@
 </template>
 
 <script>
+    import Banner from "./Banner.vue";
+    import UploadCN from "./UploadCN.vue";
+    import UploadEN from "./UploadEN.vue";
+    import Check from "./Check.vue";
+
+
     export default {
         name: 'Index',
+        components: {
+            Banner,
+            UploadCN,
+            UploadEN,
+            Check
+        },
         data() {
             return {
-                showLists: {
-                    l0: true,
-                    l1: false,
-                    l2: false,
-                    l3: false
-                }
+                showIndex: true,
+                currentTabComponent: '',
+                
             }
         },
         computed: {
@@ -123,25 +111,19 @@
         },
         methods: {
             selectMenu(name) {
-                console.log(name);
-                for (const key in this.showLists) {
-                    if (this.showLists.hasOwnProperty(key)) {
-                        this.showLists[key] = false
-                        
-                    }
-                }
-                console.log(this.showLists.l0)
+                this.showIndex = false;
                 switch (name) {
                     case '1':
-                        this.showLists.l1 = true;
-                        console.log(this.showLists.l1)
-
+                        this.currentTabComponent = Banner;
                         break;
                     case '2-1':
-                        this.showLists.l2 = true;
+                        this.currentTabComponent = UploadCN;   
                         break;
                     case '2-2':
-                        this.showLists.l3 = true;
+                        this.currentTabComponent = UploadEN;   
+                        break;
+                    case '2-3':
+                        this.currentTabComponent = Check;   
                         break;
                     default:
                         break;
@@ -196,12 +178,10 @@
     }
     
 
-   
     .ivu-layout-sider, .ivu-menu-dark {
         background-color: #3d70c5;
+        
     }
-
-   
     .ivu-menu-submenu-title span, .ivu-menu-item span {
         padding-left: 14px;
         padding-right: 14px;
@@ -262,22 +242,6 @@
         line-height: 2em;     
     }
 
-    .main-container {
-        margin: 48px;
-    }
-    .title {
-        font-size: 24px;
-        color: #5d5c5c;
-        letter-spacing: 2px;
-        border-left: 7px solid #3d70c5;
-        padding: 1px 11px;
-        padding-bottom: 2px;
-        margin-bottom: 32px;
-    }
-    .title::before {
-        /* content: '';
-        display: inline-block;
-        height: 24px;
-        width: ; */
-    }
+    
+    
 </style>
