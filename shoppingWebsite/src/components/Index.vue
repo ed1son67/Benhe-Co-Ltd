@@ -108,14 +108,18 @@
             </div>
            
             <div class="hot-sale-row-container" >
-                <div v-show="result" class="tips-container"> 
+                <div v-show="tip" class="tips-container"> 
                     <div v-show="loading">
-                        <span v-if="language">加载中...</span>
+                        <span v-if="language">商品加载中...</span>
                         <span v-else>Loading...</span>
+                    </div>
+                    <div v-show="result">
+                        <span v-if="language">热推商品待添加, 您先看看别的吧~</span>
+                        <span v-else>Sorry, We are still working on it...</span>
                     </div>
                     <div v-show="!loading">
                         <span v-if="language">网络似乎有点问题~</span>
-                        <span v-else>please check your network...</span>       
+                        <span v-else>Sorry, please check your network...</span>       
                     </div>             
                 </div>
                 <div class="hot-sale-product-container" v-for="item in items" :key="item.id" @click="jumpToDetail(item.id, item.trademark)">
@@ -137,12 +141,10 @@
                         <span v-if="language">本合旗舰店</span>
                         <span v-else>BENHE</span>
                     </div>
-                    <button>
-                        <a href="">
-                            <span v-if="language">进入店铺</span>
-                            <span v-else >ENTER</span>
-                        </a>
-                    </button>
+                    <a href="//benhe.tmall.com/" target="blank">
+                        <span v-if="language">进入店铺</span>
+                        <span v-else >ENTER</span>
+                    </a>
                 </div>
                 <div class="shop-container">
                     <img src="../assets/images/QRcodeben.png" alt="">
@@ -157,12 +159,10 @@
                         <span v-if="language">林振合旗舰店</span>
                         <span v-else>LINZHENHE</span>
                     </div>
-                    <button>
-                        <a href="">
-                            <span v-if="language">进入店铺</span>
-                            <span v-else >ENTER</span>
-                        </a>
-                    </button>                    
+                    <a href="//linzhenhe.tmall.com/" target="blank">
+                        <span v-if="language">进入店铺</span>
+                        <span v-else >ENTER</span>
+                    </a>         
                 </div>
             </div>
         </main>
@@ -178,7 +178,15 @@
         computed: {
             language() {
                 return this.$store.state.language;
+            },
+            lan() {
+                return this.$store.state.lan;
             }
+        },
+        watch: {
+            language() {
+                this.initIndex();
+            },
         },
         mounted() {
             window.addEventListener('scroll', this.handleScroll)
@@ -257,9 +265,6 @@
             scrollTo(target) {
                 this.scrollAnimation(target);
             },
-            addItem(object, data) {
-                object.push(data)
-            },
             initIndex(){
                 // get banner
                 // myAxios.getBanner().then((res) => {
@@ -270,15 +275,21 @@
                 // })
 
                 // get hotpush products
-                myAxios.getHotpush({limite: 5}).then((res) => {
-                    this.items = res.data.products;
-                    this.loading = false;
-                    this.result = false;
-                    // console.log(this.items)
+                this.tip = true;
+                this.loading = true;
+
+                myAxios.getHotpush({limite: 5}, this.lan).then((res) => {
+                    if (res.data.products.length === 0) {
+                        // 数量不足，提示没货
+                        this.result = true;
+                    } else {
+                        this.tip = false;
+                        this.items = res.data.products;
+                    }
                 }).catch((err) => {
                     console.log(err)
                     this.loading = false;
-                    this.result = true;
+                    this.tip = true;
                 })
             },
             getScrollTop() {  
@@ -327,9 +338,9 @@
         },
         data() {
             return {
-                
+                tip: true,
                 loading: true,
-                result: true,
+                result: false,
                 state: false,
                 lists: [
                     {
@@ -353,7 +364,7 @@
                     {
                         name: '天猫旗舰店',
                         enName: 'TMALL',
-                        target: 2400,
+                        target: 2450,
                         active: false
                     },
                     {
@@ -530,7 +541,7 @@
 
     /* hot sale part */   
     .hot-sale-row-container {
-        width: 1900px;
+        width: 1950px;
         height: auto;
         margin: 0 auto;
         text-align: center;
@@ -542,26 +553,26 @@
         text-align: center;
     }
     .hot-sale-product-container {
-        width: 270px;
+        width: 280px;
         margin: 0 13px;
-        border-top: 6px solid #5b9dd9;
+        border-top: 8px solid #5b9dd9;
         cursor: pointer;
         display: inline-block;
         vertical-align: top;
     }
     .hot-sale-product-container div {
-        height: 370px;
+        height: 410px;
         width: 100%;
         padding-bottom: 28px;
         line-height: 1.5em;
         position: relative;
     }
     .hot-sale-product-container  img {
-        height: 342px;
-        width: 270px;
+        height: 382px;
+        width: 280px;
     }
     .hot-sale-product-container p {
-        width: 270px;
+        width: 280px;
         white-space: normal;
         word-wrap: break-word;
         height: 50px;
@@ -571,77 +582,87 @@
 
     /* TMall part */
     .shop-row-container {
-        width: 1132px;
-        height: 308px;
+        width: 904px;
+        height: 247px;
         margin: 0 auto;
     }
     .shop-container {
-        height: 308px;
-        width: 566px;
+        height: 247px;
+        width: 452px;
         text-align: center;
         float: left;
+        overflow: hidden;
+    }
+    .shop-container img {
+        height: 247px;
+        width: 452px;
+      
     }
     .shop-container div {
-        width: 350px;
-        height: 140px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 20px auto 53px auto;
+        width: 290px;
+        height: 70px;
+        line-height: 70px;
+        margin: 30px auto 35px auto;
         background: url(../assets/images/benlogo.png) no-repeat center;
-        font-size: 36px;
+        background-size: 70px;
+        font-size: 32px;
         letter-spacing: 10px;
+        
+        position: relative;
     }
     .shop-container div::before {
         content: '';
-        height: 74px;
-        width: 50px;
+        height: 70px;
+        width: 35px;
         display: block;
         border: 8px solid #2b2f93;
         border-right: 0;
-
+        position: absolute;
+        left: 0;
+        top: 0;
     }
     .shop-container div::after {
         content: '';
-        height: 74px;
-        width:50px;
+        height: 70px;
+        width: 35px;
         display: block;
         border: 8px solid #2b2f93;
         border-left: 0;
-
+        position: absolute;
+        right: 10px;
+        top: 0;
     }
     #shop-lin-container {
-        margin-top: 20px;
-        width: 400px;
+        margin-top: 40px;
+        width: 350px;
         background: url(../assets/images/linlogo.png) no-repeat center;
+        background-size: 150px;
+
 
     }
     #shop-lin-container::before, #shop-lin-container::after {
         border-color: #5b9dd9;
-
-    }
-    .shop-container button {
-        height: 66px;
-        width: 208px;
-        font-size: 24px;
-        text-align: center;
-        line-height: 66px;
-        border-radius: 10px;
-        background-color: #5b9dd9;
-        outline: none;
-        border: none;
-        cursor: pointer;
-
+        
     }
     .shop-container a {
+        height: 60px;
+        width: 180px;
+        font-size: 19px;
+        letter-spacing: 2px;
+        text-align: center;
+        line-height: 60px;
+        border-radius: 10px;
+        background-color: #5b9dd9;
+        display: inline-block;
+        cursor: pointer;
         color: #fff;
-        text-decoration: none;
 
     }
+    
     .mask {
         position: absolute;   
-        height: 342px;
-        width: 270px;
+        height: 382px;
+        width: 280px;
         top: 0;
         left: 0;
         background: transparent;

@@ -1,5 +1,5 @@
 <template>
-    <div class="root">
+    <div class="root-container">
         <header class="title">产品参数</header>
         <main>
             <Form :model="formItem" :label-width="80">

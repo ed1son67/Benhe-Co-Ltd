@@ -10,12 +10,10 @@
                     <span v-if="language">本合旗舰店</span>
                     <span v-else >BENHE</span>
                 </div>
-                <button>
-                    <a href="http://" target="_blank" rel="noopener noreferrer">
-                        <span v-if="language">进入店铺</span>
-                        <span v-else >ENTER</span>
-                    </a>
-                </button>
+                <a href="//benhe.tmall.com" target="_blank" rel="noopener noreferrer">
+                    <span v-if="language">进入店铺</span>
+                    <span v-else >ENTER</span>
+                </a>
             </div>
         </header>
         <ul class="kind-container" >
@@ -84,7 +82,7 @@
                 } else if (this.type === 'all') {
                     this.queryAll();
                 } else {
-                    this.queryByKind(this.getNowKind());
+                    this.queryByKind();
                 }
             },
             getNowKind() {
@@ -114,13 +112,13 @@
                 
 
             },
-            queryByKind(kindName) {
+            queryByKind() {
                 this.type = 'kind';     
                 this.clearItem();
                 this.loading = true;
                 this.result = false;
 
-                myAxios.getProductsByKind('本合', kindName, this.nowPage,this.lan).then((res) => {
+                myAxios.getProductsByKind('本合',  this.getNowKind(), this.nowPage, this.lan).then((res) => {
                     this.loading = false;          
                     this.totalSize = res.data.allSize;          
                     this.setItem(res.data.products, res.data.products.length);
@@ -135,7 +133,7 @@
                 this.loading = true;
                 this.result = false;
 
-                myAxios.getNewProducts('本合', this.nowPage).then((res) => {
+                myAxios.getNewProducts('本合', this.nowPage, this.lan).then((res) => {
                     this.loading = false;     
                     this.totalSize = res.data.allSize;          
                     this.setItem(res.data.products, res.data.products.length);
@@ -257,9 +255,7 @@
         align-items: center;
         overflow: hidden;
     }
-    .second-menu-content div {
-    }
-    .second-menu-content button {
+   .second-menu-content a {
         height: 40px;
         width: 150px;
         text-align: center;
@@ -267,10 +263,9 @@
         border-radius: 18px;
         font-size: 16px;
         line-height: 40px;
-    }
-
-    .second-menu-container a {
         color: #fff;
+        line-height: 40px;
+        font-weight: normal;
     }
     .shop-ben-container {
         display: flex;

@@ -6,7 +6,7 @@ import router from './router'
 import store from './store'
 import 'iview/dist/styles/iview.css';
 import './theme/theme.less';
-import {Option, Select, Row, Col, Submenu, Button, Radio, RadioGroup, Input, Icon, Form, FormItem,Layout,Menu,Sider,MenuItem } from 'iview';
+import {Notice, BreadcrumbItem, Breadcrumb, Poptip, Page, Upload, Option, Select, Row, Col, Submenu, Button, Radio, RadioGroup, Input, Icon, Form, FormItem,Layout,Menu,Sider,MenuItem } from 'iview';
 
 Vue.component('Button', Button);
 Vue.component('Radio', Radio);
@@ -24,7 +24,13 @@ Vue.component('Row', Row);
 Vue.component('Col', Col);
 Vue.component('Select', Select);
 Vue.component('Option', Option);
+Vue.component('Upload', Upload);
+Vue.component('Page', Page);
+Vue.component('Poptip', Poptip);
+Vue.component('Breadcrumb', Breadcrumb);
+Vue.component('BreadcrumbItem', BreadcrumbItem);
 
+Vue.prototype.$Notice = Notice;
 
 
 
@@ -42,13 +48,13 @@ new Vue({
   render: h => h(App)
 })
 
-router.beforeEach((to, from, next) => {
-    // Login Verification
-    console.log(to.name);
-    console.log(store.state.isLogin)
-    if (store.state.isLogin != true ) {
-        next(false)
-    } else {
-        next()
-    }
-});
+// router.beforeEach((to, from, next) => {
+//     // Login Verification
+//     console.log(to.name);
+//     console.log(store.state.isLogin)
+//     if (store.state.isLogin != true ) {
+//         next(false)
+//     } else {
+//         next()
+//     }
+// });

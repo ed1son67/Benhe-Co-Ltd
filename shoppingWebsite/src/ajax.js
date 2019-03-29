@@ -10,17 +10,17 @@ export const myAxios = {
     getBanner() {
         return baseAxios.post( 'product/querybanner');
     },
-    getHotpush(data) {
-        return baseAxios.post( 'product/hotpush',data);
+    getHotpush(data, lan = "") {
+        return baseAxios.post(lan + 'product/hotpush',data);
     },
     getAllProducts(name, page, lan = '') {
-        return baseAxios.post( lan + 'product/queryall', {offSet: page, numbersPerPage: 20, trademark: name});
+        return baseAxios.post(lan + 'product/queryall', {offSet: page, numbersPerPage: 20, trademark: name});
     },
     getProductsByKind(name, kind, page, lan = '') {
         return baseAxios.post(lan + 'product/querybykind', {offSet: page, kind: kind, numbersPerPage: 20, trademark: name});
     },
-    getNewProducts(name, page) {
-        return baseAxios.post('product/querynew', {offSet: page, numbersPerPage: 20, trademark: name});
+    getNewProducts(name, page, lan = '') {
+        return baseAxios.post(lan + 'product/querynew', {offSet: page, numbersPerPage: 20, trademark: name});
     },
     getProductDetail(ID, lan='') {
         return baseAxios.post(lan + 'product/querydetail', {id: ID});

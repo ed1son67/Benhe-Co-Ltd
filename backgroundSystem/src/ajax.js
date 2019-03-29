@@ -7,11 +7,37 @@ const baseAxios = axios.create({
 })
 
 export const myAxios = {
+    /**
+     * 获得当前的banner图片
+     */
     getBanner: () => baseAxios.post('product/querybanner'),
+    /**
+     * 设置当前的banner图片
+     */
     setBanner: () => baseAxios.post('admin/updatebanner'),
+    /**
+     * 登陆模块
+     */
     login: (userName, password) => baseAxios.post('admin/login', {userName: userName, password: password}),
-
-
+    /**
+     * 获取所有的产品
+     */
+    getAllProducts: (page, barnd, lan = '') => baseAxios.post(lan + 'product/queryall', {numbersPerPage: 12, offSet: page, trademark: barnd}),
+    /**
+     * 删除某个产品
+     */
+    deleteProduct: (id) => baseAxios.post('admin/deleteproduct', {id: id}),
+    /**
+     * 上传一个产品
+     */
+    uploadProduct: (data) => baseAxios({
+        method: "POST",
+        url: 'admin/addproduct',
+        data: data,
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }),
 };
 
 

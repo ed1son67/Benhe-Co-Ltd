@@ -1,6 +1,6 @@
 <template>
-    <div class="container">
-        <header class="title">产品列表</header>
+    <div class="root-container">
+        <header class="title">修改产品参数</header>
         <main>
 
         </main>
@@ -9,15 +9,18 @@
 
 <script>
     export default {
-        name: 'Check',
+        name: 'Detail',
         data() {
             return {
                 
             }
+        },
+        mounted() {
+
         }
     }
 </script>
 
-<style lang="" scoped>
+<style lang="css" scoped>
     
 </style>

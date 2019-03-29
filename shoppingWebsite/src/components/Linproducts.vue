@@ -9,12 +9,12 @@
                     <span v-if="language">林振合旗舰店</span>
                     <span v-else >LINZHENHE</span>
                 </div>
-                <button>
-                    <a href="http://" target="_blank" rel="noopener noreferrer">
+                
+                    <a href="//linzhenhe.tmall.com" target="_blank" rel="noopener noreferrer">
                         <span v-if="language">进入店铺</span>
                         <span v-else >ENTER</span>
                     </a>
-                </button>
+                
             </div>
         </header>
         <ul class="kind-container" >
@@ -77,6 +77,7 @@
         },
         methods: {
             pageChange(page) {
+                
                 this.nowPage = page;
                 if (this.type === 'new') {
                     this.queryNew();
@@ -108,18 +109,16 @@
                 } else if (index === 1) {
                     this.queryNew();
                 } else {
-                   this.queryByKind(this.kinds[index].name);
+                   this.queryByKind();
                 }
-                
-
             },
             queryByKind(kindName) {
                 this.type = 'kind';     
                 this.clearItem();
                 this.loading = true;
                 this.result = false;
-
-                myAxios.getProductsByKind('林振合', kindName, this.nowPage,this.lan).then((res) => {
+                
+                myAxios.getProductsByKind('林振合', this.getNowKind(), this.nowPage, this.lan).then((res) => {
                     this.loading = false;          
                     this.totalSize = res.data.allSize;          
                     this.setItem(res.data.products, res.data.products.length);
@@ -134,7 +133,7 @@
                 this.loading = true;
                 this.result = false;
 
-                myAxios.getNewProducts('林振合', this.nowPage).then((res) => {
+                myAxios.getNewProducts('林振合', this.nowPage, this.lan).then((res) => {
                     this.loading = false;     
                     this.totalSize = res.data.allSize;          
                     this.setItem(res.data.products, res.data.products.length);
@@ -238,8 +237,6 @@
 </script>
 
 <style lang="" scoped>
-    .root {
-    }
     .second-menu-container {
         height: 96px;
         width: 712px;
@@ -256,9 +253,7 @@
         align-items: center;
         overflow: hidden;
     }
-    .second-menu-content div {
-    }
-    .second-menu-content button {
+    .second-menu-content a {
         height: 40px;
         width: 150px;
         text-align: center;
@@ -266,10 +261,9 @@
         border-radius: 18px;
         font-size: 16px;
         line-height: 40px;
-    }
-
-    .second-menu-container a {
         color: #fff;
+        line-height: 40px;
+        font-weight: normal;
     }
     .shop-ben-container {
         display: flex;
@@ -385,10 +379,7 @@
         
 
     }
-    .page-container img {
-        width: 270px;
-        height: 342px;
-    }
+
     .page-container {
         margin: 56px auto 64px auto;
     

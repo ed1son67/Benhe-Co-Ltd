@@ -7,17 +7,18 @@
                 <div class="form-item">
                     <label for="username">用户名：</label>
                     <input id="username" v-model="userName" type="text" >
+                    <div class="tips-container" v-show="rules.username">用户名不可以为空</div>
                 </div>
                  <div class="form-item">
                     <label for="password">密码：</label>
                     <input id="password" v-model="password"  type="password">
+                    <div class="tips-container" v-show="rules.password">密码不可以为空</div>
                 </div>
                 <div class="button-container">
                     <button @click="handleSubmit">登陆</button> 
-                   
-                    
                 </div>
             </div>
+
         </div>
     </div>
 </template>
@@ -30,20 +31,34 @@
             return {
                 userName: '',
                 password: '',
-
-                ruleInline: {
-                    user: [
-                        { required: true, message: 'Please fill in the user name', trigger: 'blur' }
-                    ],
-                    password: [
-                        { required: true, message: 'Please fill in the password.', trigger: 'blur' },
-                        { type: 'string', min: 6, message: 'The password length cannot be less than 6 bits', trigger: 'blur' }
-                    ]
+                rules: {
+                    username: false,
+                    password: false
                 }
             }
         },
         methods: {
+            validate() {
+                if (this.userName === '')
+                    this.rules.username = true;
+                if (this.password === '')
+                    this.rules.password = true;
+
+                if (this.userName != '' && this.password != '') {
+                    this.rules.username = false;
+                    this.rules.password = false;
+                    return true;
+                } else {
+                    return false;
+                }
+                    
+            },
             handleSubmit() {
+                if (this.validate()) {
+                    this.login();
+                }
+            },
+            login() {
                 myAxios.login(this.userName, this.password).then((res) => {
                     console.log(res)
                     if (res.data.status == '1') {
@@ -51,32 +66,17 @@
                         this.$store.commit('update', {isLogin: true})
                         this.$router.push('index');
                     } else {
-                        console.log('登陆失败');
+                        this.$Notice.error({
+                            title: '登陆失败',
+                            desc: '帐号或密码错误'
+                        })
                     }
                 }).catch((err) => {
-                    console.log(err)
+                     this.$Notice.error({
+                        title: '登陆失败',
+                        desc: '请检查网络后重试'
+                    })
                 })
-
-                // let self = this;
-                // myAxios({
-                //     method: 'post',
-                //     data: {
-                //         userName: self.userName,
-                //         password: self.password
-                //     },
-                //     url: 'admin/login'
-                // }).then((res) => {
-                //     console.log(res)
-                //     if (res.data.status == '1') {
-                //         console.log('登陆成功');
-                //         this.$store.commit('update', {isLogin: true})
-                //         this.$router.push('index');
-                //     } else {
-                //         console.log('登陆失败');
-                //     }
-                // }).catch((err) => {
-
-                // })
             }
         }
     }
@@ -86,7 +86,7 @@
     .container {
         height: 100vh;
         width: 100%;
-        background: url(../assets/images/banner_cn.png) no-repeat center;
+        background: url(../assets/images/banner_cn.png) no-repeat center top;
         background-size: 100%;
         background-size: cover;
         position: relative;
@@ -135,12 +135,13 @@
     }
     .form-item {
         width: 100%;
-        margin-bottom: 40px;
+        margin-bottom: 20px;
+        height: 65px;
     }
     .form-item input {
         background-color: transparent;
         border: 0;
-        border-bottom: 2px solid #000;
+        border-bottom: 2px solid #fff;
         padding: 2px 10px;
         width: 300px;
         font-size: 18px;
@@ -154,7 +155,7 @@
         font-size: 20px;
         text-align: right;
         margin-right: 10px;
-        color: #000;
+        color: #fff;
     }
     .button-container {
         width: 192px;
@@ -170,5 +171,13 @@
         border: 1px solid #fff;
         border-radius: 4px;
         color: #fff;
+    }
+    /* 登陆提示 */
+    .tips-container {
+        font-size: 14px;
+        font-weight: 600;
+        color: #ed4014;
+        margin: 10px 0 0 112px;
+        
     }
 </style>

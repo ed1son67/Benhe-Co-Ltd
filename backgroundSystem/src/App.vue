@@ -17,9 +17,7 @@ export default {
         padding: 0;
         height: auto;
         width: 100%;
-        font-family: 'MicrosoftYaHei';
-        font-weight: bold;
-        font-size: 16px;
+       
         color: #333;
     }
     #app {
@@ -30,6 +28,7 @@ export default {
          outline: none;
         background: transparent;
         cursor: pointer;
+        border: none;
     }
      .title {
         font-size: 24px;
@@ -39,5 +38,18 @@ export default {
         padding: 1px 11px;
         padding-bottom: 2px;
         margin-bottom: 32px;
+         font-weight: bold;
+        font-family: 'MicrosoftYaHei';
+
+        /* font-size: 16px; */
+    }
+    .root-container {
+        margin: 48px;
+    }
+    .ivu-form-item-required .ivu-form-item-label:before {
+        display: none;
+    }
+    i {
+        font-style: normal;
     }
 </style>

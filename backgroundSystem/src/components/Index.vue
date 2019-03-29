@@ -6,10 +6,7 @@
                 <img src="../assets/images/logo.png" alt="">
                 
                 <span> 官网后台管理系统</span>
-                <div class="logout-container">
-                    欢迎！
-                    <button>退出</button>
-                </div>
+                
             </Header>
             
             <Layout>
@@ -23,7 +20,8 @@
                             </template>    
                             <MenuItem name="2-1" style="padding-left: 74px;">上传中文产品</MenuItem>
                             <MenuItem name="2-2" style="padding-left: 74px;">上传英文产品</MenuItem>
-                            <MenuItem name="2-3" style="padding-left: 74px;">查看所有产品</MenuItem>
+                            <MenuItem name="2-3" style="padding-left: 74px;">查看中文产品</MenuItem>
+                            <MenuItem name="2-4" style="padding-left: 74px;">查看英文产品</MenuItem>
                         </Submenu>
                     </Menu>
                 </Sider>
@@ -36,9 +34,7 @@
                                 <p>产品管理：对官网展示产品进行查看，上传以及修改</p>
                             </div>
                         </div>
-                        <component v-bind:is="currentTabComponent">
-                           
-                        </component>
+                        <router-view></router-view>
                     </Content>
                     <!-- <Footer class="layout-footer">benhe ©2019 Created by CZF</Footer> -->
                 </Layout>
@@ -85,20 +81,11 @@
 </template>
 
 <script>
-    import Banner from "./Banner.vue";
-    import UploadCN from "./UploadCN.vue";
-    import UploadEN from "./UploadEN.vue";
-    import Check from "./Check.vue";
+   
 
 
     export default {
         name: 'Index',
-        components: {
-            Banner,
-            UploadCN,
-            UploadEN,
-            Check
-        },
         data() {
             return {
                 showIndex: true,
@@ -114,16 +101,20 @@
                 this.showIndex = false;
                 switch (name) {
                     case '1':
-                        this.currentTabComponent = Banner;
+                        this.$router.push('/index/banner');
                         break;
                     case '2-1':
-                        this.currentTabComponent = UploadCN;   
+                        this.$router.push('/index/uploadcn');
                         break;
                     case '2-2':
-                        this.currentTabComponent = UploadEN;   
+                        this.$router.push('/index/uploaden');
+
                         break;
                     case '2-3':
-                        this.currentTabComponent = Check;   
+                        this.$router.push('/index/productscn');
+                        break;
+                     case '2-4':
+                        this.$router.push('/index/productsen');
                         break;
                     default:
                         break;

@@ -23,7 +23,7 @@
                         <span class="label">
                             {{footerInfo.cn.webLabel}}
                         </span>
-                        WWW.GDXLFOOD.COM
+                        WWW.BENHEFOODSTUFF.COM
                     </p>
                     <p>
                         <span class="label">
@@ -36,10 +36,10 @@
                     <h2>{{footerInfo.cn.linkLabel}}</h2>
                     <p><span class="label">
                             {{footerInfo.cn.benLabel}}
-                                </span><a href="https://M.TB.CN/H.3WHBHWV?SM=0A8987">HTTPS://M.TB.CN/H.3WHBHWV?SM=0A8987</a></p>
+                                </span><a href="//benhe.tmall.com/" target="blank">HTTPS://BENHE.TMALL.COM/</a></p>
                     <P><span class="label">
                                 {{footerInfo.cn.linLabel}}
-                                </span><a href="http://M.TB.CN/H.3WHX4SO?SM=BB7835">HTTPS://M.TB.CN/H.3WHX4SO?SM=BB7835</a></P>
+                                </span><a href="//linzhenhe.tmall.com/" target="blank">HTTPS://LINZHENHE.TMALL.COM/</a></P>
                 </div>
                 <div class="footer-logo-container">
                     <img src="./assets/images/logo.png" alt="">
