@@ -10,8 +10,8 @@
                     <Col span="8">
                         <FormItem label="新品：" prop='isNew'>
                             <RadioGroup v-model="formData.isNew" size="large">
-                                <Radio label="是"></Radio>
-                                <Radio label="否"></Radio>
+                                <Radio label="是" ></Radio>
+                                <Radio label="否" ></Radio>
                             </RadioGroup>
                         </FormItem>
                     </Col>
@@ -47,36 +47,11 @@
                     <Input v-model="formData.originPlace" placeholder="请输入产品产地" size="large"></Input>
                 </FormItem>
                 <header class="title">中文产品图片</header>
-                <p>必须上传三张图片，第一张图片将会作为产品列表展示</p>
+                <p>请上传三张图片，第一张图片将会作为产品列表展示</p>
                 <FormItem :label-width="0" prop="upload"> 
-                    <!-- <div class="upload-container">
-                        <Upload
-                            ref="upload"
-                            :show-upload-list="false"
-                            :on-success="handleSuccess"
-                            :format="['jpg','jpeg','png']"
-                            :max-size="2048"
-                            :on-format-error="handleFormatError"
-                            :on-exceeded-size="handleMaxSize"
-                            :before-upload="handleBeforeUpload"
-                            multiple
-                            type="drag"
-                            action="//jsonplaceholder.typicode.com/posts/"
-                            class="upload-box"
-                            >
-                            <div >
-                                <Icon type="ios-camera" size="37"></Icon>
-                                <div class="preview-container">
-                                    <img >
-                                    <div class="mask-container">
-                                        <Icon type="ios-eye-outline" @click.stop="handleView()"></Icon>
-                                        <Icon type="ios-trash-outline" @click.stop="handleRemove()"></Icon>
-                                    </div>
-                                </div>
-                            </div>
-                        </Upload>
-                    </div> -->
-                    <cusUpload></cusUpload>
+                    <cusUpload
+                        v-on:can-upload="changeUploadState"
+                    ></cusUpload>
                 </FormItem>
                 <FormItem :label-width="0">
                     <Button type="warning" @click="handleReset('formValidate')" >重置</Button>
@@ -88,14 +63,28 @@
 </template>
 
 <script>
+    import {myAxios} from '../ajax.js'
     import cusUpload from './Upload.vue';
     export default {
         name: 'UploadCN',
         components: {
             cusUpload   
         },
+        watch: {
+            
+        },
         data() {
+            const validateUpload = (rule, value, callback) => {
+                console.log(this.canUpload)
+                if (!this.canUpload) {
+                    callback(new Error('请上传三张图片'));
+                } else {
+                    callback();
+                }
+            };
             return {
+                fileList: '',
+                canUpload: false,
                 kinds: [
                     {
                         name: '膨化',
@@ -117,12 +106,6 @@
                     weight: '',
                     originPlace: '',
                     trademark: '',
-
-                    imgName: '',
-                    visible: false,
-                    uploadList: [
-
-                    ]
                 },
                 ruleValidate: {
                     name: [
@@ -150,81 +133,53 @@
                         { required: true, message: '选择不可以为空', trigger: 'blur' }
                     ],
                     upload: [
-                        { required: true, message: '选择不可以为空', trigger: 'blur' }                        
+                        { validator: validateUpload, trigger: 'blur' }             
                     ]
-                    // mail: [
-                    //     { required: true, message: 'Mailbox cannot be empty', trigger: 'blur' },
-                    //     { type: 'email', message: 'Incorrect email format', trigger: 'blur' }
-                    // ],
-                    // city: [
-                    //     { required: true, message: 'Please select the city', trigger: 'change' }
-                    // ],
-                    // gender: [
-                    //     { required: true, message: 'Please select gender', trigger: 'change' }
-                    // ],
-                    // interest: [
-                    //     { required: true, type: 'array', min: 1, message: 'Choose at least one hobby', trigger: 'change' },
-                    //     { type: 'array', max: 2, message: 'Choose two hobbies at best', trigger: 'change' }
-                    // ],
-                    // date: [
-                    //     { required: true, type: 'date', message: 'Please select the date', trigger: 'change' }
-                    // ],
-                    // time: [
-                    //     { required: true, type: 'string', message: 'Please select time', trigger: 'change' }
-                    // ],
-                    // desc: [
-                    //     { required: true, message: 'Please enter a personal introduction', trigger: 'blur' },
-                    //     { type: 'string', min: 20, message: 'Introduce no less than 20 words', trigger: 'blur' }
-                    // ]
                 }
             }
         },
         methods: {
+            changeUploadState(file) {
+                file === '' ? this.canUpload = false: this.canUpload = true;
+                this.fileList = file;
+            },
             handleSubmit (name) {
                 this.$refs[name].validate((valid) => {
-                    if (valid) {
-                        this.$Message.success('Success!');
-                    } else {
-                        this.$Message.error('Fail!');
-                    }
+                    if (valid) this.post();
                 })
             },
             handleReset (name) {
                 this.$refs[name].resetFields();
             },
-            handleView (name) {
-                this.imgName = name;
-                this.visible = true;
-            },
-            handleRemove (file) {
-                const fileList = this.$refs.upload.fileList;
-                this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
-            },
-            handleSuccess (res, file) {
-                file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
-                file.name = '7eb99afb9d5f317c912f08b5212fd69a';
-                console.log(123);
-            },
-            handleFormatError (file) {
-                this.$Notice.warning({
-                    title: 'The file format is incorrect',
-                    desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
-                });
-            },
-            handleMaxSize (file) {
-                this.$Notice.warning({
-                    title: 'Exceeding file size limit',
-                    desc: 'File  ' + file.name + ' is too large, no more than 2M.'
-                });
-            },
-            handleBeforeUpload () {
-                const check = this.uploadList.length < 5;
-                if (!check) {
-                    this.$Notice.warning({
-                        title: 'Up to five pictures can be uploaded.'
-                    });
+            post() {
+                
+                let data = new FormData();
+                console.log(data)
+
+               
+                let form = this.formData;
+
+                form.isNew === '是' ? form.isNew = 1 : form.isNew = 0;
+                form.isHot === '是' ? form.isHot = 1 : form.isHot = 0;
+
+                data.append('picture1', this.fileList[0])
+                data.append('picture1', this.fileList[1])
+                data.append('picture1', this.fileList[2])
+
+                for (const key in form) {
+                    if (form.hasOwnProperty(key)) {
+                        const element = form[key];
+                        data.append(key, element);
+                    }
                 }
-                return check;
+             
+
+
+                myAxios.uploadProduct(data).then((res) => {
+
+                }).catch((err) => {
+
+                });
             }
         }
     }

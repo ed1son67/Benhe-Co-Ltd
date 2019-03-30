@@ -1,24 +1,28 @@
 <template>
     <div class="upload">
-        <div @click="handleClick">
-            <input
-                ref="input"
-                type="file"
-                @change="handleChange"
-                multiple="true"
-                
-            >
-            <div class="upload-item" v-for="item in uploadItems" :key="item.id">
-                <Icon type="ios-camera" v-show="!item.completePreview"></Icon>
-                <div class="preview-container" v-show="item.completePreview">
-                    <img :src="item.src">
-                    <div class="mask-container">
-                        <Icon type="ios-eye-outline" @click.stop="handleView()"></Icon>
-                        <Icon type="ios-trash-outline" @click.stop="handleRemove()"></Icon>
-                    </div>
+        <input
+            ref="input"
+            type="file"
+            @change="handleChange"
+            accept=".png, .jpg, jpeg"
+            name="pciture"
+        >
+        <div class="upload-item" v-for="item in uploadItems" :key="item.id" @click="handleClick(item.id)">
+            <Icon type="ios-camera" v-show="!item.completePreview"></Icon>
+            <div class="preview-container" v-show="item.completePreview">
+                <img :src="item.src">
+                <div class="mask-container">
+                    <Icon type="ios-eye-outline" @click.stop="handleView(item.id)"></Icon>
+                    <Icon type="ios-trash-outline" @click.stop="handleRemove(item.id)"></Icon>
                 </div>
             </div>
         </div>
+        <Modal title="查看大图" v-model="visible">
+            <img :src="nowSrc" v-if="visible" style="width: 100%">
+                <div slot="footer">
+                <Button type="primary" size="large" long  @click="visible = false">确定</Button>
+            </div>
+        </Modal>
     </div>
 </template>
 
@@ -27,19 +31,30 @@
         name: 'cusUpload',
         data() {
             return {
+                length: this.fileLength,
+                visible: false,
+                nowSrc: '',
+                fileList: [
+                    
+                ],
+                nowIndex: 0,
                 completePreview: false,
                 uploadItems: [
                     {
                         src: '',
-                        completePreview: false
+                        completePreview: false,
+                        id: 0
                     },
                     {
                         src: '',
-                        completePreview: false
+                        completePreview: false,
+                        id: 1
                     },
                     {
                         src: '',
-                        completePreview: false
+                        completePreview: false,
+                        id: 2
+
                     }
                 ]
             }
@@ -48,16 +63,16 @@
             /**
              * 读取图片文件
              */
-            readFile(file, index) {
-                console.log(index);
+            readFile(file) {
+                console.log(file);
                 if (window.FileReader){ //检测浏览器是否支持    
                     let reader = new FileReader(); 
                     reader.readAsDataURL(file);
 
                     // 文件读取完毕
                     reader.onload = (e) => {
-                        this.uploadItems[index].src = e.target.result;
-                        this.uploadItems[index].completePreview = true;
+                        this.uploadItems[this.nowIndex].src = e.target.result;
+                        this.uploadItems[this.nowIndex].completePreview = true;
 
                     }; 
                 } else {
@@ -68,32 +83,41 @@
             /**
              *  点击放大图片功能 
              */
-            handleView() {
+            handleView(index) {
+                this.nowSrc = this.uploadItems[index].src;
+                this.visible = true;
             },
             /**
              *  点击删除图片功能 
              */
-            handleRemove() {
-
+            handleRemove(index) {
+                this.fileList[0] = '';
+                this.uploadItems[index].src = "";
+                this.uploadItems[index].completePreview = false;
+                this.length--;
             },
-            handleClick () {
-                if (this.disabled) return;
+            handleClick (index) {
+                this.nowIndex = index;
                 this.$refs.input.click();
             },
             handleChange(e) {
+                
                 const files = e.target.files;
-                console.log(files)
+               
                 if (!files) {
                     return;
                 }
-                let i = 0;
+
+                this.fileList[this.nowIndex] = files[0];
+                this.length++;
+               
                 for (const key in files) {
                     if (files.hasOwnProperty(key)) {
                         const element = files[key];
-                        this.readFile(element, i++);
+                        this.readFile(element)
                     }
                 }
-                i = 0;
+               
 
                 this.$refs.input.value = null;
             },
@@ -108,8 +132,19 @@
                 });
             },
         },
+        watch: {
+            length(val) {
+                if (this.length == 3) 
+                    this.$emit('can-upload', this.fileList);
+                else 
+                    this.$emit('can-upload', '');
+            }
+        },
         props: {
-           
+           fileLength: {
+               type: Number,
+               default: 0
+           }
         },
     }
 </script>
@@ -119,7 +154,8 @@
         display: none;
     }
     .upload {
-        margin-top: 20px;
+        margin: 20px 0;
+        height: 160px;
     }
     
     .upload-item {

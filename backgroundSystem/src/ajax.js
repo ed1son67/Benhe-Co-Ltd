@@ -36,7 +36,8 @@ export const myAxios = {
         data: data,
         headers: {
             'Content-Type': 'multipart/form-data'
-        }
+        },
+        
     }),
 };
 

@@ -15,12 +15,12 @@
                 :on-success="handleSuccess"
                 :on-format-error="handleFormatError"
                 style="display:inline-block;"
-                :show-upload-list="false"
+                
                 >
                 <Button type="primary" class="updateBanner-button-container">更新</Button>
+                <Button v-show="showComfirm" style="display:inline-block; height: 45px; width: 120px; margin-left: 5px; font-size: 16px;" type="success" @click.stop="upload">提交</Button>
                 
             </Upload>
-                <Button v-show="showComfirm" style="display:inline-block; height: 45px; width: 120px; margin-left: 5px; font-size: 16px;" type="success" @click="upload">提交</Button>
         </main>
     </div>
 </template>
@@ -34,7 +34,7 @@
             return {
                 nowSrc: '',
                 comfimUpload: false,
-                showComfirm: true
+                showComfirm: false
             }
         },
         components: {
@@ -43,6 +43,8 @@
         },
         methods: {
             previewImg(path) {
+                if(path != "")
+                    this.showComfirm = true; 
                 this.nowSrc = path;
             },
             queryBanner() {
@@ -55,7 +57,6 @@
             },
             
             upload() {
-                console.log( this.comfimUpload)
                 this.comfimUpload = true;
             },
             handleError (error) {
@@ -64,7 +65,8 @@
                     desc: '检查你的网络后重试'
                 });
                 this.comfimUpload = false;
-
+                this.queryBanner();
+                
             },
             handleSuccess (res, file) {
                 this.$Notice.success({
@@ -72,6 +74,9 @@
                     desc: '图片已成功上传'
                 });
                 this.comfimUpload = false;
+                this.showComfirm = false; 
+                this.queryBanner();
+
             },
             handleFormatError (file) {
                 this.$Notice.error({
@@ -79,6 +84,8 @@
                     desc: '上传文件的格式应该为PNG, JPG 或 JPEG'
                 });
                 this.comfimUpload = false;
+                this.showComfirm = false; 
+                this.queryBanner();
 
             },
            

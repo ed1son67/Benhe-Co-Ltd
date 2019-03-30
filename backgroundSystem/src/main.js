@@ -6,7 +6,7 @@ import router from './router'
 import store from './store'
 import 'iview/dist/styles/iview.css';
 import './theme/theme.less';
-import {Notice, BreadcrumbItem, Breadcrumb, Poptip, Page, Upload, Option, Select, Row, Col, Submenu, Button, Radio, RadioGroup, Input, Icon, Form, FormItem,Layout,Menu,Sider,MenuItem } from 'iview';
+import {Modal, Notice, BreadcrumbItem, Breadcrumb, Poptip, Page, Upload, Option, Select, Row, Col, Submenu, Button, Radio, RadioGroup, Input, Icon, Form, FormItem,Layout,Menu,Sider,MenuItem } from 'iview';
 
 Vue.component('Button', Button);
 Vue.component('Radio', Radio);
@@ -29,6 +29,7 @@ Vue.component('Page', Page);
 Vue.component('Poptip', Poptip);
 Vue.component('Breadcrumb', Breadcrumb);
 Vue.component('BreadcrumbItem', BreadcrumbItem);
+Vue.component('Modal', Modal);
 
 Vue.prototype.$Notice = Notice;
 
