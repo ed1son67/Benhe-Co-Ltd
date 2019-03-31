@@ -1,10 +1,13 @@
 import axios from 'axios';
+//
 
-export const IP = '/api';
+export const IP = '/dist';
+
 
 const baseAxios = axios.create({
-	baseURL: IP
-})
+    baseURL: IP,
+});
+
 
 export const myAxios = {
     /**

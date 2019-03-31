@@ -52,7 +52,7 @@ export default {
         margin: 48px;
     }
     .ivu-form-item-required .ivu-form-item-label:before {
-        display: none;
+        display: none !important;
     }
     i {
         font-style: normal;

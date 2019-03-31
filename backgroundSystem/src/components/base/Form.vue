@@ -191,7 +191,6 @@
              * 监听子组件的文件改变
              */
             fileChange(file) {
-                console.log(file)
                 this.fileList[file.pos].picture = file.file;
                 console.log(this.fileList)
 
@@ -227,12 +226,12 @@
             },
             editProduct() {
                 myAxios.modifyProduct(this.getData(), this.language).then((res) => {
-                    if (res.data.status === 1) 
+                    if (res.data.status === '1') 
                         this.$Notice.success({
                             title: '修改成功！',
                         })
-                    // else 
-                        // this.$loginTip();
+                    else 
+                        this.$loginTip();
                     
                 }).catch((err) => {
                     this.$Notice.error({
@@ -262,11 +261,14 @@
                    if (this.fileList.hasOwnProperty(key)) {
                        const element = this.fileList[key];
                        if (element.picture != '') {
-                            console.log(element.picture)
-                            console.log(123)
-                            let index = parseInt(key) + 1;
-                            let name = 'picture' + index;
-                            data.append(name, element.picture);
+                            if (this.editType) {
+                                let index = parseInt(key) + 1;
+                                let name = 'picture' + index;
+                                data.append(name, element.picture);
+                                
+                            } else {
+                                data.append('picture', element.picture);
+                            }
                         }
                    }
                 }
@@ -275,7 +277,7 @@
             },
             addProduct() {
                 myAxios.uploadProduct(this.getData(), this.language).then((res) => {
-                    if (res.data.status === 1) 
+                    if (res.data.status === '1') 
                         this.$Notice.success({
                             title: '上传成功！',
                         })

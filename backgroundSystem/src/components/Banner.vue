@@ -8,7 +8,7 @@
             <Upload 
                 :format="['jpg','jpeg','png']"
                 v-on:img-preview="previewImg"
-                action="/api/admin/updatebanner"
+                action="http://www.flyingstars.cn:9874/admin/updatebanner"
                 name="banner"
                 :comfirmUpload="comfimUpload"
                 :on-error="handleError"
@@ -71,7 +71,7 @@
                 
             },
             handleSuccess (res, file) {
-                if (res.status === 1) {
+                if (res.status === '1') {
                     this.$Notice.success({
                         title: '上传成功',
                         desc: '图片已成功上传'

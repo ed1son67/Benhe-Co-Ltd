@@ -30,8 +30,7 @@
         <main>
             <div class="banner-container">
                 <div class="banner" >
-                    <!-- <img :src="bannerLink" alt=""> -->
-                    <img src="../assets/images/banner_cn.png" alt="">
+                    <img :src="bannerLink" alt="">
 
                     <div class="slogen-container">
                         <h1 v-if="language">本合</h1>
@@ -267,12 +266,11 @@
             },
             initIndex(){
                 // get banner
-                // myAxios.getBanner().then((res) => {
-                //     console.log(res.data)
-                //     // this.bannerLink = 'http://benhe.oss-cn-shenzhen.aliyuncs.com/' + res.data.url
-                // }).catch((err) => {
-                //     console.log(err)
-                // })
+                myAxios.getBanner().then((res) => {
+                    this.bannerLink = 'http://benhe.oss-cn-shenzhen.aliyuncs.com/' + res.data.url
+                }).catch((err) => {
+                    console.log(err)
+                })
 
                 // get hotpush products
                 this.tip = true;

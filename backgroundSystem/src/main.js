@@ -49,6 +49,8 @@ Vue.prototype.$loginTip = function() {
 
 Vue.config.productionTip = false;
 
+process.env.NODE_ENV === 'development' ? '/dist' : ''; 
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
@@ -69,3 +71,4 @@ router.beforeEach((to, from, next) => {
         next();
     }
 });
+

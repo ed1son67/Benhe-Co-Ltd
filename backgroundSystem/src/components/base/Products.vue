@@ -119,7 +119,7 @@
                 
                 myAxios.deleteProduct(id, this.language).then((res) => {
                     
-                    if (res.data.status === 1) {
+                    if (res.data.status === '1') {
                         this.$Notice.success({
                             title: '删除商品成功!',
                         });

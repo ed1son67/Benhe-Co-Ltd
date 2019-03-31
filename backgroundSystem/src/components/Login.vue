@@ -1,6 +1,6 @@
 <template>
     <div class="container" >
-        <div class="login-container">
+         <div class="login-container">
             <h1>本合食品有限公司</h1>
             <p>后台管理系统</p>
             <div class="form-container">
@@ -87,10 +87,13 @@
         height: 100vh;
         width: 100%;
         background: url(../assets/images/banner_cn.jpg) no-repeat center top;
-        background-size: 100%;
         background-size: cover;
         position: relative;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        min-height: 100vh;
     }
+    
     .login-container {
         color: #fff;
         height: 500px;
