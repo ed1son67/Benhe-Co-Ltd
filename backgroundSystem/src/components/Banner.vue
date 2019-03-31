@@ -27,7 +27,7 @@
 
 <script>
     import { myAxios, IP } from "../ajax.js";
-    import cusUpload from './Upload.vue';
+    import cusUpload from './base/Upload.vue';
     export default {
         name: 'Banner',
         data() {
@@ -49,10 +49,12 @@
             },
             queryBanner() {
                 myAxios.getBanner().then((res) => {
-                    console.log(res)
                     this.nowSrc = this.oss + res.data.url;
                 }).catch((err) => {
-                    console.log(err);
+                    this.$Notice({
+                        title: '加载首页图片失败',
+                        desc: '请检查您的网络后重试'
+                    })
                 })
             },
             
@@ -69,14 +71,17 @@
                 
             },
             handleSuccess (res, file) {
-                this.$Notice.success({
-                    title: '上传成功',
-                    desc: '图片已成功上传'
-                });
+                if (res.status === 1) {
+                    this.$Notice.success({
+                        title: '上传成功',
+                        desc: '图片已成功上传'
+                    });   
+                } else {
+                    this.$loginTip();
+                }
                 this.comfimUpload = false;
                 this.showComfirm = false; 
                 this.queryBanner();
-
             },
             handleFormatError (file) {
                 this.$Notice.error({
@@ -86,9 +91,7 @@
                 this.comfimUpload = false;
                 this.showComfirm = false; 
                 this.queryBanner();
-
             },
-           
         },
         mounted() {
             // get now Banner  

@@ -6,7 +6,14 @@
 
 <script>
 export default {
-  name: 'App'
+    name: 'App',
+    mounted() {
+        window.onbeforeunload=function(e){
+            var e=window.event||e;
+            e.returnValue=("确定离开当前页面吗？");
+        }
+        this.$router.push('/login');
+    }
 }
 </script>
 
@@ -17,9 +24,10 @@ export default {
         padding: 0;
         height: auto;
         width: 100%;
-       
         color: #333;
     }
+
+    
     #app {
         height: auto;
         width: 100%;
@@ -38,10 +46,7 @@ export default {
         padding: 1px 11px;
         padding-bottom: 2px;
         margin-bottom: 32px;
-         font-weight: bold;
-        font-family: 'MicrosoftYaHei';
-
-        /* font-size: 16px; */
+        font-weight: bold;
     }
     .root-container {
         margin: 48px;

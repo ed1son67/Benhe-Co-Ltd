@@ -61,10 +61,22 @@
         },
         methods: {
             /**
+             * 设置默认的图片链接
+             */
+            setDefaultUrls() {
+        
+                console.log(this.defaultUrls);
+                for (let index = 0; index < this.uploadItems.length; index++) {
+                    this.uploadItems[index].completePreview = true;
+                    this.uploadItems[index].src = this.oss + this.defaultUrls[index];
+                    
+                }
+            },
+            /**
              * 读取图片文件
              */
             readFile(file) {
-                console.log(file);
+                console.log(window.FileReader)
                 if (window.FileReader){ //检测浏览器是否支持    
                     let reader = new FileReader(); 
                     reader.readAsDataURL(file);
@@ -73,11 +85,12 @@
                     reader.onload = (e) => {
                         this.uploadItems[this.nowIndex].src = e.target.result;
                         this.uploadItems[this.nowIndex].completePreview = true;
-
                     }; 
                 } else {
                     let URL = window.URL || window.webkitURL; 
                     let imageURL = URL.createObjectURL(file);
+                    this.uploadItems[this.nowIndex].src = e.target.result;
+                    this.uploadItems[this.nowIndex].completePreview = true;
                 }
             },
             /**
@@ -91,14 +104,18 @@
              *  点击删除图片功能 
              */
             handleRemove(index) {
-                this.fileList[0] = '';
+                this.nowIndex = index;                
+                this.fileList[index] = '';
+               
                 this.uploadItems[index].src = "";
                 this.uploadItems[index].completePreview = false;
                 this.length--;
             },
             handleClick (index) {
                 this.nowIndex = index;
-                this.$refs.input.click();
+                if (this.uploadItems[index].completePreview == false) {
+                    this.$refs.input.click();   
+                }
             },
             handleChange(e) {
                 
@@ -111,14 +128,8 @@
                 this.fileList[this.nowIndex] = files[0];
                 this.length++;
                
-                for (const key in files) {
-                    if (files.hasOwnProperty(key)) {
-                        const element = files[key];
-                        this.readFile(element)
-                    }
-                }
                
-
+                this.readFile(files[0]);
                 this.$refs.input.value = null;
             },
             uploadFiles (files) {
@@ -134,17 +145,21 @@
         },
         watch: {
             length(val) {
-                if (this.length == 3) 
-                    this.$emit('can-upload', this.fileList);
-                else 
-                    this.$emit('can-upload', '');
+                this.$emit('can-upload', {pos: this.nowIndex, file: this.fileList[this.nowIndex]});
+            },
+            defaultUrls() {
+                this.setDefaultUrls();
             }
         },
         props: {
-           fileLength: {
-               type: Number,
-               default: 0
-           }
+            fileLength: {
+                type: Number,
+                default: 0
+            },
+            defaultUrls: {
+                type: Array,
+                default: []
+            }
         },
     }
 </script>
@@ -154,7 +169,7 @@
         display: none;
     }
     .upload {
-        margin: 20px 0;
+        margin: 20px 0 10px 0;
         height: 160px;
     }
     
@@ -185,6 +200,7 @@
         text-align: center;
         position: relative;
         border: none;
+        z-index: 999;
     }
     .preview-container img{
         width: 100%;
@@ -208,6 +224,7 @@
         font-size: 40px;
         cursor: pointer;
         margin: 0 2px;
+        
     }
     
 </style>

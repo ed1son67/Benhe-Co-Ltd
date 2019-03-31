@@ -6,7 +6,7 @@ import router from './router'
 import store from './store'
 import 'iview/dist/styles/iview.css';
 import './theme/theme.less';
-import {Modal, Notice, BreadcrumbItem, Breadcrumb, Poptip, Page, Upload, Option, Select, Row, Col, Submenu, Button, Radio, RadioGroup, Input, Icon, Form, FormItem,Layout,Menu,Sider,MenuItem } from 'iview';
+import {Content, Modal, Notice, BreadcrumbItem, Breadcrumb, Poptip, Page, Upload, Option, Select, Row, Col, Submenu, Button, Radio, RadioGroup, Input, Icon, Form, FormItem,Layout,Menu,Sider,MenuItem } from 'iview';
 
 Vue.component('Button', Button);
 Vue.component('Radio', Radio);
@@ -30,14 +30,24 @@ Vue.component('Poptip', Poptip);
 Vue.component('Breadcrumb', Breadcrumb);
 Vue.component('BreadcrumbItem', BreadcrumbItem);
 Vue.component('Modal', Modal);
+Vue.component('Content', Content);
 
 Vue.prototype.$Notice = Notice;
 
-
-
 Vue.prototype.oss = 'http://benhe.oss-cn-shenzhen.aliyuncs.com/';
 
-Vue.config.productionTip = false
+// 提示登陆身份过期
+Vue.prototype.$loginTip = function() {
+    this.$Notice.error({
+        title: '登陆身份过期',
+        desc: '请重新登陆'
+    });
+    setTimeout(() => {
+        router.push('/login');
+    }, 1000);
+};
+
+Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({
@@ -49,13 +59,13 @@ new Vue({
   render: h => h(App)
 })
 
-// router.beforeEach((to, from, next) => {
-//     // Login Verification
-//     console.log(to.name);
-//     console.log(store.state.isLogin)
-//     if (store.state.isLogin != true ) {
-//         next(false)
-//     } else {
-//         next()
-//     }
-// });
+router.beforeEach((to, from, next) => {
+    // Login Verification
+    // console.log(to.name);
+    // console.log(store.state.isLogin)
+    if (store.state.isLogin != true ) {
+        next(false);
+    } else {
+        next();
+    }
+});

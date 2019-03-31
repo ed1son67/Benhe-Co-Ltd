@@ -178,9 +178,7 @@
         width: 100%;
         position: relative;
     }
-    .app-page-container {
     
-    }
     /* change the default css of tags */
     ul {
         margin: 0;

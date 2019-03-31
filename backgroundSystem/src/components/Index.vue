@@ -2,13 +2,9 @@
     <div class="root">
         <Layout class="layout">
             <Header  class="layout-header-bar">
-                <!-- <Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '0 20px'}" type="md-menu" size="24"></Icon> -->
                 <img src="../assets/images/logo.png" alt="">
-                
                 <span> 官网后台管理系统</span>
-                
             </Header>
-            
             <Layout>
                 <Sider ref="side1" hide-trigger collapsible  width='310'  >
                     <Menu active-name="1-2" theme="dark" width="auto" @on-select="selectMenu" class="menu-container">                 
@@ -38,44 +34,7 @@
                     </Content>
                     <!-- <Footer class="layout-footer">benhe ©2019 Created by CZF</Footer> -->
                 </Layout>
-                <!-- <Content class="content-container" >
-                    <div class="index-container" v-show="showLists.l0">
-                        <div class="first-page-container">
-                            <h1>欢迎使用</h1>
-                            <p>BANNER管理：对首页的banner图片进行修改查看</p>
-                            <p>产品管理：对官网展示产品进行查看，上传以及修改</p>
-                        </div>
-                    </div>
-                    <div class="banner-container " v-show="showLists.l1">
-                        <div class="main-container">
-                            <header class="title">
-                                当前BANNER
-                            </header>
-                            <div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="upload-container" v-show="showLists.l2">
-                        <div class="main-container">
-                            <header class="title">
-                                产品列表
-                            </header>
-                        </div>
-                    </div>
-                    <div class="check-container" v-show="showLists.l3">
-                        <div class="main-container">
-                            <header class="title">
-                                产品参数
-                            </header>
-                        </div>
-                    </div>
-                    <Footer class="layout-footer">
-                        21312
-                    </Footer>
-                </Content> -->
             </Layout>
-            
         </Layout>
     </div>
 </template>

@@ -1,21 +1,21 @@
 <template>
-    <div class="container">
+    <div class="container" >
         <div class="login-container">
             <h1>本合食品有限公司</h1>
             <p>后台管理系统</p>
             <div class="form-container">
                 <div class="form-item">
                     <label for="username">用户名：</label>
-                    <input id="username" v-model="userName" type="text" >
+                    <input id="username" v-model="userName" type="text" v-on:keyup.enter="handleSubmit">
                     <div class="tips-container" v-show="rules.username">用户名不可以为空</div>
                 </div>
                  <div class="form-item">
                     <label for="password">密码：</label>
-                    <input id="password" v-model="password"  type="password">
+                    <input id="password" v-model="password"  type="password" v-on:keyup.enter="handleSubmit">
                     <div class="tips-container" v-show="rules.password">密码不可以为空</div>
                 </div>
                 <div class="button-container">
-                    <button @click="handleSubmit">登陆</button> 
+                    <button @click="handleSubmit" >登陆</button> 
                 </div>
             </div>
 
@@ -86,7 +86,7 @@
     .container {
         height: 100vh;
         width: 100%;
-        background: url(../assets/images/banner_cn.png) no-repeat center top;
+        background: url(../assets/images/banner_cn.jpg) no-repeat center top;
         background-size: 100%;
         background-size: cover;
         position: relative;

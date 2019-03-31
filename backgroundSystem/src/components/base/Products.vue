@@ -6,6 +6,11 @@
             <span :class="{select: !isSelect}" @click="switchBrand(1)"><Icon type="md-cube" /><a>林振合产品</a></span>
         </div>
         <div class="productLists-container">
+            <div class="loading-container" v-show="showTips">
+                <p v-if="result">抱歉，没有找到更多商品</p>
+                <p v-if="loading">加载中...</p>
+                <p v-if="fail">请求商品失败，请检查你的网络后重试</p>
+            </div>
             <div class="product-container" v-for="item in items" :key="item.id"  >
                 <div class="product-content-container">
                     <i class="mask">
@@ -31,11 +36,20 @@
 </template>
 
 <script>
-    import { myAxios } from '../ajax.js';
+    import { myAxios } from '../../ajax.js';
     export default {
         name: '',
+        computed: {
+            language() {
+                return this.$store.state.language;
+            }
+        },
         data() {
             return {
+                showTips: false,
+                result: false,
+                loading: false,
+                fail: false,
                 show: true,
                 brand: '本合',
                 isSelect: true,
@@ -48,9 +62,8 @@
             }
         }, 
         mounted() {
-            
+            console.log(this.language)
             this.queryAllProducts();
-            
         },
         watch: {
             brand(val) {
@@ -75,41 +88,60 @@
              * 获取所有的商品
              */
             queryAllProducts() {
-                myAxios.getAllProducts(this.nowPage, this.brand).then((res) => {
-                    this.clearItems();
-                    this.setItems(res.data.products, res.data.allSize);
+                this.clearItems();
+                this.showTips = true;
+                this.loading = true;
+                this.fail = false;
+
+
+                myAxios.getAllProducts(this.nowPage, this.brand, this.language).then((res) => {
                     
+                    if (res.data.allSize == 0) {
+                        this.result = true;
+                        this.loading = false;
+                        this.fail = false;
+                        
+                    } else {
+                        this.setItems(res.data.products, res.data.allSize);
+                        this.loading = false;
+                        this.showTips = false;
+                        this.fail = false;
+                    }
                 }).catch((err) => {
-                    console.log(err);
+                    this.loading = false;
+                    this.fail = true;
                 });
             },
             /**
              * 删除一个商品
              */
             comfirmDelete(id) {
-                console.log(id);
-                myAxios.deleteProduct(id).then((res) => {
-                    this.items.unshift(0)
-                    if (res.data.status === 1) 
+                
+                myAxios.deleteProduct(id, this.language).then((res) => {
+                    
+                    if (res.data.status === 1) {
                         this.$Notice.success({
                             title: '删除商品成功!',
-                        })
+                        });
+                        // 去掉这个商品
+                        this.items.shift();
+                    } else {
+                        this.$loginTip();
+                    }
                 }).catch((err) => {
-                    console.log(err);
-                    
+                   this.$Notice.error({
+                        title: '删除商品失败',
+                        desc: '请检查您的网络后重试'
+                    });
                 });
+                
             },
             /**
              * 设置产品数据
              */
             setItems(data, numbers) {
-                if (numbers == 0) {
-                    // 数量为0的时候进行提示
-
-                } else {
-                    this.items = data;
-                    this.totalSize = numbers;
-                }
+                this.items = data;
+                this.totalSize = numbers;
             },
             /**
              *  清空所有产品 
@@ -253,5 +285,12 @@
     .select i {
         color: #515a6e;
     
+    }
+    /* 加载提示 */
+    .loading-container {
+        width: 1440px;
+        text-align: center;
+        font-size: 18px;
+        margin: 50px 0;
     }
 </style>
