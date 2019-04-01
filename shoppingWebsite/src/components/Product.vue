@@ -1,90 +1,102 @@
 <template>
     <div class="root" >
-        <nav>
-            <Breadcrumb v-if="language" >
-                <span>当前位置：</span>
-                <BreadcrumbItem to="/index">
-                    <Icon type="ios-home" /> 首页
-                </BreadcrumbItem>
-                <BreadcrumbItem :to="link">
-                    <Icon type="logo-buffer"></Icon> {{shopName}}
-                </BreadcrumbItem>
-                <BreadcrumbItem>
-                    <Icon type="ios-cube" />
-                    产品详情
-                </BreadcrumbItem>
-            </Breadcrumb>
-            <Breadcrumb v-else >
-                <span>POSITION: </span>
-                <BreadcrumbItem to="/index">
-                    <Icon type="ios-home" /> HOME
-                </BreadcrumbItem>
-                <BreadcrumbItem :to="link">
-                    <Icon type="logo-buffer"></Icon> {{shopName}}
-                </BreadcrumbItem>
-                <BreadcrumbItem>
-                    <Icon type="ios-cube" />
-                    DETAILS
-                </BreadcrumbItem>
-            </Breadcrumb>
-        </nav>
-        <div class="result-container" v-show="result">
-            <p v-if="language">抱歉，您所查找的商品不存在。</p>
-            <p v-else >Sorry, We can't found this product.</p>
+        <div class="result-container" v-show="tip">
+            <div v-if="result">
+                <p v-if="language">抱歉，您所查找的商品不存在。</p>
+                <p v-else >Sorry, We can't found this product.</p>
+            </div>
+            <div v-if="loading">
+                <p v-if="language">加载中...</p>
+                <p v-else >loading...</p>
+            </div>
+            <div v-if="fail">
+                <p v-if="language">网络似乎有点问题，请点击<a @click="queryAll">刷新</a>后重试。</p>
+                <p v-else >Sorry, please check your network, click <a @click="queryAll">here </a> and try again.</p>
+            </div>
         </div >
-        <div class="main-container" v-show="!result">
-            <div class="img-sidebar container" >
-                <div data-index="0" :class="{showThisPic: isHover.h0}" @mouseover="over"><img :src="oss + detail.urls[0]" alt=""></div>
-                <div data-index="1" :class="{showThisPic: isHover.h1}" @mouseover="over"><img :src="oss + detail.urls[1]" alt=""></div>
-                <div data-index="2" :class="{showThisPic: isHover.h2}" @mouseover="over"><img :src="oss + detail.urls[2]" alt=""></div>
-            </div>
-            <!-- img detail part -->
-            <div class="img-detail-container container" @mousemove="maskMove" @mouseenter="showMask = true" @mouseleave="showMask = false">
-                <img :src="nowPic" >
-                <div class="mask" v-show="showMask"></div>
-                <div class="big" v-show="showMask">
+        <div class="main-container" v-show="!tip">    
+            <nav >
+                <Breadcrumb v-if="language" >
+                    <span>当前位置：</span>
+                    <BreadcrumbItem to="/index">
+                        <Icon type="ios-home" /> 首页
+                    </BreadcrumbItem>
+                    <BreadcrumbItem :to="link">
+                        <Icon type="logo-buffer"></Icon> {{shopName}}
+                    </BreadcrumbItem>
+                    <BreadcrumbItem>
+                        <Icon type="ios-cube" />
+                        产品详情
+                    </BreadcrumbItem>
+                </Breadcrumb>
+                <Breadcrumb v-else >
+                    <span>POSITION: </span>
+                    <BreadcrumbItem to="/index">
+                        <Icon type="ios-home" /> HOME
+                    </BreadcrumbItem>
+                    <BreadcrumbItem :to="link">
+                        <Icon type="logo-buffer"></Icon> {{shopName}}
+                    </BreadcrumbItem>
+                    <BreadcrumbItem>
+                        <Icon type="ios-cube" />
+                        DETAILS
+                    </BreadcrumbItem>
+                </Breadcrumb>
+            </nav>
+            <main >
+                <div class="img-sidebar container" >
+                    <div data-index="0" :class="{showThisPic: isHover.h0}" @mouseover="over"><img :src="oss + detail.urls[0]" alt=""></div>
+                    <div data-index="1" :class="{showThisPic: isHover.h1}" @mouseover="over"><img :src="oss + detail.urls[1]" alt=""></div>
+                    <div data-index="2" :class="{showThisPic: isHover.h2}" @mouseover="over"><img :src="oss + detail.urls[2]" alt=""></div>
+                </div>
+                <!-- img detail part -->
+                <div class="img-detail-container container" @mousemove="maskMove" @mouseenter="showMask = true" @mouseleave="showMask = false">
                     <img :src="nowPic" >
-                </div>
-            </div>
-            <!-- introduct part -->
-            <div class="introduce-container container">
-                <div class="name-container">
-                    <p>{{detail.name}}</p>
-                </div>
-                <div class="card-container">
-                    <div class="vertical-container">
-                        <p v-if="language">商品详情</p>
-                        <p v-else class="title-container">DETAILS</p>
-                    </div>
-                    <div class="detail-container">
-                        <div>
-                            <p>
-                                <span class="detail-img-container"><img src="../assets/images/icon_area.png" ></span>
-                                <span v-if="language">产地</span>
-                                <span v-else>PLACE OF ORIGIN</span>
-                            </p>
-                            <span class="detail">{{detail.originPlace}}</span>
-                        </div>
-                        <div style="margin: 40px 0;">
-                            <p >
-                                <span class="detail-img-container"><img src="../assets/images/icon_standard.png" ></span>
-                                <span v-if="language">规格</span>
-                                <span v-else>SPECIFICATION</span>
-                            </p>
-                            <span class="detail">{{detail.weight}}</span>
-                        </div>
-                        <div>
-                            <p>
-                                <span class="detail-img-container"><img src="../assets/images/icon_flaver.png" ></span>
-                                <span v-if="language">口味</span>
-                                <span v-else>FLAVOR</span>
-                            </p>
-                            <span class="detail">{{detail.flavor}}</span>
-                        </div>
-                        
+                    <div class="mask" v-show="showMask"></div>
+                    <div class="big" v-show="showMask">
+                        <img :src="nowPic" >
                     </div>
                 </div>
-            </div>
+                <!-- introduct part -->
+                <div class="introduce-container container">
+                    <div class="name-container">
+                        <p>{{detail.name}}</p>
+                    </div>
+                    <div class="card-container">
+                        <div class="vertical-container">
+                            <p v-if="language">商品详情</p>
+                            <p v-else class="title-container">DETAILS</p>
+                        </div>
+                        <div class="detail-container">
+                            <div>
+                                <p>
+                                    <span class="detail-img-container"><img src="../assets/images/icon_area.png" ></span>
+                                    <span v-if="language">产地</span>
+                                    <span v-else>PLACE OF ORIGIN</span>
+                                </p>
+                                <p class="detail">{{detail.originPlace}}</p>
+                            </div>
+                            <div style="margin: 40px 0;">
+                                <p >
+                                    <span class="detail-img-container"><img src="../assets/images/icon_standard.png" ></span>
+                                    <span v-if="language">规格</span>
+                                    <span v-else>SPECIFICATION</span>
+                                </p>
+                                <p class="detail">{{detail.weight}}</p>
+                            </div>
+                            <div>
+                                <p>
+                                    <span class="detail-img-container"><img src="../assets/images/icon_flaver.png" ></span>
+                                    <span v-if="language">口味</span>
+                                    <span v-else>FLAVOR</span>
+                                </p>
+                                <p class="detail">{{detail.flavor}}</p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </main>
         </div>
     </div>
 </template>
@@ -169,11 +181,20 @@
                 }
             },
             querryProduct() {
+                this.tip = true;
+                this.loading = true;
+                this.result = false;
+                this.fail = false;
+
+
                 myAxios.getProductDetail(parseInt(this.$route.params.id), this.lan).then((res) => {
                     if (res.data.id === 0) {
+                        this.loading = false;
                         this.result = true;
                     } else {
-                        this.result = false;                
+                        this.tip = false;
+                        this.loading = false;      
+                
                         this.detail = res.data;
                         
                         // set the first pic
@@ -187,21 +208,21 @@
                     }
 
                 }).catch((err) => {
-                    console.log(err)
+                    this.loading = false;      
+                    this.result = false;
+                    this.fail = true;
                 })
             }
         },
         mounted(){
-            
-            console.log(this.$route.name)
-            console.log(this.$route.params.id)
             this.changeNavBar();
             this.querryProduct();
-           
         },
         data() {
             return {
-                
+                tip: true,
+                loading: true,
+                fail: false,
                 result: false,
                 shopName: '',
                 link:'/',
@@ -229,9 +250,19 @@
 
 <style lang="" scoped>
     .root  {
-        width: 80%;
+        width: 100%;
         margin: 0 auto;
         margin-bottom: 60px;
+        min-height: 655px;
+        text-align: center;
+        min-width: 1600px;
+    }
+    .main-container {
+        display: inline-block;
+    }
+    .main-container nav {
+        text-align: left;
+        margin: 35px 0;
     }
     .main-container::after {
         content: "";
@@ -242,11 +273,10 @@
         visibility: hidden; 
     }
     .container {
-        float: left;
+        display: inline-block;
+        vertical-align: top;
     }
-    .root nav {
-        margin: 25px 0 53px 0;
-    }
+    
 
     /* sidebar */
     .img-sidebar {
@@ -272,9 +302,9 @@
     .img-detail-container {
         height: 516px;
         width: 516px;
-        
         margin-right: 112px;
         position: relative;
+        padding-top: 8px;
     }
     
     /* detail img */
@@ -315,6 +345,8 @@
         font-size: 32px;
         position: relative;
         width: 600px;
+        text-align: left;
+        margin-top: 20px;
     }
     .name-container p {
         min-height: 48px;
@@ -324,7 +356,6 @@
     }
     .name-container::after {
         content: "";
-        /* position: absolute; */
         height: 8px;
         width: 392px;
         display: block;
@@ -338,6 +369,8 @@
         border: 1px solid #333;
         margin-top: 85px;
         position: relative;
+        text-align: left;
+        
     }
     .card-container::before {
         content: "";
@@ -382,6 +415,7 @@
         vertical-align: top;
         margin: 35px 20px 35px 35px;
     }
+    
     .detail-container {
         float: left;
         margin: 33px 15px;
@@ -391,31 +425,35 @@
         margin: 0;
     }
     .detail-img-container {
-        width: 90px;
+        width: 80px;
         display: inline-block;
         text-align: center;
         vertical-align: middle;
         height: 26px;
     }
     .detail-container p {
-        min-width: 200px;
         display: inline-block;
+        vertical-align: middle;
+        width: 150px;
     }
-    .en .detail-container p {
-        width: 270px;
-    }
-    .en .detail-container p {
-        font-size: 16px;
-    }
-    
     .detail {
-        /* padding-bottom: 7px; */
+        overflow: hidden;
+        width: 290px !important;
+        height: 27px;
+    }
+    .en .detail-container p {
+        font-size: 15px;
+        vertical-align: middle;
+        width: 220px;
     }
     .en .detail {
-        font-size: 15px;
-        line-height: 27px;
+        width: 201px !important;
+        
+        
     }
-    
+    .en .detail-img-container {
+        width: 65px;
+    }
     .result-container {
         height: 456px;
         text-align: center;

@@ -63,7 +63,7 @@
                         <span class="label">
                             {{footerInfo.en.webLabel}}
                         </span>
-                        WWW.GDXLFOOD.COM
+                        WWW.BENHEFOODSTUFF.COM
                     </p>
                     <p>
                         <span class="label">
@@ -143,7 +143,6 @@
             }
         },
         mounted() {
-            console.log(this.language)
             // fixed the bug which vue router can't be used in ie 
             function checkIE(){
                 return '-ms-scroll-limit' in document.documentElement.style && '-ms-ime-align' in document.documentElement.style
@@ -218,6 +217,7 @@
         background-color: #5b9dd9;
         color: #fff;
         overflow: hidden;
+        min-width: 1690px;
     }
     .footer-container {
         padding: 48px 0;

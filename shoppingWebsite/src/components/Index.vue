@@ -117,11 +117,11 @@
                         <span v-else>Sorry, We are still working on it...</span>
                     </div>
                     <div v-show="!loading">
-                        <span v-if="language">网络似乎有点问题~</span>
-                        <span v-else>Sorry, please check your network...</span>       
+                        <span v-if="language">网络似乎有点问题，点击<a @click="getHotpush">刷新</a>重试</span>
+                        <span v-else>Sorry, please check your network, click <a @click="getHotpush()">here </a> and try again.</span>       
                     </div>             
                 </div>
-                <div class="hot-sale-product-container" v-for="item in items" :key="item.id" @click="jumpToDetail(item.id, item.trademark)">
+                <div class="hot-sale-product-container" v-for="item in items" :key="item.id" @click="jumpToDetail(item.id, item.trademark)" v-show="!tip">
                     <div>
                         <i class="mask"></i>
                         <img :src="oss + item.defaultUrl" alt="">
@@ -183,16 +183,16 @@
         },
         watch: {
             language() {
-                this.initIndex();
+                this.getHotpush();
             },
         },
         mounted() {
             window.addEventListener('scroll', this.handleScroll)
-            this.initIndex();
+            this.getBanner();
+            this.getHotpush();
         },
         beforeDestroy() {
             window.removeEventListener('scroll', this.handleScroll)
-
         },
         methods: {
             easeInOut(t, b, c, d) {
@@ -262,14 +262,15 @@
             scrollTo(target) {
                 this.scrollAnimation(target);
             },
-            initIndex(){
+            getBanner() {
                 // get banner
                 myAxios.getBanner().then((res) => {
                     this.bannerLink = 'http://benhe.oss-cn-shenzhen.aliyuncs.com/' + res.data.url
                 }).catch((err) => {
                     
                 })
-
+            },
+            getHotpush(){
                 // get hotpush products
                 this.tip = true;
                 this.loading = true;
@@ -284,7 +285,6 @@
                     }
                 }).catch((err) => {
                     this.loading = false;
-                    this.tip = true;
                 })
             },
             getScrollTop() {  
@@ -318,11 +318,11 @@
                     clear();
                     this.lists[2].active = true;
                 }
-                if (scrollTop >= 2400) {
+                if (scrollTop >= 2450) {
                     clear();
                     this.lists[3].active = true;
                 }
-                if (scrollTop >= 2700) {
+                if (scrollTop >= 2500) {
                     clear();
                     this.lists[4].active = true;
                 }
@@ -526,7 +526,7 @@
         height: auto;
         margin: 0 auto;
         text-align: center;
-        min-height: 426px;
+        min-height: 468px;
         overflow: hidden;
         min-width: 1550px;
     } 
@@ -542,6 +542,7 @@
         cursor: pointer;
         display: inline-block;
         vertical-align: top;
+        
     }
     .hot-sale-product-container div {
         height: 410px;

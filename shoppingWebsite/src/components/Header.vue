@@ -72,7 +72,7 @@
                         name: '天猫旗舰店',
                         enName: 'TIMALL',
                         isChoice: false,
-                        height: 2400,
+                        height: 2450,
                         type: 0,
                         to: '/'
                     }, {
