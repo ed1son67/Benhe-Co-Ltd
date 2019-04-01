@@ -167,7 +167,7 @@
         padding: 0;
         height: auto;
         width: 100%;
-        min-width: 1700px;
+        /* min-width: 1700px; */
         font-family: "Helvetica Neue",Helvetica,Arial,"Microsoft Yahei","Hiragino Sans GB","Heiti SC","WenQuanYi Micro Hei",sans-serif !important;
         font-weight: bold;
         font-size: 16px !important;
@@ -217,16 +217,16 @@
         height: auto;
         background-color: #5b9dd9;
         color: #fff;
-       
+        overflow: hidden;
     }
-    
     .footer-container {
         padding: 48px 0;
         margin: 0 154px 0 177px;
         height: 250px;
+        position: relative;
     }
     .contact-container, .icp-container, .link-container {
-        float: left;
+        display: inline-block;
     }
     .footer-container p {
         font-size: 16px;
@@ -235,9 +235,7 @@
     
     .footer-container h2 {
         font-size: 20px;
-        /* line-height: 22px; */
         text-decoration: underline;
-        /* border: 1px solid #fff; */
         padding-bottom: 40px;
         margin: 0;
     }
@@ -277,17 +275,14 @@
     }
     .link-container span {
         width: 130px;
-
     }
     .footer-logo-container {
-        height: 100%;
-        vertical-align: top;
-        margin-top: 40px;
-        float: right;
+        position:absolute;
+        right: 0;
+        top: 110px;
     }
     .en .label {
         width: 90px;
-        /* font-size: 22px; */
     } 
     .en .link-container span {
         width: 120px;

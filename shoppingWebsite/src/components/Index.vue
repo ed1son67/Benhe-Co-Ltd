@@ -170,7 +170,6 @@
 
 <script>
     import { myAxios } from "../ajax.js";
-    // import { Tween } from "../Tween.js";
 
     export default {
         name: 'Index',
@@ -204,7 +203,6 @@
                 this.$store.commit('changeLanguage', val);
             },
             jumpToDetail(id, brand) {
-                console.log(brand)
                 let link;
                 if (brand === '本合') 
                     link = 'benproducts/'
@@ -269,7 +267,7 @@
                 myAxios.getBanner().then((res) => {
                     this.bannerLink = 'http://benhe.oss-cn-shenzhen.aliyuncs.com/' + res.data.url
                 }).catch((err) => {
-                    console.log(err)
+                    
                 })
 
                 // get hotpush products
@@ -285,7 +283,6 @@
                         this.items = res.data.products;
                     }
                 }).catch((err) => {
-                    console.log(err)
                     this.loading = false;
                     this.tip = true;
                 })
@@ -293,12 +290,9 @@
             getScrollTop() {  
                 var scroll_top = 0;
                 if (document.documentElement && document.documentElement.scrollTop) {
-                    console.log('scroll_top = document.documentElement.scrollTop')
                     scroll_top = document.documentElement.scrollTop;
                 }
                 else if (document.body) {
-                    console.log('document.body')
-
                     scroll_top = document.body.scrollTop;
                 }
                 return scroll_top;
@@ -370,21 +364,7 @@
                         enName: 'CONTACT',
                         target: 2778,
                         active: false
-                    },
-                    // {
-                    //     name: '本合旗舰店',
-                    //     enName: 'BENHE',
-                    //     target: 0,
-                    //     active: false,
-                    //     type: 1,
-                    // },
-                    // {
-                    //     name: '林振合旗舰店',
-                    //     enName: 'LINZHENHE',
-                    //     target: 0,
-                    //     active: false,
-                    //     type: 1
-                    // }
+                    }
                 ],
                 isFixed: false,
                 items: [
@@ -405,24 +385,25 @@
     }
 </script>
 
-<style lang="" scoped>
+<style lang="css" scoped>
     .root {
-        margin-bottom: 137px;
+        margin-bottom: 137px; 
         position: relative;
     }   
     
     /* css of the hidden navigation second header */
     .second-header {
-        height: 75px;
+        height: 75px; 
         width: 100%;
         background-color: #5a9dd9;
         position: fixed;
         transition: all .3s ease-in-out;
         top: -75px;
-        /* transform: translateY(0); */
+        min-width: 1400px;
         z-index: 999;
         opacity: 0;
         box-shadow: 0 1px 3px rgba(26, 26, 26, 0.1);
+        overflow: hidden;
     }
     .second-header ul {
         margin-left: 50px;
@@ -517,14 +498,17 @@
 
     /* company introduce part */
     .profile-row-container {
-        width: 1350px;
         height: 368px;
         margin: 0 auto;
+        text-align: center;
+        min-width: 1400px;
+        overflow: hidden;
     }
     .profile-container {
         width: 450px;
         height: 368px;
-        float: left;
+        display: inline-block;
+        vertical-align: top;
     }
     .profile-container p {
         margin: 20px 25px;
@@ -539,11 +523,12 @@
 
     /* hot sale part */   
     .hot-sale-row-container {
-        width: 1950px;
         height: auto;
         margin: 0 auto;
         text-align: center;
         min-height: 426px;
+        overflow: hidden;
+        min-width: 1550px;
     } 
     .tips-container{
         font-size: 18px;
@@ -580,15 +565,17 @@
 
     /* TMall part */
     .shop-row-container {
-        width: 904px;
         height: 247px;
+        text-align: center;
         margin: 0 auto;
+        overflow: hidden;
+        min-width: 950px;
     }
     .shop-container {
         height: 247px;
         width: 452px;
         text-align: center;
-        float: left;
+        display: inline-block;
         overflow: hidden;
     }
     .shop-container img {

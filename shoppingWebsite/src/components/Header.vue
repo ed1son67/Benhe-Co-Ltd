@@ -145,10 +145,8 @@
 <style lang="" scoped>
     header {
         width: 100%;
-        /* z-index: 1999; */
         background-color: #fff;
-        /* position: fixed; */
-        /* top: 0; */
+        min-width: 1600px;
     }
     .header-container {
         height: 110px;

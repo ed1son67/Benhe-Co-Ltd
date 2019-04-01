@@ -9,12 +9,10 @@
                     <span v-if="language">林振合旗舰店</span>
                     <span v-else >LINZHENHE</span>
                 </div>
-                
-                    <a href="//linzhenhe.tmall.com" target="_blank" rel="noopener noreferrer">
-                        <span v-if="language">进入店铺</span>
-                        <span v-else >ENTER</span>
-                    </a>
-                
+                <a href="//linzhenhe.tmall.com" target="_blank" rel="noopener noreferrer">
+                    <span v-if="language">进入店铺</span>
+                    <span v-else >ENTER</span>
+                </a>
             </div>
         </header>
         <ul class="kind-container" >
@@ -124,7 +122,6 @@
                     this.setItem(res.data.products, res.data.products.length);
                 }).catch((err) => {
                     
-                    console.log(err)
                 })
             },
             queryNew() {
@@ -184,6 +181,7 @@
                 result: false,
                 items: [
                     
+                    
                 ],
                 totalSize: 0,
                 isActive: true,
@@ -236,22 +234,22 @@
     }
 </script>
 
-<style lang="" scoped>
+<style lang="css" scoped>
     .second-menu-container {
         height: 96px;
         width: 712px;
         margin: 42px auto 36px auto;
         border-radius: 10px;
         border: 2px solid #a3a3a3;
+        overflow: hidden;
+
     }
     .second-menu-content {
         width: 78%;
         height: 100%;
         margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        overflow: hidden;
+
+        text-align: center;
     }
     .second-menu-content a {
         height: 40px;
@@ -264,28 +262,39 @@
         color: #fff;
         line-height: 40px;
         font-weight: normal;
+        display: inline-block;
+        vertical-align: middle;
+
+
+    }
+    .lin-logo-container {
+        display: inline-block;
+        vertical-align: middle;
     }
     .shop-ben-container {
-        display: flex;
-        align-items: center;
         letter-spacing: 5px;
+        text-align: center;
+        display: inline-block;
+        margin: 0 70px;
+
     }
     .shop-ben-container::before {
         content: '';
         height: 25px;
         width: 18px;
-        display: block;
+        display: inline-block;
         border: 4px solid #2b2f93;
         border-right: 0;
+        vertical-align: top;
     }
     .shop-ben-container::after {
         content: '';
         height: 25px;
         width: 18px;
-        display: block;
+        display: inline-block;
         border: 4px solid #2b2f93;
         border-left: 0;
-
+        vertical-align: top;
     }
 
     /* css of kind navbar */
@@ -319,7 +328,7 @@
         height: auto;
         width: 1530px;
         margin: 0 auto;
-        min-height: 300px;    
+        min-height: 461px;    
         clear: both;
     }
     .productLists-container::after {
@@ -332,28 +341,28 @@
     }
     .productLists-container p {
         text-align: center;
-        margin: 120px auto;
+        margin: 0 auto;
+        padding-top: 100px;
     }
     .product-container {
         width: 270px;
-        margin: 14px 18px;
-        /* background-color: black; */
+        margin: 0 18px;
         border-top: 6px solid #5b9dd9;
         float: left;
     }
     .product-container span {
-        /* height: ; */
         width: 270px;
-        height: 50px;
+        height: 45px;
         white-space: normal;
         word-wrap: break-word;
         overflow: hidden;
         display: inline-block;
+        font-size: 15px;
     }
     .product-content-container  {
-        height: 370px;
+        height: 355px;
         width: 100%;
-        padding-bottom: 28px;
+        /* padding-bottom: 28px; */
         line-height: 1.5em;
         position: relative;
         cursor: pointer;
@@ -385,8 +394,5 @@
     
         text-align: center;
     }
-    .loading-container {
-        text-align-last: center;
-        padding-top: 100px;
-    }
+    
 </style>
