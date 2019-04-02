@@ -15,7 +15,7 @@
                         {{footerInfo.cn.address}}            
                     </p>
                     <p>
-                        <span class="label">{{footerInfo.cn.telLabel}}</span> 400-822-2883
+                        <span class="label">{{footerInfo.cn.telLabel}}</span> 0768-5882509
                     </p>
                 </div>
                 <div class="icp-container">
@@ -29,7 +29,7 @@
                         <span class="label">
                             {{footerInfo.cn.caseLabel}}
                         </span>
-                        粤ICP备170415198号
+                        粤ICP备18135293号
                     </p>
                 </div>
                 <div class="link-container">
@@ -55,7 +55,7 @@
                         <span class="content">{{footerInfo.en.address}}</span>            
                     </p>
                     <p>
-                        <span class="label">{{footerInfo.en.telLabel}}</span> 400-822-2883
+                        <span class="label">{{footerInfo.en.telLabel}}</span> 0768-5882509
                     </p>
                 </div>
                 <div class="icp-container">
@@ -69,17 +69,17 @@
                         <span class="label">
                             {{footerInfo.en.caseLabel}}
                         </span>
-                        粤ICP备170415198号
+                        粤ICP备18135293号
                     </p>
                 </div>
                 <div class="link-container">
                     <h2>{{footerInfo.en.linkLabel}}</h2>
                     <p><span class="label">
                             {{footerInfo.en.benLabel}}
-                                </span><a href="https://M.TB.CN/H.3WHBHWV?SM=0A8987">HTTPS://M.TB.CN/H.3WHBHWV?SM=0A8987</a></p>
+                                </span><a href="//benhe.tmall.com/">HTTPS://BENHE.TMALL.COM/</a></p>
                     <P><span class="label">
                                 {{footerInfo.en.linLabel}}
-                                </span><a href="http://M.TB.CN/H.3WHX4SO?SM=BB7835">HTTPS://M.TB.CN/H.3WHX4SO?SM=BB7835</a></P>
+                                </span><a href="//linzhenhe.tmall.com/">HTTPS://LINZHENHE.TMALL.COM/</a></P>
                 </div>
                 <div class="footer-logo-container">
                     <img src="./assets/images/logo.png" alt="">
@@ -113,7 +113,7 @@
                     cn: {
                         contactLabel: '联系我们',
                         addressLabel: '地址：',
-                        address: '潮州市潮安区庵埠郭一工业区',
+                        address: ' 广东省潮州市潮安区庵埠镇龙坑崎坽(水架头)',
                         telLabel: '电话：',
                         webLabel: '网址：',
                         caseLabel: '备案号：',
@@ -125,7 +125,7 @@
                     en: {
                         contactLabel: 'CONTACT',
                         addressLabel: 'ADDRESS:',
-                        address: 'Guoyi Industrial Zone, QiongTown, Chaoan District, Chaozhou City',
+                        address: 'Qiling Longkeng Village Anbu Town Chaoan District Chaozhou City Guangdong Province',
                         telLabel: 'CALL:',
                         webLabel: 'WEBSITE:',
                         caseLabel: 'CASE:',
