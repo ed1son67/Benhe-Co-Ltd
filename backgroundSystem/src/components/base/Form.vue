@@ -115,19 +115,22 @@
                 kinds: [
                     {
                         name: '膨化',
-                        enName: 'PUFFING'
+                        enName: 'Chips'
                     }, {
                         name: '压片糖',
-                        enName: 'TABLET SUGAR'
+                        enName: 'Tablet Candy'
                     }, {
                         name: '奶糖',
-                        enName: 'TOFFEE'
+                        enName: 'Milk Tablets'
                     }, {
                         name: '凝胶糖果',
-                        enName: 'GEL FRUCTOSE'                    
+                        enName: 'Gelatin Candy'                    
+                    },{
+                        name: '焦香糖果',
+                        enName: 'Toffee'                    
                     }, {
                         name: '硬糖',
-                        enName: 'HARD CANDY'                    
+                        enName: 'Hard Candy'                    
                     }
                 ],
                 formData: {

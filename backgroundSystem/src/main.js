@@ -62,9 +62,6 @@ new Vue({
 })
 
 router.beforeEach((to, from, next) => {
-    // Login Verification
-    // console.log(to.name);
-    // console.log(store.state.isLogin)
     if (store.state.isLogin != true ) {
         next(false);
     } else {

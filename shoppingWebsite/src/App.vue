@@ -76,10 +76,10 @@
                     <h2>{{footerInfo.en.linkLabel}}</h2>
                     <p><span class="label">
                             {{footerInfo.en.benLabel}}
-                                </span><a href="//benhe.tmall.com/">HTTPS://BENHE.TMALL.COM/</a></p>
+                                </span><a href="//benhe.tmall.com/" target="blank">HTTPS://BENHE.TMALL.COM/</a></p>
                     <P><span class="label">
                                 {{footerInfo.en.linLabel}}
-                                </span><a href="//linzhenhe.tmall.com/">HTTPS://LINZHENHE.TMALL.COM/</a></P>
+                                </span><a href="//linzhenhe.tmall.com/" target="blank">HTTPS://LINZHENHE.TMALL.COM/</a></P>
                 </div>
                 <div class="footer-logo-container">
                     <img src="./assets/images/logo.png" alt="">
@@ -126,7 +126,7 @@
                         contactLabel: 'CONTACT',
                         addressLabel: 'ADDRESS:',
                         address: 'Qiling Longkeng Village Anbu Town Chaoan District Chaozhou City Guangdong Province',
-                        telLabel: 'CALL:',
+                        telLabel: 'TEL:',
                         webLabel: 'WEBSITE:',
                         caseLabel: 'CASE:',
                         linkLabel: 'LINK',
@@ -227,6 +227,7 @@
     }
     .contact-container, .icp-container, .link-container {
         display: inline-block;
+        vertical-align: top;
     }
     .footer-container p {
         font-size: 16px;

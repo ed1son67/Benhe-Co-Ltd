@@ -48,13 +48,13 @@
                 <div class="profile-container " v-if="language">
                     <p>
                         <span>潮州市潮安区本合食品有限公司</span> 
-                        ，公司创建于1988年。其前身为潮州市庵埠本合糖果食品厂，该公司是粤东地区一家在食品具有一定规模。又有其影响力的企业。该公司生产的产品以其外观悦人、口感独特、品质可靠等特质赢得了广大消费者的肯定和青睐。销售量基于广大消费者的支持也日益攀升。
+                        创建于1998年，其前身为潮州市庵埠本合糖果食品厂。该公司是粤东地区一家在食品行业具有一定规模、又有其影响力的企业，生产的产品以其外观悦人、口感独特、品质可靠等特质赢得了广大消费者的肯定和青睐；销售量基于广大消费者的支持也日已攀升。
                     </p>
                 </div>
                 <div class="profile-container" v-else >
                     <p>
-                        <span>Chaozhou City Chaoan District Benhe Food CO., Ltd.</span>
-                        founded in 1988, its predecessor was Chaozhou Suibenhe Candy Food Factory. The company is a company with a certain scale and influence in the food industry in the eastern part of Guangdong.The company's products are pleasing to the outside, unique in taste, reliable in quality, etc.The trait has won the recognition and favor of consumers. Sales volume is also rising based on the support of consumers.
+                        <span>Chaozhou Chaoan Benhe Food Co., LTD</span>
+                        was founded in 1998, its predecessor was Chaozhou Anbu Benhe Confectionery Factory. The company is with a large scale and influence in the food industry in China. The products have won the affirmation and favor of the majority of consumers for their pleasant appearance, unique taste, reliable quality and other characteristics. Sales have also been rising on the back of broad consumer support.
                     </p>
                 </div>
                 <div class="profile-container ">
@@ -62,15 +62,15 @@
                 </div>
                 <div class="profile-container" v-if="language">
                     <p>
-                        公司在销售策略上，则以市场为导向，围绕满足市场需求、迎合消费者的意愿开展企业一切经营活动，并与全国各地一批信誉好、实力强、渠道畅的经销商建立长期的合作关系，以大、中城市为主线，向周边城市、乡镇辐射。
+                        公司在销售策略上，以市场为导向，围绕满足市场需求、迎合消费者的意愿开展企业一切经营活动，并与全国各地一批信誉好、实力强、渠道畅的经销商建立长期的合作关系，以大、中城市为主线，向周边城市、乡镇辐射。
                         <span>诚邀各界人士合作，共创美好的明天。</span>
                     </p>
                 </div>
                 <div class="profile-container" v-else >
                     <p>
-                        In terms of sales strategy,the company is market-oriented, and meets the needs of the market, caters to the wishes of consumers, and establishes long-term cooperative relationships with a group of dealers with good reputation, strong strength and smooth channels.Take the big and medium-sized cities as the main line, and radiate to surrounding cities and towns.
-                        <br>
-                        <span>We sincerely invite people from all walks of life to cooperate to create a better tomorrow.</span>
+                        In terms of sales strategy, the company takes the market as the guide, develops all business activities centering on meeting market needs and catering to consumers' wishes, and establishes long-term cooperative relationship with a batch of dealers with good reputation, strong strength and smooth channels all over the country. It sets up surrounding cities and towns with large and medium cities as the main line. 
+                        
+                        <span>We sincerely invite people from all walks of life to cooperate and create a better tomorrow.</span>
                     </p>
                 </div>
             </div>
@@ -82,17 +82,17 @@
                 <div class="profile-container" v-if="language">
                     <p>公司本着 
                         <span>“消费者为上帝的宗旨”</span>
-                         ，凭借先进的食品生产设备、高素质的技术人才队伍、严密的管理机制，力求在产品的风味更人性化，产品的生产过程更卫生，更加严格遵照卫生规范制度，为消费者营造一个 
+                        ，凭借先进的食品生产设备、高素质的技术人才队伍、严密的管理机制，力求产品的风味更诱人，生产过程更卫生，且更加严格遵照卫生规范制度，为消费者营造一个
                         <span>“买得顺心、吃得放心、寻得开心”</span> 
                         的消费氛围。
                     </p>
                 </div>
                  <div class="profile-container" v-else>
-                    <p>The company adheres the tenet of 
-                        <span>"Consumer is God"</span>
-                        With advanced food production equipment, high-quality technical talent team, strict management mechanism, The mechanism strives to make the favor of the product more humanized, the production process of the product is more sanitary, and the hygiene standard system is strictly adhered to.Create a consumer
-                        <span>"Buy well, Eat relievedly, Find happily"</span>.
-                        
+                    <p>The company is in line with the tenet of
+                        <span>"customers as god"</span>
+                        Relying on advanced food production equipment, high-quality technical personnel, strict management mechanism, it strives for the flavour of the product more attractive, the production process cleaner, and more strictly comply with health standard system, for consumers to create a
+                        <span>"buy, eat and find at ease"</span>
+                        consumption atmosphere.
                     </p>
                 </div>
                 <div class="profile-container">
@@ -148,6 +148,17 @@
                 <div class="shop-container">
                     <img src="../assets/images/QRcodeben.png" alt="">
                 </div>
+                <div class="shop-container" id="international">
+                    <div>
+                        <span v-if="language">阿里巴巴国际站</span>
+                        <span v-else>BENHEALIBABA</span>
+                    </div>
+                    <a href="//benhefoodstuff.en.alibaba.com/" target="blank">
+                        <span v-if="language">进入店铺</span>
+                        <span v-else >ENTER</span>
+                    </a>
+                </div>
+                
             </div>
             <div class="shop-row-container">
                 <div class="shop-container">
@@ -162,6 +173,9 @@
                         <span v-if="language">进入店铺</span>
                         <span v-else >ENTER</span>
                     </a>         
+                </div>
+                <div class="shop-container">
+                    <img src="../assets/images/QRcodeben.png" alt="">
                 </div>
             </div>
         </main>
@@ -618,13 +632,17 @@
         right: 10px;
         top: 0;
     }
+    #international div {
+        width: 390px;
+    }
+    .en #international div span {
+        font-size: 27px;
+    }
     #shop-lin-container {
         margin-top: 40px;
         width: 350px;
         background: url(../assets/images/linlogo.png) no-repeat center;
         background-size: 150px;
-
-
     }
     #shop-lin-container::before, #shop-lin-container::after {
         border-color: #5b9dd9;

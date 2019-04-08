@@ -236,32 +236,38 @@
                     },
                     {
                         name: '膨化',
-                        enName: 'PUFFING',
+                        enName: 'Chips',
                         id: 2,
                         isChoice: false
                     },
                     {
                         name: '压片糖',
-                        enName: 'TABLET SUGAR',
+                        enName: 'Tablet Candy',
                         id: 3,
                         isChoice: false
                     },
                     {
                         name: '奶糖',
-                        enName: 'TOFFEE',
+                        enName: 'Milk Tablets',
                         id: 4,
                         isChoice: false
                     },
                     {
                         name: '凝胶糖果',
-                        enName: 'GEL FRUCTOSE',
+                        enName: 'Gelatin Candy',
                         id: 5,
                         isChoice: false
                     },
                     {
-                        name: '硬糖',
-                        enName: 'HARD CANDY',
+                        name: '焦香糖果',
+                        enName: 'Toffee',
                         id: 6,
+                        isChoice: false
+                    },
+                    {
+                        name: '硬糖',
+                        enName: 'Hard Candy',
+                        id: 7,
                         isChoice: false
                     }
                 ],
@@ -333,11 +339,9 @@
     /* css of kind navbar */
     .kind-container {
         margin: 48px auto;
-        width: 672px;
+        text-align: center;
     }
-    .en .kind-container {
-        width: 900px;
-    }
+    
     .kind-container::after {
         content: '';
         height: 0;
@@ -350,7 +354,7 @@
         margin: 0 20px ;
         cursor: pointer;
         padding: 0 4px;
-        float: left;
+        display: inline-block;
     }
 
     .choice {

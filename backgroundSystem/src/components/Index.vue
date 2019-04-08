@@ -32,7 +32,6 @@
                         </div>
                         <router-view></router-view>
                     </Content>
-                    <!-- <Footer class="layout-footer">benhe ©2019 Created by CZF</Footer> -->
                 </Layout>
             </Layout>
         </Layout>
