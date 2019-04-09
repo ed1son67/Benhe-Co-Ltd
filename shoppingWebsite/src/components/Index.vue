@@ -116,7 +116,7 @@
                         <span v-if="language">热推商品待添加, 您先看看别的吧~</span>
                         <span v-else>Sorry, We are still working on it...</span>
                     </div>
-                    <div v-show="!loading">
+                    <div v-show="fail">
                         <span v-if="language">网络似乎有点问题，点击<a @click="getHotpush">刷新</a>重试</span>
                         <span v-else>Sorry, please check your network, click <a @click="getHotpush()">here </a> and try again.</span>       
                     </div>             
@@ -288,17 +288,21 @@
                 // get hotpush products
                 this.tip = true;
                 this.loading = true;
+                this.fail = false;
+                this.result = false;
 
                 myAxios.getHotpush({limite: 5}, this.lan).then((res) => {
                     if (res.data.products.length === 0) {
                         // 数量不足，提示没货
                         this.result = true;
+                        this.loading = false;
                     } else {
                         this.tip = false;
                         this.items = res.data.products;
                     }
                 }).catch((err) => {
                     this.loading = false;
+                    this.fail = true;
                 })
             },
             getScrollTop() {  
@@ -344,6 +348,7 @@
         },
         data() {
             return {
+                fail: false,
                 tip: true,
                 loading: true,
                 result: false,
